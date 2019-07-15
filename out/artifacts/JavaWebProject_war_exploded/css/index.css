@@ -1,0 +1,30 @@
+
+
+#nav-back{
+    height: 11.2em;
+    background-image:url(//i0.hdslb.com/bfs/archive/3329c9f0abfb925ae30441f24d924ad3c19775df.png);
+    background-position: top center;
+}
+
+#navitems-row{
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+#search-input{
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+}
+
+#search-button{
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+}
+
+.navitems{
+    font-size: 1.4em;
+}
+:hover.navitems{
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.nav > li:hover .dropdown-menu { display: block; }
