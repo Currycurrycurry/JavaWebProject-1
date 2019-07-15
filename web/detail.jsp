@@ -82,7 +82,7 @@
     <div class="row">
         <div class="col-6">
             <div class="card">
-                <img class="card-img" src="images/玉鹿.jpg">
+                <img class="card-img" src="images/工艺/玉鹿.jpg">
             </div>
         </div>
         <div class="col-6">
