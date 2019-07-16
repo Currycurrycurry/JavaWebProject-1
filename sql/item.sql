@@ -8,7 +8,8 @@ CREATE TABLE `item`(
   `year` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `view` int(11) NOT NULL DEFAULT '0',
-  `videoPath`  VARCHAR(255) NOT NULL
+  `videoPath`  VARCHAR(255) NOT NULL,
+  `timeReleased` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `item`
