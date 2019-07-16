@@ -7,7 +7,8 @@ CREATE TABLE `users` (
   `isAdmin` BOOLEAN NOT NULL DEFAULT FALSE ,
   `name` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
-  `signature` VARCHAR(255) NOT NULL
+  `signature` VARCHAR(255) NOT NULL,
+  `timeReleased` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `users`
@@ -19,3 +20,5 @@ ALTER TABLE `users`
 
 INSERT INTO `users` (userID, account, password,isAdmin, name, email, signature) VALUES
   (1,'Admin22','123456',TRUE ,'22娘','22@2233museum.com','这里是博物馆的管理员22娘,请多指教!');
+INSERT INTO `users` (userID, account, password,isAdmin, name, email, signature) VALUES
+  (2,'Admin33','123456',TRUE ,'33娘','33@2233museum.com','这里是博物馆的管理员33娘,请多指教!');
