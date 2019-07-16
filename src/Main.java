@@ -21,7 +21,7 @@ public class Main {
         Connection connection = null;
         try{
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaWeb?useSSL=false","root","yanghui");
-            System.out.println("connect success!");
+            System.out.println(connection);
         }catch (SQLException e){
             System.out.println("Connection Failed, Check output console");
             e.printStackTrace();
