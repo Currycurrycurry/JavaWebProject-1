@@ -20,7 +20,8 @@ public class Main {
         System.out.println("MySQL JDBC Driver Registered!");
         Connection connection = null;
         try{
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaWeb","root","yanghui");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaWeb?useSSL=false","root","yanghui");
+            System.out.println("connect success!");
         }catch (SQLException e){
             System.out.println("Connection Failed, Check output console");
             e.printStackTrace();
