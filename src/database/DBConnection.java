@@ -14,9 +14,18 @@ public class DBConnection {
     private static final String PASSWORD = "yanghui";
     private Connection connection = null;
 
-    public DBConnection () throws Exception{
-        Class.forName(DRIVER);
-        this.connection = DriverManager.getConnection(URL,USER,PASSWORD);
+    public DBConnection (){
+        try{
+            Class.forName(DRIVER);
+        }catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+
+        try{
+            this.connection = DriverManager.getConnection(URL,USER,PASSWORD);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     public Connection getConnection() {

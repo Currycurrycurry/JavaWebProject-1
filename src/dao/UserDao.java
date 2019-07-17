@@ -12,5 +12,7 @@ public interface UserDao {
 
     public UserEntry findByAccount(String account) throws Exception;
 
+    public void insertAccount(UserEntry userEntry) throws Exception;
+
 
 }

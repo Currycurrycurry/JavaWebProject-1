@@ -15,6 +15,17 @@ public class UserEntry {
     private String signature;
 
     public UserEntry() {
+        isAdmin = false;
+        signature = "";
+    }
+
+    public UserEntry(String account,String password,String name,String email,String signature,boolean isAdmin){
+        setAccount(account);
+        setAdmin(isAdmin);
+        setEmail(email);
+        setPassword(password);
+        setName(name);
+        setSignature(signature);
     }
 
     public int getId() {

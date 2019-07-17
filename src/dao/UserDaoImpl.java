@@ -38,7 +38,22 @@ public class UserDaoImpl implements UserDao {
             userEntry.setAdmin(re.getBoolean("isAdmin"));
             userEntry.setPassword(re.getString("password"));
         }
-
         return userEntry;
+    }
+
+    @Override
+    public void insertAccount(UserEntry userEntry)throws Exception{
+        String sql = "INSERT into users(account,name,email,signature,isAdmin,password) values(?,?,?,?,?,?)";
+        statement = connection.prepareStatement(sql);
+        statement.setString(1,userEntry.getAccount());
+        statement.setString(2,userEntry.getName());
+        statement.setString(3,userEntry.getEmail());
+        statement.setString(4,userEntry.getSignature());
+        statement.setBoolean(5,userEntry.isAdmin());
+        statement.setString(6,userEntry.getPassword());
+        int row = statement.executeUpdate();
+        if(row>0){
+            System.out.println("Sign success!");
+        }
     }
 }
