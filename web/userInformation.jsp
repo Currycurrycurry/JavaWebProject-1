@@ -90,26 +90,26 @@
     </div>
 </div>
 <br>
-<div class="row">
-    <div class="col-4" style="background-color:lavender;">
-        <table>
-            <tr>
-                <td>账号:</td><td>${user.account}</td>
-            </tr>
-            <tr>
-                <td>昵称:</td><td>${user.name}</td>
-            </tr>
-            <tr>
-                <td>个性签名:</td><td>${user.signature}</td>
-            </tr>
-            <tr>
-                <td>邮箱:</td><td>${user.email}</td>
-            </tr>
-        </table>
-        <button>修改信息</button>
+<div class="container">
+    <div class="row">
+        <div class="col-4" style="background-color:lavender;">
+            <table>
+                <tr>
+                    <td>账号:</td><td>${user.account}</td>
+                </tr>
+                <tr>
+                    <td>昵称:</td><td>${user.name}</td>
+                </tr>
+                <tr>
+                    <td>个性签名:</td><td>${user.signature}</td>
+                </tr>
+                <tr>
+                    <td>邮箱:</td><td>${user.email}</td>
+                </tr>
+            </table>
+            <button>修改信息</button>
 
-    </div>
-    <div class="col">
+        </div>
 
     </div>
 </div>
