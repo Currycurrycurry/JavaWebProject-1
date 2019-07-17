@@ -33,7 +33,7 @@
                 </li>
                 <li class="nav-item dropdown">
                   <a href="#" class="nav-link text-dark navitems dropdown-toggle" data-toggle="dropdown">
-                    <span class=""> Admin001 </span></a>
+                    <span class=""> ${user.name} </span></a>
                   <b class="caret"></b>
                   <ul class="dropdown-menu text-center">
                     <li><a class="dropdown-item" href="userInformation.jsp">个人信息</a></li>

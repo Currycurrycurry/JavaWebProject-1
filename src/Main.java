@@ -1,7 +1,4 @@
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * @author: YXH
@@ -22,9 +19,21 @@ public class Main {
         try{
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaWeb?useSSL=false","root","yanghui");
             System.out.println(connection);
+
+            Statement statement = connection.createStatement();
+            ResultSet re = statement.executeQuery("SELECT * FROM users WHERE userID = 1");
+            while (re.next()){
+                System.out.println("userID="+re.getString("userID"));
+                System.out.println("account="+re.getString("account"));
+                System.out.println("name="+re.getString("name"));
+                System.out.println("signature="+re.getString("signature"));
+            }
+
         }catch (SQLException e){
             System.out.println("Connection Failed, Check output console");
             e.printStackTrace();
         }
+
+
     }
 }

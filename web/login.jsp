@@ -72,6 +72,38 @@
         </div>
     </div>
 </div>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-4">
+            <form method="post" action="/login">
+                <h3 class="text-center">登录</h3>
+                <br>
+                <div class="form-group">
+                    <label for="account">帐号:</label>
+                    <input type="text" class="form-control" id="account" name="account">
+                </div>
+                <div class="form-group">
+                    <label for="password">密码:</label>
+                    <input type="password" class="form-control" id="password" name="password">
+                </div>
+                <div class="text-center">
+                    <br>
+                    <button type="submit" class="btn btn-dark">登录</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-4">
+            <br><br><br><br><br><br>
+            <p class="h4 text-center">还没有博物馆的帐号?还不赶紧来
+                <a href="signup.jsp" class="nav-link text-muted">注册一个!</a></p>
+        </div>
+
+    </div>
+
+</div>
 
 
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
