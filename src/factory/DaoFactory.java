@@ -1,6 +1,6 @@
 package factory;
 
-import dao.UserDao;
+import dao.ItemDaoImpl;
 import dao.UserDaoImpl;
 import database.DBConnection;
 
@@ -12,5 +12,9 @@ import database.DBConnection;
 public class DaoFactory {
     public static UserDaoImpl getUserDaoInstance() throws Exception{
         return new UserDaoImpl(new DBConnection().getConnection()) ;
+    }
+
+    public static ItemDaoImpl getItemDaoInstance() throws Exception{
+        return new ItemDaoImpl(new DBConnection().getConnection()) ;
     }
 }

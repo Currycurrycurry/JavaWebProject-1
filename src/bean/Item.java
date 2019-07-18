@@ -10,6 +10,15 @@ public class Item {
     private String address;
     private int view;
     private Timestamp timeReleased;
+    private String year;
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
 
     public Item(){}
 
@@ -31,7 +40,7 @@ public class Item {
 
     public String getImagePath(){return imagePath;}
 
-    public void setDescription(){this.description=description;}
+    public void setDescription(String description){this.description=description;}
 
     public String getDescription(){return description;}
 

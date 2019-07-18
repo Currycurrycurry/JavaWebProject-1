@@ -132,9 +132,6 @@
         <%
             }
           %>
-
-
-
       </div>
     </div>
   <br>
@@ -149,24 +146,22 @@
       </div>
       <div class="row">
         <%
-          for(int i = 0 ; i < 4 ; i++){
+          List<Item> newItems = (ArrayList<Item>)request.getAttribute("mostNewItems");
+          for(Item item : newItems){
         %>
         <div class="col-3">
           <div class="card">
-            <a href="detail.jsp"><img class="card-img-top" src="images/工艺/鸟纹玉璧.jpg" alt="鸟纹玉璧.jpg"></a>
+            <a href="detail.jsp"><img class="card-img-top" src="<%=item.getImagePath()%>" alt="<%=item.getName()%>.jpg"></a>
             <div class="card-body">
-              <a class="card-link" href="detail.jsp">
-                <h5 class="text-muted">鸟纹玉璧</h5>
-                <p class="text-dark">描述..........</p>
+              <a class="card-link" href="detail.jsp?id=<%=item.getItemId()%>">
+                <h5 class="text-muted"><%=item.getName()%></h5>
+                <p class="text-dark"><%=item.getDescription().substring(0,25)%>...</p>
               </a>
-              <form action="index.jsp">
-                <input name="itemName" value="鸟纹玉璧" type="text" class="text-hide" readonly>
-                <input type="submit" class="btn btn-dark" value="收藏">
-              </form>
             </div>
           </div>
         </div>
-        <%}
+        <%
+          }
         %>
       </div>
     </div>
