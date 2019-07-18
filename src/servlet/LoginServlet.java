@@ -29,18 +29,15 @@ public class LoginServlet extends HttpServlet {
         try{
             UserDaoImpl userDao = DaoFactory.getUserDaoInstance();
             UserEntry userEntry = userDao.findByAccount(account);
-            if(userEntry == null){
-                //用户不存在
-                System.out.println("not exist");
-            }else if(!userEntry.getPassword().equals(password)){
-                //错误的密码
-                System.out.println("wrong password");
-            }else {
+            if(userEntry != null&&userEntry.getPassword().equals(password)){
                 //正确的登录
                 HttpSession session = request.getSession();
                 session.setAttribute("user",userEntry);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
                 dispatcher.forward(request,response);
+            }else {
+                request.setAttribute("error","用户名或者密码错误");
+                request.getRequestDispatcher("login.jsp").forward(request,response);
             }
         }catch (Exception e){
             e.printStackTrace();
