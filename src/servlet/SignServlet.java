@@ -16,27 +16,40 @@ import java.io.IOException;
 @WebServlet(name = "SignServlet",value = "/sign")
 public class SignServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String account = request.getParameter("account");
-        String password = request.getParameter("password");
-        String name = request.getParameter("name");
-        String email_address = request.getParameter("email_address");
+        String[] array = new String[5];
+
+        array[0] = request.getParameter("account");
+        array[1] = request.getParameter("password");
+        array[2] = request.getParameter("name");
+        array[3] = request.getParameter("email");
+        array[4] = request.getParameter("code");
+
+        String sessionVerifyCode = (String)request.getSession().getAttribute("vCode");
+        boolean isTrue = array[4].equalsIgnoreCase(sessionVerifyCode);
 
         try{
             UserDaoImpl userDao = DaoFactory.getUserDaoInstance();
-            UserEntry userEntry = userDao.findByAccount(account);
+            UserEntry userEntry = userDao.findByAccount(array[0]);
             if(userEntry == null){
-                //注册成功
-                HttpSession session = request.getSession();
-                UserDaoImpl userDao1 = DaoFactory.getUserDaoInstance();
-                UserEntry user1 = new UserEntry(account,password,name,email_address,"",false);
-                userDao1.insertAccount(user1);
-                session.setAttribute("user",user1);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-                dispatcher.forward(request,response);
+                if(!isTrue){
+                    System.out.println("code is not current");
+                    request.setAttribute("array",array);
+                    request.setAttribute("vCode","验证码错误！");
+                    request.getRequestDispatcher("signup.jsp").forward(request,response);
+                }else{
+                    //注册成功
+                    HttpSession session = request.getSession();
+                    UserDaoImpl userDao1 = DaoFactory.getUserDaoInstance();
+                    UserEntry user1 = new UserEntry(array[0],array[1],array[2],array[3],"",false);
+                    userDao1.insertAccount(user1);
+                    session.setAttribute("user",user1);
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+                    dispatcher.forward(request,response);}
             }else {
                 //用户名已经存在
                 System.out.println("account is exist");
-                request.setAttribute("exist",account);
+                request.setAttribute("array",array);
+                request.setAttribute("account_exist","账号已经存在！");
                 request.getRequestDispatcher("signup.jsp").forward(request,response);
             }
         }catch (Exception e){

@@ -13,6 +13,19 @@
     <link rel="stylesheet" href="css/bootstrap-grid.css">
     <link rel="stylesheet" href="css/bootstrap-reboot.css">
     <link rel="stylesheet" href="css/index.css">
+    <script type="text/javascript">
+        function not_null() {
+            var account = document.getElementById('account').value;
+            var password = document.getElementById('password').value;
+            if(account==""||password==""||account==null||password==null){
+                document.getElementById('tic').innerHTML="账号或密码不能为空！";
+            }else{
+                document.getElementById('tic').innerHTML="";
+                var form = document.getElementById('form');
+                form.submit();
+            }
+        }
+    </script>
 </head>
 <body>
 <div id="nav-back">
@@ -55,7 +68,7 @@
     <div class="row">
         <div class="col-2"></div>
         <div class="col-4">
-            <form method="post" action="/login">
+            <form method="post" action="/login" id="form">
                 <h3 class="text-center">登录</h3>
                 <br>
                 <div class="form-group">
@@ -67,8 +80,10 @@
                     <input type="password" class="form-control" id="password" name="password">
                 </div>
                 <div class="text-center">
+                    <span id="tic"><%if(request.getAttribute("error")!=null) out.print((String)request.getAttribute("error"));%></span>
                     <br>
-                    <button type="submit" class="btn btn-dark">登录</button>
+                    <button onclick="not_null()" class="btn btn-dark">登录</button>
+                    <button type="reset" class="btn btn-dark">重置</button>
                 </div>
             </form>
         </div>

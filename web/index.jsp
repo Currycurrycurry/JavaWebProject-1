@@ -58,7 +58,7 @@
                     <li class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="collection.jsp">我的收藏</a></li>
                     <li class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">登    出</a></li>
+                    <li><a class="dropdown-item" href="/LoginOutServlet">登    出</a></li>
                   </ul>
                 </li>
                 <li class="nav-item dropdown">
