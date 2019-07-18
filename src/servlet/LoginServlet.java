@@ -33,8 +33,8 @@ public class LoginServlet extends HttpServlet {
                 //正确的登录
                 HttpSession session = request.getSession();
                 session.setAttribute("user",userEntry);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-                dispatcher.forward(request,response);
+                response.sendRedirect("/index.jsp");
+                
             }else {
                 request.setAttribute("error","用户名或者密码错误");
                 request.getRequestDispatcher("login.jsp").forward(request,response);
