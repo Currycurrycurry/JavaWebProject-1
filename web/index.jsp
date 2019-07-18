@@ -2,7 +2,9 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Arrays" %>
-<%@ page import="bean.UserEntry" %><%--
+<%@ page import="bean.UserEntry" %>
+<%@ page import="bean.Item" %>
+<%--
   Created by IntelliJ IDEA.
   User: YXH
   Date: 2019/7/13
@@ -10,6 +12,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+  if(request.getAttribute("mostViewItems") == null){
+    request.getRequestDispatcher("/home").forward(request,response);
+  }
+%>
 <html>
   <head>
     <title>欢迎来到2233博物馆</title>
@@ -107,51 +114,27 @@
         </div>
       </div>
       <div class="row">
-        <%!
-          private boolean isCollected(HttpSession session, String itemName){
-            String strCollections = (String)session.getAttribute("collections");
-            if(strCollections == null) strCollections = "";
-            String[] collections = strCollections.split("&");
-            List<String> list = Arrays.asList(collections);
-            return list.contains(itemName);
-          }
-        %>
-        <%
-
-          String strCollections = (String)session.getAttribute("collections");
-          if(strCollections == null) strCollections = "";
-          String itemName = request.getParameter("itemName");
-          if(itemName != null && !isCollected(session,itemName))strCollections += itemName+"&";
-          session.setAttribute("collections",strCollections);
-          for(int i = 0 ; i < 4 ; i++){
-            %>
+          <%
+            List<Item> items = (ArrayList<Item>)request.getAttribute("mostViewItems");
+            for(Item item : items){
+                %>
         <div class="col-3">
           <div class="card">
-            <a href="detail.jsp"><img class="card-img-top" src="images/工艺/玉鹿.jpg" alt="玉鹿.jpg"></a>
+            <a href="detail.jsp"><img class="card-img-top" src="<%=item.getImagePath()%>" alt="<%=item.getName()%>.jpg"></a>
             <div class="card-body">
-              <a class="card-link" href="detail.jsp">
-                <h5 class="text-muted">玉鹿</h5>
-                <p class="text-dark">描述..........</p>
+              <a class="card-link" href="detail.jsp?id=<%=item.getItemId()%>">
+                <h5 class="text-muted"><%=item.getName()%></h5>
+                <p class="text-dark"><%=item.getDescription().substring(0,25)%>...</p>
               </a>
-              <%
-                if(isCollected(session,"玉鹿")){
-              %>
-              <div class="btn btn-light">已收藏</div>
-              <%
-                }else {
-                    %>
-              <form action="index.jsp">
-                <input name="itemName" value="玉鹿" type="text" class="text-hide" readonly>
-                <input type="submit" class="btn btn-dark" value="收藏">
-              </form>
-              <%
-                }
-              %>
             </div>
           </div>
         </div>
-        <%}
-        %>
+        <%
+            }
+          %>
+
+
+
       </div>
     </div>
   <br>
@@ -176,20 +159,10 @@
                 <h5 class="text-muted">鸟纹玉璧</h5>
                 <p class="text-dark">描述..........</p>
               </a>
-              <%
-                if(isCollected(session,"鸟纹玉璧")){
-              %>
-              <div class="btn btn-light">已收藏</div>
-              <%
-              }else {
-              %>
               <form action="index.jsp">
                 <input name="itemName" value="鸟纹玉璧" type="text" class="text-hide" readonly>
                 <input type="submit" class="btn btn-dark" value="收藏">
               </form>
-              <%
-                }
-              %>
             </div>
           </div>
         </div>
