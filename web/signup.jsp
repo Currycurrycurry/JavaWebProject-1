@@ -50,50 +50,53 @@
         </div>
     </div>
 </div>
-<br><br>
-<div class="row">
-    <div class="col"></div>
-    <div class="col" style="background-color:lavender;">
-        <form action="/sign" method="post">
-            <table>
-                <tr>
-                    <td>账号:</td>
-                    <td><input class="form-control" type="text" name = "account" placeholder="account[4-15]">
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>密码:</td>
-                    <td><input class="form-control" type="password" name="password" placeholder="password[6-10]"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>确认密码:</td>
-                    <td><input class="form-control" type="password" name="password_again" placeholder="password again"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>昵称:</td>
-                    <td><input class="form-control" type="text" name = "name" placeholder="username"></td>
-                </tr>
-                <tr>
-                    <td>邮箱:</td>
-                    <td><input class="form-control" type="email" name="email_address" placeholder="Email address"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>验证码:</td>
-                    <td><input class="form-control" type="text" name="code" placeholder="Verification code"></td>
-                    <td><%
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6" style="background-color:lavender;">
+            <br><br>
+            <form action="/sign" method="post" class="container">
+                <table>
+                    <tr>
+                        <td>账号:</td>
+                        <td><input class="form-control" type="text" name = "account" placeholder="account[4-15]">
+                        <td>不能为空!</td>
+                    </tr>
+                    <tr>
+                        <td>密码:</td>
+                        <td><input class="form-control" type="password" name="password" placeholder="password[6-10]"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>确认密码:</td>
+                        <td><input class="form-control" type="password" name="password_again" placeholder="password again"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>昵称:</td>
+                        <td><input class="form-control" type="text" name = "name" placeholder="username"></td>
+                    </tr>
+                    <tr>
+                        <td>邮箱:</td>
+                        <td><input class="form-control" type="email" name="email_address" placeholder="Email address"></td>
+                        <td>请输入正确格式xx@xx.com</td>
+                    </tr>
+                    <tr>
+                        <td>验证码:</td>
+                        <td><input class="form-control" type="text" name="code" placeholder="Verification code"></td>
+                        <td><%
 
-                    %></td>
-                </tr>
-            </table>
-            <button type="submit">Sign</button>
-            <button href="index.jsp">Back to Home</button>
-        </form>
+                        %></td>
+                    </tr>
+                </table>
+                <button type="submit">Sign</button>
+                <button href="index.jsp">Back to Home</button>
+            </form>
+        </div>
     </div>
-    <div class="col"></div>
 </div>
+
 
 
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
