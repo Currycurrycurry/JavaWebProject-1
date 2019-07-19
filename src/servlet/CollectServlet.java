@@ -1,6 +1,8 @@
 package servlet;
 
 import bean.UserEntry;
+import dao.CollectionDaoImpl;
+import factory.DaoFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,11 +23,22 @@ public class CollectServlet extends HttpServlet {
         if(request.getSession().getAttribute("user") == null){
             response.sendRedirect("/login.jsp");
         }
+        int userId,itemId = 1;
         try {
-            int userId = ((UserEntry)request.getSession().getAttribute("user")).getId();
-            int itemId = Integer.parseInt(request.getParameter("itemId"));
+            userId = ((UserEntry)request.getSession().getAttribute("user")).getId();
+            itemId = Integer.parseInt(request.getParameter("itemId"));
+
+            CollectionDaoImpl collectionDao = DaoFactory.getCollectionDaoInstance();
+            if("true".equals(request.getParameter("delete"))){
+                collectionDao.deleteCollection(userId,itemId);
+            }else {
+                boolean isPublic = "true".equalsIgnoreCase(request.getParameter("isPublic"));
+                collectionDao.insertCollection(userId,itemId,isPublic);
+            }
+            request.getRequestDispatcher("/detail.jsp?id="+itemId).forward(request,response);
         }catch (Exception e){
-            e.getCause();
+            request.getRequestDispatcher("/detail.jsp?id="+itemId).forward(request,response);
+            e.printStackTrace();
         }
 
     }

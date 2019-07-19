@@ -1,5 +1,6 @@
 package factory;
 
+import dao.CollectionDaoImpl;
 import dao.ItemDaoImpl;
 import dao.UserDaoImpl;
 import database.DBConnection;
@@ -16,5 +17,9 @@ public class DaoFactory {
 
     public static ItemDaoImpl getItemDaoInstance() throws Exception{
         return new ItemDaoImpl(new DBConnection().getConnection()) ;
+    }
+
+    public static CollectionDaoImpl getCollectionDaoInstance() throws Exception{
+        return new CollectionDaoImpl(new DBConnection().getConnection()) ;
     }
 }

@@ -153,6 +153,7 @@
                                 (boolean)request.getAttribute("isCollected")){
                             %>
                     <form class="text-right" method="post" action="/collect">
+                        <input name="delete" value="true" class="disabled text-hide">
                         <input name="itemId" value="${requestScope.item.itemId}" class="disabled text-hide">
                         <button type="submit" class="btn btn-info">取消收藏</button>
                     </form>
@@ -160,8 +161,14 @@
                         }else {
                             %>
                     <form class="text-right" method="post" action="/collect">
+                        <input name="isPublic" value="true" class="disabled text-hide">
                         <input name="itemId" value="${requestScope.item.itemId}" class="disabled text-hide">
-                        <button type="submit" class="btn btn-info">收    藏</button>
+                        <button type="submit" class="btn btn-info">公开收藏</button>
+                    </form>
+                    <form class="text-right" method="post" action="/collect">
+                        <input name="isPublic" value="false" class="disabled text-hide">
+                        <input name="itemId" value="${requestScope.item.itemId}" class="disabled text-hide">
+                        <button type="submit" class="btn btn-info">私有收藏</button>
                     </form>
                     <%
                         }
