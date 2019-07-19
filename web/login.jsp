@@ -94,10 +94,12 @@
     $(document).ready(function(){
         $(document).off('click.bs.dropdown.data-api');
     });
+
     var btLogin = document.getElementById('btLogin');
     btLogin.onclick = function () {
         not_null();
     };
+
     function not_null() {
         var account = document.getElementById('account').value;
         var password = document.getElementById('password').value;

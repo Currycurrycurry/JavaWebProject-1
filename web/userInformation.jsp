@@ -13,12 +13,6 @@
     <link rel="stylesheet" href="css/bootstrap-grid.css">
     <link rel="stylesheet" href="css/bootstrap-reboot.css">
     <link rel="stylesheet" href="css/index.css">
-    <script type="text/javascript">
-        function sub() {
-            var sub = document.getElementById('sub');
-            sub.removeAttribute("hidden");
-        }
-    </script>
 </head>
 <body>
 <%
@@ -100,29 +94,31 @@
     <div class="row">
         <div class="col-4" style="background-color:lavender;">
             <br>
-            <form class="container" action="" type="post">
+            <form class="container" action="/UserInfo" id="form" method="post">
                 <div class="form-group">
                     <label>账号:</label> ${user.account}
                 </div>
                 <div class="form-group">
                     <label>昵称:</label>
-                    <input type="text" class="form-control" value="${user.name}">
+                    <input type="text" class="form-control" name="name" id="name" value="${user.name}">
                 </div>
                 <div>
                     <label>个性签名:</label>
-                    <textarea type="textarea" class="form-control" rows="3">${user.signature}</textarea>
+                    <textarea type="textarea" class="form-control" name="textarea" id="signature" rows="3">${user.signature}</textarea>
                 </div>
                 <div class="form-group">
                     <label>邮箱:</label>
-                    <input type="text" class="form-control" value="${user.email}">
+                    <input type="text" class="form-control" id="email" name="email" value="${user.email}">
                 </div>
                 <div class="form-group">
-                    <button type="button" onclick="sub()" class="btn btn-dark">修改信息</button>
+                    <label>请输入密码进行修改:</label>
+                    <input type="password" name = "password" id="password">
                 </div>
-                <div hidden class="form-group" id="sub">
-                    <label>请输入密码:</label>
-                    <input type="password" name = "password">
-                    <button type="submit" href="#" class="btn btn-dark">提交</button>
+                <div class="form-group">
+                    <input type="button" id="btSub" class="btn btn-dark" value="修改信息">
+                </div>
+                <div class="form-group">
+                    <span id="tip"></span>
                 </div>
             </form>
         </div>
@@ -134,10 +130,60 @@
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript">
 
-<script>/*下拉菜单*/
-$(document).ready(function(){
-    $(document).off('click.bs.dropdown.data-api');
-});</script>
+    /*下拉菜单*/
+    $(document).ready(function(){
+        $(document).off('click.bs.dropdown.data-api');
+    });
+
+    var btSub = document.getElementById('btSub');
+    btSub.onclick = function (){
+        sub();
+    };
+
+    function sub() {
+        if(name()&&email()&&password()){
+            var form = document.getElementById('form');
+            form.submit();
+        }
+    }
+
+    function email(){
+        var t = document.getElementById('email').value;
+        var pattern = /^[0-9a-zA-Z_]{2,18}@[0-9a-z]+.com$/;
+        if(pattern.test(t)){
+            document.getElementById('tip').innerHTML="";
+            return true;
+        }
+        else{
+            document.getElementById('tip').innerHTML="x(2-18位)@x.com";
+            return false;
+        }
+    }
+
+    function name() {
+        var name= document.getElementById('name').value;
+        if(name==""){
+            document.getElementById('tip').innerHTML="昵称不能为空!";
+            return false;
+        }else{
+            document.getElementById('tip').innerHTML="";
+            return true;
+        }
+    }
+
+    function password() {
+        var password = document.getElementById('password').value;
+        if(password==""){
+            document.getElementById('tip').innerHTML = "密码不能为空";
+            return false;
+        }else{
+            document.getElementById('tip').innerHTML = "";
+            return true;
+        }
+    }
+
+</script>
 </body>
 </html>

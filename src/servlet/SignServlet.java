@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @WebServlet(name = "SignServlet",value = "/sign")
 public class SignServlet extends HttpServlet {
@@ -20,7 +21,8 @@ public class SignServlet extends HttpServlet {
 
         array[0] = request.getParameter("account");
         array[1] = request.getParameter("password");
-        array[2] = request.getParameter("name");
+        String sName = request.getParameter("name");
+        array[2] = new String(sName.getBytes("ISO8859_1"),StandardCharsets.UTF_8);
         array[3] = request.getParameter("email");
         array[4] = request.getParameter("code");
 

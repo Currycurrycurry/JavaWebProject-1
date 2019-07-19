@@ -14,5 +14,7 @@ public interface UserDao {
 
     public void insertAccount(UserEntry userEntry) throws Exception;
 
+    public void updateInfo(UserEntry userEntry)throws Exception;
+
 
 }

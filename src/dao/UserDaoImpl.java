@@ -56,4 +56,18 @@ public class UserDaoImpl implements UserDao {
             System.out.println("Sign success!");
         }
     }
+
+    @Override
+    public void updateInfo(UserEntry userEntry)throws Exception{
+        String sql = "UPDATE users SET name = ?,signature=?,email=? WHERE userID = ?";
+        statement = connection.prepareStatement(sql);
+        statement.setString(1,userEntry.getName());
+        statement.setString(2,userEntry.getSignature());
+        statement.setString(3,userEntry.getEmail());
+        statement.setInt(4,userEntry.getId());
+        int row = statement.executeUpdate();
+        if(row>0){
+            System.out.println("Update success!");
+        }
+    }
 }
