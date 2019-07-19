@@ -24,6 +24,8 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String account = request.getParameter("account");
         String password = request.getParameter("password");
+        System.out.println(account);
+        System.out.println(password);
         try{
             UserDaoImpl userDao = DaoFactory.getUserDaoInstance();
             UserEntry userEntry = userDao.findByAccount(account);
@@ -32,7 +34,7 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user",userEntry);
                 response.sendRedirect("/index.jsp");
-                
+
             }else {
                 request.setAttribute("error","用户名或者密码错误");
                 request.getRequestDispatcher("login.jsp").forward(request,response);

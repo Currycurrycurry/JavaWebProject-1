@@ -1,5 +1,4 @@
-<%@ page import="bean.UserEntry" %>
-<%@ page import="bean.Item" %><%--
+<%@ page import="bean.UserEntry" %><%--
   Created by IntelliJ IDEA.
   User: YXH
   Date: 2019/7/14
@@ -148,7 +147,25 @@
                         </tr>
                         </tbody>
                     </table>
-
+                    <br>
+                    <%
+                        if(request.getAttribute("isCollected") != null &&
+                                (boolean)request.getAttribute("isCollected")){
+                            %>
+                    <form class="text-right" method="post" action="/collect">
+                        <input name="itemId" value="${requestScope.item.itemId}" class="disabled text-hide">
+                        <button type="submit" class="btn btn-info">取消收藏</button>
+                    </form>
+                    <%
+                        }else {
+                            %>
+                    <form class="text-right" method="post" action="/collect">
+                        <input name="itemId" value="${requestScope.item.itemId}" class="disabled text-hide">
+                        <button type="submit" class="btn btn-info">收    藏</button>
+                    </form>
+                    <%
+                        }
+                    %>
                 </div>
             </div>
         </div>

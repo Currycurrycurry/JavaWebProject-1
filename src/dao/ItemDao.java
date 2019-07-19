@@ -20,4 +20,6 @@ public interface ItemDao {
 
     public List<Item> getItemsOrdered(int numberOfItems, String orderPara) throws Exception;
 
+    public boolean isCollectedByUser(int itemID, int userID) throws Exception;
+
 }

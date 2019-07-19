@@ -75,4 +75,16 @@ public class ItemDaoImpl implements ItemDao {
         }
         return items;
     }
+
+    @Override
+    public boolean isCollectedByUser(int itemID, int userID) throws Exception {
+        boolean flag = false;
+        String sql = "SELECT * FROM collection WHERE itemID = "+itemID+" AND userID = "+userID;
+        statement = connection.prepareStatement(sql);
+        ResultSet re = statement.executeQuery();
+        if(re.next()){
+            flag = true;
+        }
+        return flag;
+    }
 }

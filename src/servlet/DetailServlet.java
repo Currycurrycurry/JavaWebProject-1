@@ -1,6 +1,7 @@
 package servlet;
 
 import bean.Item;
+import bean.UserEntry;
 import dao.ItemDaoImpl;
 import factory.DaoFactory;
 
@@ -39,7 +40,12 @@ public class DetailServlet extends HttpServlet {
             }
             ItemDaoImpl itemDao = DaoFactory.getItemDaoInstance();
             Item item = itemDao.findById(itemId);
+            boolean isCollected = false;
+            if(request.getSession().getAttribute("user") != null){
+                isCollected = itemDao.isCollectedByUser(itemId,((UserEntry)request.getSession().getAttribute("user")).getId());
+            }
             request.setAttribute("item",item);
+            request.setAttribute("isCollected",isCollected);
             request.getRequestDispatcher("/detail.jsp").forward(request,response);
         }catch (Exception e){
             e.printStackTrace();

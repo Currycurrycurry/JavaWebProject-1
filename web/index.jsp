@@ -40,7 +40,6 @@
                   <a href="index.jsp" class="nav-link text-dark navitems">
                     <span class=""> 主页 </span></a>
                 </li>
-
                 <%
                   Object o = session.getAttribute("user");
                   if(o!=null){
@@ -151,7 +150,7 @@
         %>
         <div class="col-3">
           <div class="card">
-            <a href="detail.jsp"><img class="card-img-top" src="<%=item.getImagePath()%>" alt="<%=item.getName()%>.jpg"></a>
+            <a href="detail.jsp?id=<%=item.getItemId()%>"><img class="card-img-top" src="<%=item.getImagePath()%>" alt="<%=item.getName()%>.jpg"></a>
             <div class="card-body">
               <a class="card-link" href="detail.jsp?id=<%=item.getItemId()%>">
                 <h5 class="text-muted"><%=item.getName()%></h5>
