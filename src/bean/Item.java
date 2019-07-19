@@ -51,4 +51,16 @@ public class Item {
     public void setTimeReleased(Timestamp timeReleased){this.timeReleased = timeReleased;}
 
     public Timestamp getTimeReleased(){return timeReleased;}
+
+    public void setProperties(int itemId,String name,String imagePath,String description,String address,int view,
+                              Timestamp timeReleased,String year){
+        setItemId(itemId);
+        setName(name);
+        setImagePath(imagePath);
+        setDescription(description);
+        setAddress(address);
+        setView(view);
+        setTimeReleased(timeReleased);
+        setYear(year);
+    }
 }

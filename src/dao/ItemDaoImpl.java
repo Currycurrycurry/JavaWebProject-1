@@ -35,13 +35,10 @@ public class ItemDaoImpl implements ItemDao {
         ResultSet re = statement.executeQuery();
         if(re.next()){
             item = new Item();
-            item.setItemId(re.getInt("itemID"));
-            item.setName(re.getString("name"));
-            item.setImagePath(re.getString("imagePath"));
-            item.setDescription(re.getString("description"));
-            item.setAddress(re.getString("address"));
-            item.setYear(re.getString("year"));
-            item.setView(re.getInt("view"));
+            item.setProperties(re.getInt("itemID"),re.getString("name"),
+                    re.getString("imagePath"),re.getString("description"),
+                    re.getString("address"),re.getInt("view"),
+                    re.getTimestamp("timeReleased"),re.getString("year"));
         }
         return item;
     }
@@ -65,12 +62,10 @@ public class ItemDaoImpl implements ItemDao {
         ResultSet re = statement.executeQuery();
         while (re.next()){
             Item item = new Item();
-            item.setItemId(re.getInt("itemID"));
-            item.setName(re.getString("name"));
-            item.setImagePath(re.getString("imagePath"));
-            item.setDescription(re.getString("description"));
-            item.setAddress(re.getString("address"));
-            item.setYear(re.getString("year"));
+            item.setProperties(re.getInt("itemID"),re.getString("name"),
+                    re.getString("imagePath"),re.getString("description"),
+                    re.getString("address"),re.getInt("view"),
+                    re.getTimestamp("timeReleased"),re.getString("year"));
             items.add(item);
         }
         return items;
