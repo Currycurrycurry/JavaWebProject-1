@@ -1,4 +1,4 @@
-<%--
+<%@ page import="bean.UserEntry" %><%--
   Created by IntelliJ IDEA.
   User: YXH
   Date: 2019/7/14
@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
+<%
+    UserEntry user = (UserEntry)session.getAttribute("user");
+%>
 <div id="nav-back">
     <div id="navitems-row">
         <div class="container">
@@ -28,9 +31,12 @@
                             <a href="index.jsp" class="nav-link text-dark navitems">
                                 <span class=""> 主页 </span></a>
                         </li>
+                        <%
+                            if(user!=null){
+                        %>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link text-dark navitems dropdown-toggle" data-toggle="dropdown">
-                                <span class=""> Admin001 </span></a>
+                                <span class="">${user.name}</span></a>
                             <b class="caret"></b>
                             <ul class="dropdown-menu text-center">
                                 <li><a class="dropdown-item" href="userInformation.jsp">个人信息</a></li>
@@ -44,6 +50,21 @@
                                 <li><a class="dropdown-item" href="#">登    出</a></li>
                             </ul>
                         </li>
+                        <%
+                            }else{
+                        %>
+                        <li class="nav-item">
+                            <a href="signup.jsp" class="nav-link text-dark navitems">
+                                <span class=""> 注册 </span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="login.jsp" class="nav-link text-dark navitems">
+                                <span class=""> 登录 </span></a>
+                        </li>
+                        <%
+                            }
+                            if(user!=null&&user.isAdmin()){
+                        %>
                         <li class="nav-item dropdown">
                             <a href="" class="nav-link text-dark navitems dropdown-toggle" data-toggle="dropdown">
                                 <span class=""> 管    理 </span></a>
@@ -54,6 +75,9 @@
                                 <li><a class="dropdown-item" href="itemsManage.jsp">展品管理</a></li>
                             </ul>
                         </li>
+                        <%
+                            }
+                        %>
                     </ul>
                 </div>
             </div>

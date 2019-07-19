@@ -191,13 +191,8 @@
                 </table>
                 <div class="text-center text-danger" id="safe"></div>
                 <br>
-                <div class="row">
-                    <div class="col">
-                        <input type="button" onclick="safe()" class="btn btn-info" value="Sign">
-                    </div>
-                    <div class="col">
-                        <input type="reset"class="btn btn-info" value="Reset">
-                    </div>
+                <div class="form-group text-center">
+                    <input type="button" onclick="safe()" class="btn btn-info" value="Sign">
                 </div>
             </form>
         </div>

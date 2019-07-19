@@ -13,6 +13,12 @@
     <link rel="stylesheet" href="css/bootstrap-grid.css">
     <link rel="stylesheet" href="css/bootstrap-reboot.css">
     <link rel="stylesheet" href="css/index.css">
+    <script type="text/javascript">
+        function sub() {
+            var sub = document.getElementById('sub');
+            sub.removeAttribute("hidden");
+        }
+    </script>
 </head>
 <body>
 <%
@@ -55,7 +61,7 @@
                                 <li class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="collection.jsp">我的收藏</a></li>
                                 <li class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">登    出</a></li>
+                                <li><a class="dropdown-item" href="/LoginOutServlet">登    出</a></li>
                             </ul>
                         </li>
 
@@ -93,22 +99,32 @@
 <div class="container">
     <div class="row">
         <div class="col-4" style="background-color:lavender;">
-            <table>
-                <tr>
-                    <td>账号:</td><td>${user.account}</td>
-                </tr>
-                <tr>
-                    <td>昵称:</td><td>${user.name}</td>
-                </tr>
-                <tr>
-                    <td>个性签名:</td><td>${user.signature}</td>
-                </tr>
-                <tr>
-                    <td>邮箱:</td><td>${user.email}</td>
-                </tr>
-            </table>
-            <button>修改信息</button>
-
+            <br>
+            <form class="container" action="" type="post">
+                <div class="form-group">
+                    <label>账号:</label> ${user.account}
+                </div>
+                <div class="form-group">
+                    <label>昵称:</label>
+                    <input type="text" class="form-control" value="${user.name}">
+                </div>
+                <div>
+                    <label>个性签名:</label>
+                    <textarea type="textarea" class="form-control" rows="3">${user.signature}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>邮箱:</label>
+                    <input type="text" class="form-control" value="${user.email}">
+                </div>
+                <div class="form-group">
+                    <button type="button" onclick="sub()" class="btn btn-dark">修改信息</button>
+                </div>
+                <div hidden class="form-group" id="sub">
+                    <label>请输入密码:</label>
+                    <input type="password" name = "password">
+                    <button type="submit" href="#" class="btn btn-dark">提交</button>
+                </div>
+            </form>
         </div>
 
     </div>

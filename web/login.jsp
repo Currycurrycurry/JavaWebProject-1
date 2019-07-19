@@ -17,12 +17,12 @@
         function not_null() {
             var account = document.getElementById('account').value;
             var password = document.getElementById('password').value;
-            if(account==""||password==""||account==null||password==null){
-                document.getElementById('tic').innerHTML="账号或密码不能为空！";
-            }else{
+            if(account!=""&&password!=""){
                 document.getElementById('tic').innerHTML="";
                 var form = document.getElementById('form');
                 form.submit();
+            }else{
+                document.getElementById('tic').innerHTML="信息不能为空!";
             }
         }
     </script>
@@ -82,8 +82,7 @@
                 <div class="text-center">
                     <span id="tic"><%if(request.getAttribute("error")!=null) out.print((String)request.getAttribute("error"));%></span>
                     <br>
-                    <button onclick="not_null()" class="btn btn-dark">登录</button>
-                    <button type="reset" class="btn btn-dark">重置</button>
+                    <input type="button" onclick="not_null()" class="btn btn-info" value="登录">
                 </div>
             </form>
         </div>

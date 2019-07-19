@@ -14,7 +14,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
   if(request.getAttribute("mostViewItems") == null){
-    request.getRequestDispatcher("/home").forward(request,response);
+      request.getRequestDispatcher("/home").forward(request,response);
   }
 %>
 <html>
@@ -43,7 +43,6 @@
                 <%
                   Object o = session.getAttribute("user");
                   if(o!=null){
-                    UserEntry user = (UserEntry) o;
                 %>
                 <li class="nav-item dropdown">
                   <a href="#" class="nav-link text-dark navitems dropdown-toggle" data-toggle="dropdown">

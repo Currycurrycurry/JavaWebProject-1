@@ -43,8 +43,7 @@ public class SignServlet extends HttpServlet {
                     UserEntry user1 = new UserEntry(array[0],array[1],array[2],array[3],"",false);
                     userDao1.insertAccount(user1);
                     session.setAttribute("user",user1);
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-                    dispatcher.forward(request,response);}
+                    response.sendRedirect("/index.jsp");}
             }else {
                 //用户名已经存在
                 System.out.println("account is exist");

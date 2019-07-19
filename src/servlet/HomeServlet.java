@@ -27,9 +27,7 @@ public class HomeServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("get request");
         try {
-            System.out.println("get request");
             ItemDaoImpl itemDao = DaoFactory.getItemDaoInstance();
             List<Item> mostViewItems = itemDao.getItemsOrdered(4,"view");
             List<Item> mostNewItems = itemDao.getItemsOrdered(4,"timeReleased");
