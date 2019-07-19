@@ -89,11 +89,11 @@
 <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 
-<script>/*下拉菜单*/
-$(document).ready(function(){
-    $(document).off('click.bs.dropdown.data-api');
-});</script>
+
 <script type="text/javascript">
+    $(document).ready(function(){
+        $(document).off('click.bs.dropdown.data-api');
+    });
     var btLogin = document.getElementById('btLogin');
     btLogin.onclick = function () {
         not_null();
