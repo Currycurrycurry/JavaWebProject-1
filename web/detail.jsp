@@ -1,4 +1,5 @@
-<%@ page import="bean.UserEntry" %><%--
+<%@ page import="bean.UserEntry" %>
+<%@ page import="bean.Item" %><%--
   Created by IntelliJ IDEA.
   User: YXH
   Date: 2019/7/14
@@ -6,6 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <title>展品详情</title>
@@ -14,6 +16,11 @@
     <link rel="stylesheet" href="css/bootstrap-reboot.css">
     <link rel="stylesheet" href="css/index.css">
 </head>
+<%
+    if(request.getAttribute("item") == null){
+        request.getRequestDispatcher("/detail").forward(request,response);
+    }
+%>
 <body>
 <%
     UserEntry user = (UserEntry)session.getAttribute("user");
@@ -100,13 +107,13 @@
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <p class="h3">玉鹿</p>
+            <p class="h3">${requestScope.item.name}</p>
         </div>
     </div>
     <div class="row">
         <div class="col-6">
             <div class="card">
-                <img class="card-img" src="images/工艺/玉鹿.jpg">
+                <img class="card-img" src="${requestScope.item.imagePath}">
             </div>
         </div>
         <div class="col-6">
@@ -121,30 +128,27 @@
                         <tbody>
                         <tr>
                             <td class="font-weight-bold">名称</td>
-                            <td colspan="2">玉鹿</td>
+                            <td colspan="2">${requestScope.item.name}</td>
                         </tr>
                         <tr>
                             <td class="font-weight-bold">馆藏地点</td>
-                            <td colspan="2">233博物馆</td>
+                            <td colspan="2">${requestScope.item.address}</td>
                         </tr>
                         <tr>
-                            <td class="font-weight-bold">出土年份</td>
-                            <td colspan="2">2233年</td>
+                            <td class="font-weight-bold">年份</td>
+                            <td colspan="2">${requestScope.item.year}</td>
                         </tr>
                         <tr>
                             <td class="font-weight-bold">热度</td>
-                            <td colspan="2">2233</td>
+                            <td colspan="2">${requestScope.item.view}</td>
                         </tr>
                         <tr>
                             <td class="font-weight-bold">简介</td>
-                            <td colspan="2">黄褐色，扁体片状。呈站立状。长角粗壮，分两杈向左右平展，前杈上扬，卷成两个大圆孔，后杈向后勾曲。臣字目，大耳，吻部前突，前胸挺出，后背拱起，短尾，体态丰润，蹄趾明显。体肌以两道圆弧线表现，简练明快。后肢前曲，表现了鹿昂首观望，蓄势待发的神态，富有活力。</td>
+                            <td colspan="2">${requestScope.item.description}</td>
                         </tr>
                         </tbody>
                     </table>
-                    <form action="index.jsp">
-                        <input name="itemName" value="玉鹿" type="text" class="text-hide" readonly>
-                        <input type="submit" class="btn btn-dark float-right" value="收藏">
-                    </form>
+
                 </div>
             </div>
         </div>

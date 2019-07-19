@@ -13,19 +13,6 @@
     <link rel="stylesheet" href="css/bootstrap-grid.css">
     <link rel="stylesheet" href="css/bootstrap-reboot.css">
     <link rel="stylesheet" href="css/index.css">
-    <script type="text/javascript">
-        function not_null() {
-            var account = document.getElementById('account').value;
-            var password = document.getElementById('password').value;
-            if(account!=""&&password!=""){
-                document.getElementById('tic').innerHTML="";
-                var form = document.getElementById('form');
-                form.submit();
-            }else{
-                document.getElementById('tic').innerHTML="信息不能为空!";
-            }
-        }
-    </script>
 </head>
 <body>
 <div id="nav-back">
@@ -82,7 +69,7 @@
                 <div class="text-center">
                     <span id="tic"><%if(request.getAttribute("error")!=null) out.print((String)request.getAttribute("error"));%></span>
                     <br>
-                    <input type="button" onclick="not_null()" class="btn btn-info" value="登录">
+                    <input type="button" id="btLogin" class="btn btn-info" value="登录">
                 </div>
             </form>
         </div>
@@ -106,5 +93,22 @@
 $(document).ready(function(){
     $(document).off('click.bs.dropdown.data-api');
 });</script>
+<script type="text/javascript">
+    var btLogin = document.getElementById('btLogin');
+    btLogin.onclick = function () {
+        not_null();
+    };
+    function not_null() {
+        var account = document.getElementById('account').value;
+        var password = document.getElementById('password').value;
+        if(account!=""&&password!=""){
+            document.getElementById('tic').innerHTML="";
+            var form = document.getElementById('form');
+            form.submit();
+        }else{
+            document.getElementById('tic').innerHTML="信息不能为空!";
+        }
+    }
+</script>
 </body>
 </html>

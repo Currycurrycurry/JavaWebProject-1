@@ -2,8 +2,7 @@
 
 #nav-back{
     height: 11.2em;
-    background-image:url(/images/icon/nav-back.png);
-    background-position: top center;
+    background: url(/images/icon/nav-back.png) top center;
 }
 
 #navitems-row{

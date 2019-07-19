@@ -28,7 +28,22 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public Item findById(int itemId) throws Exception {
-        return null;
+        Item item = null;
+        String sql = "SELECT * FROM item WHERE itemID = ?";
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1,itemId);
+        ResultSet re = statement.executeQuery();
+        if(re.next()){
+            item = new Item();
+            item.setItemId(re.getInt("itemID"));
+            item.setName(re.getString("name"));
+            item.setImagePath(re.getString("imagePath"));
+            item.setDescription(re.getString("description"));
+            item.setAddress(re.getString("address"));
+            item.setYear(re.getString("year"));
+            item.setView(re.getInt("view"));
+        }
+        return item;
     }
 
     @Override

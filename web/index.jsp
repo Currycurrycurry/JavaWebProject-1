@@ -12,11 +12,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-  if(request.getAttribute("mostViewItems") == null){
-      request.getRequestDispatcher("/home").forward(request,response);
-  }
-%>
+
 <html>
   <head>
     <title>欢迎来到2233博物馆</title>
@@ -25,6 +21,11 @@
     <link rel="stylesheet" href="css/bootstrap-reboot.css">
     <link rel="stylesheet" href="css/index.css">
   </head>
+  <%
+    if(request.getAttribute("mostViewItems") == null){
+      request.getRequestDispatcher("/home").forward(request,response);
+    }
+  %>
   <body>
   <div id="nav-back">
     <div id="navitems-row">
@@ -119,7 +120,7 @@
                 %>
         <div class="col-3">
           <div class="card">
-            <a href="detail.jsp"><img class="card-img-top" src="<%=item.getImagePath()%>" alt="<%=item.getName()%>.jpg"></a>
+            <a href="detail.jsp?id=<%=item.getItemId()%>"><img class="card-img-top" src="<%=item.getImagePath()%>" alt="<%=item.getName()%>.jpg"></a>
             <div class="card-body">
               <a class="card-link" href="detail.jsp?id=<%=item.getItemId()%>">
                 <h5 class="text-muted"><%=item.getName()%></h5>

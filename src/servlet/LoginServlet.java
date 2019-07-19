@@ -24,8 +24,6 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String account = request.getParameter("account");
         String password = request.getParameter("password");
-        System.out.println(account);
-        System.out.println(password);
         try{
             UserDaoImpl userDao = DaoFactory.getUserDaoInstance();
             UserEntry userEntry = userDao.findByAccount(account);

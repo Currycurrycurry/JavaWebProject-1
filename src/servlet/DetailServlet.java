@@ -10,15 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @author: YXH
- * @date: 2019/7/18
- * @time: 18:04
+ * @date: 2019/7/19
+ * @time: 11:12
  */
-@WebServlet(name = "HomeServlet",value = "/home")
-public class HomeServlet extends HttpServlet {
+@WebServlet(name = "DetailServlet",value = "/detail")
+public class DetailServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request,response);
@@ -27,12 +26,21 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            int itemId;
+            if(request.getParameter("id") == null){
+                itemId = 1;
+            }else {
+                try{
+                    itemId = Integer.parseInt(request.getParameter("id"));
+                }catch (NumberFormatException e){
+                    itemId = 1;
+                }
+
+            }
             ItemDaoImpl itemDao = DaoFactory.getItemDaoInstance();
-            List<Item> mostViewItems = itemDao.getItemsOrdered(4,"view");
-            List<Item> mostNewItems = itemDao.getItemsOrdered(4,"timeReleased");
-            request.setAttribute("mostViewItems",mostViewItems);
-            request.setAttribute("mostNewItems",mostNewItems);
-            request.getRequestDispatcher("/index.jsp").forward(request,response);
+            Item item = itemDao.findById(itemId);
+            request.setAttribute("item",item);
+            request.getRequestDispatcher("/detail.jsp").forward(request,response);
         }catch (Exception e){
             e.printStackTrace();
         }
