@@ -104,39 +104,77 @@
           <button class="btn btn-default" id="search-button">搜索</button>
         </div>
       </div>
-    </div>
-  </div>
-    <br>
-    <div class="container">
-      <div class="row">
-        <div class="col-11">
-          <h4>热门展品</h4>
-        </div>
-        <div class="col-1">
-          <a class="btn page-link h5 text-dark" href="#">更多<</a>
-        </div>
       </div>
-      <div class="row">
-          <%
-            List<Item> items = (ArrayList<Item>)request.getAttribute("mostViewItems");
-            for(Item item : items){
-                %>
-        <div class="col-3">
-          <div class="card">
-            <a href="detail.jsp?id=<%=item.getItemId()%>"><img class="card-img-top" src="<%=item.getImagePath()%>" alt="<%=item.getName()%>.jpg"></a>
-            <div class="card-body">
-              <a class="card-link" href="detail.jsp?id=<%=item.getItemId()%>">
-                <h5 class="text-muted"><%=item.getName()%></h5>
-                <p class="text-dark"><%=item.getDescription().substring(0,25)%>...</p>
+    </div>
+    <br>
+  <div class="container">
+    <div class="row">
+      <div class="col-11">
+        <h4>热门展品</h4>
+      </div>
+      <div class="col-1">
+        <a class="btn page-link h5 text-dark" href="#">更多<</a>
+      </div>
+    </div>
+    <div class="row" id="hot-item-row">
+      <%
+        List<Item> items = (ArrayList<Item>)request.getAttribute("mostViewItems");
+      %>
+      <div class="col-2"></div>
+      <div class="col-8 text-center">
+        <br>
+        <div id="homePageCarousel" class="carousel slide" data-ride="carousel">
+          <!--指示符-->
+          <ul class="carousel-indicators">
+            <li data-target="#homePageCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#homePageCarousel" data-slide-to="1"></li>
+            <li data-target="#homePageCarousel" data-slide-to="2"></li>
+            <li data-target="#homePageCarousel" data-slide-to="3"></li>
+          </ul>
+          <!-- 轮播图片 -->
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <a href="detail.jsp?id=<%=items.get(0).getItemId()%>">
+                <img src="<%=items.get(0).getImagePath()%>" class="img-fluid img-home">
+                <div class="carousel-caption">
+                  <h4 class="font-italic"><%=items.get(0).getName()%></h4>
+                  <p class="font-italic">
+                    <%=items.get(0).getDescription().substring(0,80)%>
+                  </p>
+                </div>
               </a>
             </div>
+            <%
+              for(int i = 1 ; i < items.size() ; ++i){
+            %>
+            <div class="carousel-item">
+              <a href="detail.jsp?id=<%=items.get(i).getItemId()%>">
+                <img src="<%=items.get(i).getImagePath()%>" class="img-fluid img-home">
+                <div class="carousel-caption">
+                  <h4 class="font-italic"><%=items.get(i).getName()%></h4>
+                  <p class="font-italic">
+                    <%=items.get(i).getDescription().substring(0,80)%>
+                  </p>
+                </div>
+              </a>
+            </div>
+            <%
+              }
+            %>
           </div>
+          <!-- 左右切换按钮 -->
+          <a class="carousel-control-prev" href="#homePageCarousel" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </a>
+          <a class="carousel-control-next" href="#homePageCarousel" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </a>
         </div>
-        <%
-            }
-          %>
       </div>
+      <div class="col-2"></div>
     </div>
+  </div>
+
   <br>
     <div class="container">
       <div class="row">
@@ -167,6 +205,7 @@
           }
         %>
       </div>
+
     </div>
     <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="js/bootstrap.bundle.js"></script>

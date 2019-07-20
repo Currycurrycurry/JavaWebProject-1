@@ -27,3 +27,11 @@
 }
 
 .nav > li:hover .dropdown-menu { display: block; }
+
+#hot-item-row{
+    background: url(/images/icon/timg2.png) top center no-repeat;
+}
+
+.img-home{
+    border-radius: 5px;
+}
