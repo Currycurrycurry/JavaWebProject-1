@@ -31,10 +31,11 @@ public class LoginServlet extends HttpServlet {
             UserEntry userEntry = userDao.findByAccount(account);
             if(userEntry != null&&userEntry.getPassword().equals(password)){
                 //正确的登录
+                userEntry.updateLoginTime();
+                userDao.updateLoginTime(userEntry);
                 HttpSession session = request.getSession();
                 session.setAttribute("user",userEntry);
                 response.sendRedirect("/index.jsp");
-
             }else {
                 request.setAttribute("error","用户名或者密码错误");
                 request.getRequestDispatcher("login.jsp").forward(request,response);

@@ -1,4 +1,4 @@
-<%--
+<%@ page import="bean.UserEntry" %><%--
   Created by IntelliJ IDEA.
   User: YXH
   Date: 2019/7/14
@@ -15,6 +15,24 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
+
+<%
+
+    Object object = session.getAttribute("user");
+    if(object==null){
+        response.sendRedirect("/login.jsp");
+    }else{
+        UserEntry userEntry = (UserEntry) object;
+        if(!userEntry.isAdmin()){
+            response.sendRedirect("/index.jsp");
+        }
+    }
+
+    if(request.getAttribute("userManage") == null){
+        request.getRequestDispatcher("/userManage").forward(request,response);
+    }
+
+%>
 <div id="nav-back">
     <div id="navitems-row">
         <div class="container">
@@ -30,7 +48,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link text-dark navitems dropdown-toggle" data-toggle="dropdown">
-                                <span class=""> Admin001 </span></a>
+                                <span class="">${user.name}</span></a>
                             <b class="caret"></b>
                             <ul class="dropdown-menu text-center">
                                 <li><a class="dropdown-item" href="userInformation.jsp">个人信息</a></li>
@@ -71,6 +89,13 @@
             </div>
         </div>
     </div>
+</div>
+<br>
+<div class="container col-12">
+    <div>
+
+    </div>
+
 </div>
 
 

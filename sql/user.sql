@@ -8,7 +8,8 @@ CREATE TABLE `users` (
   `name` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
   `signature` VARCHAR(255) NOT NULL,
-  `timeReleased` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `timeReleased` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `loginTime` timestamp NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `users`
@@ -18,7 +19,7 @@ ALTER TABLE `users`
 ALTER TABLE `users`
   MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-INSERT INTO `users` (userID, account, password,isAdmin, name, email, signature) VALUES
-  (1,'Admin22','123456',TRUE ,'22娘','22@2233museum.com','这里是博物馆的管理员22娘,请多指教!');
-INSERT INTO `users` (userID, account, password,isAdmin, name, email, signature) VALUES
-  (2,'Admin33','123456',TRUE ,'33娘','33@2233museum.com','这里是博物馆的管理员33娘,请多指教!');
+INSERT INTO `users` (userID, account, password,isAdmin, name, email, signature,loginTime) VALUES
+  (1,'Admin22','123456',TRUE ,'22娘','22@2233museum.com','这里是博物馆的管理员22娘,请多指教!','2019-07-14 12:00:00');
+INSERT INTO `users` (userID, account, password,isAdmin, name, email, signature,loginTime) VALUES
+  (2,'Admin33','123456',TRUE ,'33娘','33@2233museum.com','这里是博物馆的管理员33娘,请多指教!','2019-07-14 12:00:00');

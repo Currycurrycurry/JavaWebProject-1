@@ -1,6 +1,9 @@
 package dao;
 
 import bean.UserEntry;
+import jdk.nashorn.internal.runtime.ECMAException;
+
+import java.util.List;
 
 /**
  * @author: YXH
@@ -16,5 +19,8 @@ public interface UserDao {
 
     public void updateInfo(UserEntry userEntry)throws Exception;
 
+    public List<UserEntry> findAll(int userID)throws Exception;
+
+    public void updateLoginTime(UserEntry userEntry)throws Exception;
 
 }

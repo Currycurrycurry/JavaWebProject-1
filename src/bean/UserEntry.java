@@ -1,5 +1,7 @@
 package bean;
 
+import java.sql.Timestamp;
+
 /**
  * @author: YXH
  * @date: 2019/7/17
@@ -13,6 +15,7 @@ public class UserEntry {
     private boolean isAdmin;
     private String email;
     private String signature;
+    private Timestamp loginTime;
 
     public UserEntry() {
         isAdmin = false;
@@ -82,5 +85,27 @@ public class UserEntry {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setLoginTime(Timestamp timestamp){
+        loginTime = timestamp;
+    }
+
+    public void updateLoginTime(){
+        loginTime = new Timestamp(System.currentTimeMillis());
+    }
+
+    public Timestamp getLoginTime(){
+        return loginTime;
+    }
+
+    public UserEntry setProperties(String account,boolean isAdmin,String email,String name,Timestamp loginTime){
+        UserEntry userEntry = new UserEntry();
+        setAccount(account);
+        setAdmin(isAdmin);
+        setEmail(email);
+        setName(name);
+        setLoginTime(loginTime);
+        return userEntry;
     }
 }

@@ -5,6 +5,8 @@ import bean.UserEntry;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author: YXH
@@ -42,18 +44,37 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void insertAccount(UserEntry userEntry)throws Exception{
-        String sql = "INSERT into users(account,name,email,signature,isAdmin,password) values(?,?,?,?,?,?)";
+    public List<UserEntry> findAll(int userID)throws Exception{
+        List<UserEntry> userEntries=new ArrayList<>();
+        String sql = "SELECT * FROM users ORDER BY isAdmin";
         statement = connection.prepareStatement(sql);
-        statement.setString(1,userEntry.getAccount());
-        statement.setString(2,userEntry.getName());
-        statement.setString(3,userEntry.getEmail());
-        statement.setString(4,userEntry.getSignature());
-        statement.setBoolean(5,userEntry.isAdmin());
-        statement.setString(6,userEntry.getPassword());
+        ResultSet re =  statement.executeQuery();
+        while (re.next()){
+            if(userID == re.getInt("userID")){
+                continue;
+            }
+
+            UserEntry userEntry1 = new UserEntry();
+            userEntry1.setProperties(re.getString("account"),re.getBoolean("isAdmin"),
+                    re.getString("email"),re.getString("name"),re.getTimestamp("loginTime"));
+
+
+            userEntries.add(userEntry1);
+        }
+        return userEntries;
+    }
+
+    @Override
+    public void updateLoginTime(UserEntry userEntry) throws Exception{
+        String sql = "UPDATE users SET loginTime = ? WHERE userID = ?";
+        statement = connection.prepareStatement(sql);
+        statement.setTimestamp(1,userEntry.getLoginTime());
+        statement.setInt(2,userEntry.getId());
         int row = statement.executeUpdate();
         if(row>0){
-            System.out.println("Sign success!");
+            System.out.println("Update loginTime success!");
+        }else{
+            System.out.println("Update loginTime failed!");
         }
     }
 
@@ -67,7 +88,28 @@ public class UserDaoImpl implements UserDao {
         statement.setInt(4,userEntry.getId());
         int row = statement.executeUpdate();
         if(row>0){
-            System.out.println("Update success!");
+            System.out.println("Update user information success!");
+        }else{
+            System.out.println("Update user information failed!");
         }
     }
+
+    @Override
+    public void insertAccount(UserEntry userEntry)throws Exception{
+        String sql = "INSERT into users(account,name,email,signature,isAdmin,password) values(?,?,?,?,?,?)";
+        statement = connection.prepareStatement(sql);
+        statement.setString(1,userEntry.getAccount());
+        statement.setString(2,userEntry.getName());
+        statement.setString(3,userEntry.getEmail());
+        statement.setString(4,userEntry.getSignature());
+        statement.setBoolean(5,userEntry.isAdmin());
+        statement.setString(6,userEntry.getPassword());
+        int row = statement.executeUpdate();
+        if(row>0){
+            System.out.println("Sign success!");
+        }else{
+            System.out.println("Sign failed!");
+        }
+    }
+
 }

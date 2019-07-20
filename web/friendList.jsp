@@ -8,13 +8,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>好友列表</title>
+    <title>人员管理</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-grid.css">
     <link rel="stylesheet" href="css/bootstrap-reboot.css">
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
+<%
+    if (session.getAttribute("user")==null){
+
+        response.sendRedirect("/index.jsp");
+    }
+%>
+
 <div id="nav-back">
     <div id="navitems-row">
         <div class="container">
@@ -30,7 +37,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link text-dark navitems dropdown-toggle" data-toggle="dropdown">
-                                <span class=""> Admin001 </span></a>
+                                <span class="">${user.name}</span></a>
                             <b class="caret"></b>
                             <ul class="dropdown-menu text-center">
                                 <li><a class="dropdown-item" href="userInformation.jsp">个人信息</a></li>

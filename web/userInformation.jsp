@@ -26,7 +26,7 @@
 
     // 未登录！
     if(user==null){
-        request.getRequestDispatcher("signup.jsp").forward(request,response);
+        response.sendRedirect("/login.jsp");
     }
 %>
 <div id="nav-back">
