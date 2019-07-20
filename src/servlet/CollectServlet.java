@@ -20,31 +20,37 @@ import java.io.IOException;
 public class CollectServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if(request.getSession().getAttribute("user") == null){
-            response.sendRedirect("/login.jsp");
-        }
-        int userId,itemId = 1;
-        try {
-            userId = ((UserEntry)request.getSession().getAttribute("user")).getId();
-            itemId = Integer.parseInt(request.getParameter("itemId"));
-
-            CollectionDaoImpl collectionDao = DaoFactory.getCollectionDaoInstance();
-            if("true".equals(request.getParameter("delete"))){
-                collectionDao.deleteCollection(userId,itemId);
-            }else {
-                boolean isPublic = "true".equalsIgnoreCase(request.getParameter("isPublic"));
-                collectionDao.insertCollection(userId,itemId,isPublic);
-            }
-            request.getRequestDispatcher("/detail.jsp?id="+itemId).forward(request,response);
-        }catch (Exception e){
-            request.getRequestDispatcher("/detail.jsp?id="+itemId).forward(request,response);
-            e.printStackTrace();
-        }
-
+        doGet(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doPost(request,response);
+
+        if(request.getSession().getAttribute("user") == null){
+            response.sendRedirect("/login.jsp");
+            System.out.println("please login.");
+            return;
+        }
+        int userId,itemId;
+        try {
+            userId = ((UserEntry)request.getSession().getAttribute("user")).getId();
+            itemId = Integer.parseInt(request.getParameter("itemId"));
+            CollectionDaoImpl collectionDao = DaoFactory.getCollectionDaoInstance();
+            if("true".equals(request.getParameter("delete"))){
+                collectionDao.deleteCollection(userId,itemId );
+            }else if("true".equals(request.getParameter("newCollect"))){
+                boolean isPublic = "true".equalsIgnoreCase(request.getParameter("isPublic"));
+                collectionDao.insertCollection(userId,itemId,isPublic);
+            }else if("true".equals(request.getParameter("change"))){
+                collectionDao.changePublicity(userId,itemId);
+            }
+            if("true".equals(request.getParameter("collectionPage")))
+                response.sendRedirect("/collection.jsp");
+            else
+                response.sendRedirect("/detail.jsp?id="+itemId);
+        }catch (Exception e){
+            request.getRequestDispatcher("/index.jsp").forward(request,response);
+            e.printStackTrace();
+        }
     }
 }

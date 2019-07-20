@@ -1,4 +1,7 @@
-<%@ page import="bean.UserEntry" %><%--
+<%@ page import="bean.UserEntry" %>
+<%@ page import="java.util.List" %>
+<%@ page import="bean.Item" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: YXH
   Date: 2019/7/14
@@ -17,6 +20,19 @@
 <body>
 <%
     UserEntry user = (UserEntry) session.getAttribute("user");
+    List<Item> publicCollection = new ArrayList<>();
+    List<Item> privateCollection = new ArrayList<>();
+    if(user==null){
+        response.sendRedirect("/login.jsp");
+    }else {
+        if(request.getAttribute("publicCollection") == null){
+            request.getRequestDispatcher("/collection").forward(request,response);
+            System.out.println("1");
+        }else {
+            publicCollection =  (ArrayList<Item>)request.getAttribute("publicCollection");
+            privateCollection =  (ArrayList<Item>)request.getAttribute("privateCollection");
+        }
+    }
 %>
 <div id="nav-back">
     <div id="navitems-row">
@@ -85,44 +101,137 @@
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <h4>我的收藏</h4>
+            <h4>公开收藏夹</h4>
         </div>
     </div>
+    <br>
     <div class="row">
         <%
-            String strCollections = (String)session.getAttribute("collections");
-            if(strCollections==null)strCollections = "";
-            String[] collections = strCollections.split("&");
-            int num = collections.length;
-            if("".equals(strCollections)){
+            if(publicCollection.size() == 0){
                 %>
         <div class="col-12">
             <br><br><br>
-            <h3 class="text-center">你的收藏夹为空，试着收藏一些展品吧。</h3>
+            <h3 class="text-center">你的公开收藏夹为空，试着收藏一些展品吧。</h3>
         </div>
         <%
-            }else {
-                for(int i = 0 ; i < num ; i++){
-                    String collection = collections[i];
-                    %>
-        <div class="col-3">
-            <div class="card">
-                <a href="detail.jsp"><img class="card-img-top" src="images/工艺/<%= collection %>.jpg" alt="<%= collection %>.jpg"></a>
-                <div class="card-body">
-                    <a class="card-link" href="detail.jsp">
-                        <h5 class="text-muted"><%= collection %></h5>
-                        <p class="text-dark">描述..........</p>
-                        <a href="#" class="btn btn-dark">取消收藏</a>
+            }
+        %>
+    </div>
+    <%
+        for(Item item : publicCollection){
+            %>
+    <div class="card">
+        <div class="row">
+            <div class="col-2">
+                <a href="detail.jsp?id=">
+                    <img class="card-img" src="<%=item.getImagePath()%>" alt="<%=item.getImagePath()%>">
+                </a>
+            </div>
+            <div class="col-8">
+                <table class="table" style="table-layout:fixed;">
+                    <tbody>
+                    <tr>
+                        <td class="font-weight-bold">名称</td>
+                        <td class="font-weight-bold">收藏时间</td>
+                        <td class="font-weight-bold">馆藏地点</td>
+                        <td class="font-weight-bold">热度</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="detail.jsp?id=" class="card-link text-dark">
+                                <%=item.getName()%>
+                            </a>
+                        </td>
+                        <td><%=item.getTimeReleased()%></td>
+                        <td><%=item.getAddress()%></td>
+                        <td><%=item.getView()%></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-2 text-center">
+                <br>
+                <div class="btn-group-vertical">
+                    <a href="/collect?itemId=<%=item.getItemId()%>&change=true&collectionPage=true" class="btn btn-outline-dark">
+                        改为私有
+                    </a>
+                    <a href="/collect?itemId=<%=item.getItemId()%>&delete=true&collectionPage=true" class="btn btn-outline-info">
+                        取消收藏
                     </a>
                 </div>
             </div>
         </div>
+    </div>
+    <%
+        }
+    %>
+    <br>
+    <div class="row">
+        <div class="col-6">
+            <h4>私有收藏夹</h4>
+        </div>
+    </div>
+    <br>
+    <div class="row">
         <%
-                }
+            if(privateCollection.size() == 0){
+        %>
+        <div class="col-12">
+            <br><br><br>
+            <h3 class="text-center">私有收藏夹只有自己可见，试着收藏一些展品吧。</h3>
+        </div>
+        <%
             }
         %>
-
     </div>
+    <%
+        for(Item item : privateCollection){
+    %>
+    <div class="card">
+        <div class="row">
+            <div class="col-2">
+                <a href="detail.jsp?id=">
+                    <img class="card-img" src="<%=item.getImagePath()%>" alt="<%=item.getImagePath()%>">
+                </a>
+            </div>
+            <div class="col-8">
+                <table class="table" style="table-layout:fixed;">
+                    <tbody>
+                    <tr>
+                        <td class="font-weight-bold">名称</td>
+                        <td class="font-weight-bold">收藏时间</td>
+                        <td class="font-weight-bold">馆藏地点</td>
+                        <td class="font-weight-bold">热度</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="detail.jsp?id=" class="card-link text-dark">
+                                <%=item.getName()%>
+                            </a>
+                        </td>
+                        <td><%=item.getTimeReleased()%></td>
+                        <td><%=item.getAddress()%></td>
+                        <td><%=item.getView()%></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-2 text-center">
+                <br>
+                <div class="btn-group-vertical">
+                    <a href="/collect?itemId=<%=item.getItemId()%>&change=true&collectionPage=true" class="btn btn-outline-dark">
+                        改为公共
+                    </a>
+                    <a href="/collect?itemId=<%=item.getItemId()%>&delete=true&collectionPage=true" class="btn btn-outline-info">
+                        取消收藏
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%
+        }
+    %>
 </div>
 
 

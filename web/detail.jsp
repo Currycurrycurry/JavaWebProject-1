@@ -152,24 +152,18 @@
                         if(request.getAttribute("isCollected") != null &&
                                 (boolean)request.getAttribute("isCollected")){
                             %>
-                    <form class="text-right" method="post" action="/collect">
-                        <input name="delete" value="true" class="disabled text-hide">
-                        <input name="itemId" value="${requestScope.item.itemId}" class="disabled text-hide">
-                        <button type="submit" class="btn btn-info">取消收藏</button>
-                    </form>
+                    <a href="/collect?itemId=${requestScope.item.itemId}&delete=true" class="btn btn-outline-info float-right">
+                        取消收藏
+                    </a>
                     <%
                         }else {
                             %>
-                    <form class="text-right" method="post" action="/collect">
-                        <input name="isPublic" value="true" class="disabled text-hide">
-                        <input name="itemId" value="${requestScope.item.itemId}" class="disabled text-hide">
-                        <button type="submit" class="btn btn-info">公开收藏</button>
-                    </form>
-                    <form class="text-right" method="post" action="/collect">
-                        <input name="isPublic" value="false" class="disabled text-hide">
-                        <input name="itemId" value="${requestScope.item.itemId}" class="disabled text-hide">
-                        <button type="submit" class="btn btn-info">私有收藏</button>
-                    </form>
+                    <a href="/collect?itemId=${requestScope.item.itemId}&newCollect=true&isPublic=false" class="btn btn-outline-dark float-right">
+                        私有收藏
+                    </a>
+                    <a href="/collect?itemId=${requestScope.item.itemId}&newCollect=true&isPublic=true" class="btn btn-outline-dark float-right">
+                        公开收藏
+                    </a>
                     <%
                         }
                     %>
