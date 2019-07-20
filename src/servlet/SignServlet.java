@@ -41,10 +41,10 @@ public class SignServlet extends HttpServlet {
                 }else{
                     //注册成功
                     HttpSession session = request.getSession();
-                    UserDaoImpl userDao1 = DaoFactory.getUserDaoInstance();
-                    UserEntry user1 = new UserEntry(array[0],array[1],array[2],array[3],"",false);
-                    userDao1.insertAccount(user1);
-                    session.setAttribute("user",user1);
+                    userEntry = new UserEntry(array[0],array[1],array[2],array[3],"",false);
+                    userEntry.updateLoginTime();
+                    userDao.insertAccount(userEntry);
+                    session.setAttribute("user",userEntry);
                     response.sendRedirect("/index.jsp");}
             }else {
                 //用户名已经存在

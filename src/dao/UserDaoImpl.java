@@ -46,7 +46,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<UserEntry> findAll(int userID)throws Exception{
         List<UserEntry> userEntries=new ArrayList<>();
-        String sql = "SELECT * FROM users ORDER BY isAdmin";
+        String sql = "SELECT * FROM users ORDER BY isAdmin DESC";
         statement = connection.prepareStatement(sql);
         ResultSet re =  statement.executeQuery();
         while (re.next()){
@@ -55,9 +55,10 @@ public class UserDaoImpl implements UserDao {
             }
 
             UserEntry userEntry1 = new UserEntry();
-            userEntry1.setProperties(re.getString("account"),re.getBoolean("isAdmin"),
-                    re.getString("email"),re.getString("name"),re.getTimestamp("loginTime"));
-
+            userEntry1.setProperties(re.getInt("userID"),
+                    re.getString("account"),re.getBoolean("isAdmin"),
+                    re.getString("email"),re.getString("name"),
+                    re.getTimestamp("loginTime"));
 
             userEntries.add(userEntry1);
         }
@@ -95,8 +96,35 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public void updateAdmin(int userID,boolean isAdmin)throws Exception{
+        String sql = "UPDATE users SET isAdmin = ? WHERE userID = ?";
+        statement = connection.prepareStatement(sql);
+        statement.setBoolean(1,isAdmin);
+        statement.setInt(2,userID);
+        int row = statement.executeUpdate();
+        if(row>0){
+            System.out.println("Update user admin success!");
+        }else{
+            System.out.println("Update user admin failed!");
+        }
+    }
+
+    @Override
+    public void deleteAccount(int userID)throws Exception{
+        String sql = "DELETE FROM users WHERE userID = ?";
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1,userID);
+        int row = statement.executeUpdate();
+        if(row>0){
+            System.out.println("Delete user success!");
+        }else{
+            System.out.println("Delete user failed!");
+        }
+    }
+
+    @Override
     public void insertAccount(UserEntry userEntry)throws Exception{
-        String sql = "INSERT into users(account,name,email,signature,isAdmin,password) values(?,?,?,?,?,?)";
+        String sql = "INSERT into users(account,name,email,signature,isAdmin,password,loginTime) values(?,?,?,?,?,?,?)";
         statement = connection.prepareStatement(sql);
         statement.setString(1,userEntry.getAccount());
         statement.setString(2,userEntry.getName());
@@ -104,6 +132,7 @@ public class UserDaoImpl implements UserDao {
         statement.setString(4,userEntry.getSignature());
         statement.setBoolean(5,userEntry.isAdmin());
         statement.setString(6,userEntry.getPassword());
+        statement.setTimestamp(7,userEntry.getLoginTime());
         int row = statement.executeUpdate();
         if(row>0){
             System.out.println("Sign success!");
@@ -111,5 +140,7 @@ public class UserDaoImpl implements UserDao {
             System.out.println("Sign failed!");
         }
     }
+
+
 
 }

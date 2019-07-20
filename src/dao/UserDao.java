@@ -17,10 +17,14 @@ public interface UserDao {
 
     public void insertAccount(UserEntry userEntry) throws Exception;
 
+    public void deleteAccount(int userID) throws Exception;
+
     public void updateInfo(UserEntry userEntry)throws Exception;
 
     public List<UserEntry> findAll(int userID)throws Exception;
 
     public void updateLoginTime(UserEntry userEntry)throws Exception;
+
+    public void updateAdmin(int userID,boolean isAdmin)throws Exception;
 
 }

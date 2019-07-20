@@ -1,4 +1,6 @@
-<%@ page import="bean.UserEntry" %><%--
+<%@ page import="bean.UserEntry" %>
+<%@ page import="java.util.List" %>
+<%@ page import="servlet.UserInfoServlet" %><%--
   Created by IntelliJ IDEA.
   User: YXH
   Date: 2019/7/14
@@ -91,21 +93,161 @@
     </div>
 </div>
 <br>
-<div class="container col-12">
+<div class="container">
     <div>
-
+        <ul class="list-group">
+            <li class="list-group-item" style="background-color:lavender;">
+                <div class="row">
+                    <div class="col-1 text-center">
+                        账号
+                    </div>
+                    <div class="col-2 text-center">
+                        名字
+                    </div>
+                    <div class="col-2 text-center">
+                        邮箱
+                    </div>
+                    <div class="col-3 text-center">
+                        最近登录时间
+                    </div>
+                    <div class="col-4 text-center">
+                        操作
+                    </div>
+                </div>
+            </li>
+            <%
+                List<UserEntry> userEntries = (List<UserEntry>) request.getAttribute("userManage");
+                for(UserEntry userEntry:userEntries){
+            %>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-1 text-center">
+                        <%=userEntry.getAccount()%>
+                    </div>
+                    <div class="col-2 text-center">
+                        <%=userEntry.getName()%>
+                    </div>
+                    <div class="col-2 text-center">
+                        <%=userEntry.getEmail()%>
+                    </div>
+                    <div class="col-3 text-center">
+                        <%=userEntry.getLoginTime()%>
+                    </div>
+                    <div class="col-2 text-center">
+                        <% if(!userEntry.isAdmin()){ %>
+                        <button class="btn btn-info" id="<%=userEntry.getId()%>"
+                                value="true" onclick="changePower(<%=userEntry.getId()%>)">提升管理员</button>
+                        <%}else{%>
+                        <button class="btn btn-danger" id="<%=userEntry.getId()%>"
+                                value="false" onclick="changePower(<%=userEntry.getId()%>)">降级为普通</button>
+                        <%}%>
+                    </div>
+                    <div class="col-2 text-center">
+                        <button class="btn btn-secondary" onclick="deleteAccount(<%=userEntry.getId()%>)">
+                            删除用户
+                        </button>
+                    </div>
+                </div>
+                <span hidden id=""><%=userEntry.getId()%>></span>
+            </li>
+            <%
+                }
+            %>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-8"></div>
+                    <div class="col-4 text-center">
+                        <button class="btn" onclick="showForm()" id="btForm">增加用户</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
     </div>
-
+    <br>
+    <div class="row" style="display: none" id="formDiv">
+        <div class="col-6"></div>
+        <div class="col-6" style="background-color:lavender;">
+            <br>
+            <form action="/userManage" class="container" method="post" id="form">
+                <div class="form-group row">
+                    <div class="col-2">账号:</div>
+                    <div class="col-5"><input type="text" class="form-control" name="account"></div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-2">密码:</div>
+                    <div class="col-5"><input type="password" class="form-control" name="password"></div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-2">邮箱:</div>
+                    <div class="col-5"><input type="text" class="form-control" name="email"></div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-2">昵称:</div>
+                    <div class="col-5"><input type="text" class="form-control" name="name"></div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-2">是否为管理:</div>
+                    <div class="col-5"><input type="text" class="form-control" name="isAdmin" placeholder="1为管理员 0为普通用户"></div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-2"></div>
+                    <div class="col-4"><input type="button" class="btn" onclick="safe()" value="提交"></div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <span id="tip"></span>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-
 
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript">
+    function safe(){
+        var account = document.getElementById("account").value;
+        var password = document.getElementById("password").value;
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var isAdmin = document.getElementById("isAdmin").value;
 
-<script>/*下拉菜单*/
-$(document).ready(function(){
-    $(document).off('click.bs.dropdown.data-api');
-});</script>
+        if(account==""||password==""||name==""||email==""||isAdmin==""){
+            document.getElementById("tip").innerHTML="信息不能为空！";
+        }else{
+            document.getElementById("tip").innerHTML="";
+            var form = document.getElementById("form");
+            form.submit();
+        }
+    }
+
+    /*下拉菜单*/
+    $(document).ready(function(){
+        $(document).off('click.bs.dropdown.data-api');
+    });
+
+    function changePower(userID){
+        var isAdmin = document.getElementById(userID).value;
+        location.href = "/userManage?userId="+userID+"&changeAdmin="+ (isAdmin);
+    }
+
+    function deleteAccount(userID) {
+        location.href="/userManage?deleteUserId="+userID;
+    }
+
+    function showForm() {
+        var div= document.getElementById("formDiv");
+        div.style.display='block';
+        document.getElementById("btForm").innerHTML="取消操作";
+    }
+
+    function hideForm() {
+        var div = document.getElementById("formDiv");
+        div.style.display = 'none';
+        document.getElementById("btForm").innerHTML="增加用户";
+    }
+
+</script>
 </body>
 </html>

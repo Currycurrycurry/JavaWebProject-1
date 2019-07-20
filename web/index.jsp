@@ -60,6 +60,10 @@
                     <li><a class="dropdown-item" href="/LoginOutServlet">登    出</a></li>
                   </ul>
                 </li>
+                <%
+                  UserEntry userEntry = (UserEntry)o;
+                  if(userEntry.isAdmin()){
+                %>
                 <li class="nav-item dropdown">
                   <a href="" class="nav-link text-dark navitems dropdown-toggle" data-toggle="dropdown">
                     <span class=""> 管    理 </span></a>
@@ -71,7 +75,7 @@
                   </ul>
                 </li>
                 <%
-                  }else{
+                  }}else{
                 %>
                 <li class="nav-item">
                   <a href="signup.jsp" class="nav-link text-dark navitems">

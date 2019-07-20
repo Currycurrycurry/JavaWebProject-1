@@ -99,8 +99,9 @@ public class UserEntry {
         return loginTime;
     }
 
-    public UserEntry setProperties(String account,boolean isAdmin,String email,String name,Timestamp loginTime){
+    public UserEntry setProperties(int userID,String account,boolean isAdmin,String email,String name,Timestamp loginTime){
         UserEntry userEntry = new UserEntry();
+        setId(userID);
         setAccount(account);
         setAdmin(isAdmin);
         setEmail(email);

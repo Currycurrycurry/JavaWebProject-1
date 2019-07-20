@@ -60,58 +60,61 @@
 <br>
 <div class="container">
     <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6" style="background-color:lavender;">
-            <br><br>
+        <div class="col-2"></div>
+        <div class="col-8" style="background-color:lavender;">
+            <br>
             <form action="/sign" method="post" class="container" id="form">
-                <table>
-                    <tr>
-                        <td>账号:</td>
-                        <td><input class="form-control" type="text" name = "account" id = "account" placeholder="account[4-15]"
-                                   value="<%=array[0]%>">
-                        <td><span id="tic1">
+                <div class="form-group row">
+                    <div class="col-2">账号:</div>
+                    <div class="col-5"><input class="form-control" type="text" name = "account" id = "account"
+                                placeholder="account[4-15]" value="<%=array[0]%>"></div>
+                    <div class="col-5"><span id="tic1">
                         <%if(request.getAttribute("account_exist")!=null) out.print((String)request.getAttribute("account_exist"));%>
-                    </span></td>
-                    </tr>
-                    <tr>
-                        <td>密码:</td>
-                        <td><input class="form-control" type="password" name="password" id = "password" placeholder="password[6-10]"
-                                   value="<%=array[1]%>"></td>
-                        <td><span id="tic2"></span></td>
-                    </tr>
-                    <tr>
-                        <td>确认密码:</td>
-                        <td><input class="form-control" type="password" name="password_again" id = "password_again" placeholder="password again"
-                                   value="<%=array[1]%>"></td>
-                        <td><span id="tic3"></span></td>
-                    </tr>
-                    <tr>
-                        <td>昵称:</td>
-                        <td><input class="form-control" type="text" name = "name" id = "name" placeholder="username"
-                                   value="<%=array[2]%>"></td>
-                        <td><span id="tic4"></span></td>
-                    </tr>
-                    <tr>
-                        <td>邮箱:</td>
-                        <td><input class="form-control" type="email" name="email" id = "email" placeholder="Email address"
-                                   value="<%=array[3]%>"></td>
-                        <td><span id="tic5"></span></td>
-                    </tr>
-                    <tr>
-                        <td>验证码:</td>
-                        <td><input class="form-control" type="text" name="code" id = "code" placeholder="Verification code"
-                                   value="<%=array[4]%>"></td>
-                        <td><img id="vCode" src="VerifyCodeServlet" />
-                        <a href="javascript:_change()">看不清，换一张</a></td>
-                        <td><span id="tic6">
+                    </span></div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-2">密码:</div>
+                    <div class="col-5"> <input class="form-control" type="password" name="password" id = "password" placeholder="password[6-10]"
+                                               value="<%=array[1]%>"></div>
+                    <div class="col-5"><span id="tic2"></span></div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-2">确认密码:</div>
+                    <div class="col-5"><input class="form-control" type="password" name="password_again" id = "password_again" placeholder="password again"
+                                              value="<%=array[1]%>"></div>
+                    <div class="col-5"><span id="tic3"></span></div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-2">昵称:</div>
+                    <div class="col-5"><input class="form-control" type="text" name = "name" id = "name" placeholder="username"
+                                              value="<%=array[2]%>"></div>
+                    <div class="col-5"><span id="tic4"></span></div>
+                </div>
+                <div class="form-group row ">
+                    <div class="col-2">邮箱:</div>
+                    <div class="col-5"><input class="form-control" type="email" name="email" id = "email" placeholder="Email address"
+                                              value="<%=array[3]%>"></div>
+                    <div class="col-5"><span id="tic5"></span></div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-2">验证码:</div>
+                    <div class="col-5"><input class="form-control" type="text" name="code" id = "code" placeholder="Verification code"
+                                              value="<%=array[4]%>"></div>
+                    <div class="col-2"><img id="vCode" src="VerifyCodeServlet" /></div>
+                    <div class="col-3">
+                        <a href="javascript:_change()">看不清，换一张</a>
+                        <span id="tic6">
                             <%if(request.getAttribute("vCode")!=null)
-                                out.print((String)request.getAttribute("vCode"));%></span></td>
-                    </tr>
-                </table>
+                                out.print((String)request.getAttribute("vCode"));
+                            %>
+                        </span>
+                    </div>
+                </div>
                 <div class="text-center text-danger" id="safe"></div>
                 <br>
-                <div class="form-group text-center">
-                    <input type="button" onclick="safe()" class="btn btn-info" value="Sign">
+                <div class="form-group text-center row">
+                    <div class="col-5"></div>
+                    <input type="button" onclick="safe()" class="btn btn-info col-2" value="Sign">
                 </div>
             </form>
         </div>
@@ -122,87 +125,8 @@
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/user.js"></script>
 <script type = "text/javascript">
-    function safe() {
-        account1();pass1();pass2();name1();email();code1();
-        if(account1()&&pass1()&&pass2()&&name1()&&code1()&&email()){
-            var form = document.getElementById('form');
-            form.submit();
-        } else {
-            document.getElementById('safe').innerHTML="请确认信息非空！";
-        }
-    }
-
-    function account1(){
-        var account = document.getElementById('account').value;
-        if(account.length>15){
-            document.getElementById('tic1').innerHTML="账号不能超过15位";
-            return false;
-        } else if(account.length<4){
-            document.getElementById('tic1').innerHTML="账号不能小于4位";
-            return false;
-        } else {
-            document.getElementById('tic1').innerHTML="";
-            return true;
-        }
-    }
-
-    function pass1() {
-        var pass1 = document.getElementById('password').value;
-        if(pass1.length<6||pass1.length>10){
-            document.getElementById('tic2').innerHTML="密码在6-10位之间";
-            return false;
-        } else {
-            document.getElementById('tic2').innerHTML="";
-            return true;
-        }
-    }
-
-    function pass2() {
-        var pass1 = document.getElementById('password').value;
-        var pass2 = document.getElementById('password_again').value;
-        if(pass2==pass1){
-            document.getElementById('tic3').innerHTML="";
-            return true;
-        }
-        else{
-            document.getElementById('tic3').innerHTML="两次密码不相同";
-            return false;
-        }
-    }
-
-    function name1() {
-        var y = document.getElementById('name').value;
-        if(y==""){
-            document.getElementById('tic4').innerHTML="昵称不能为空";
-            return false;
-        }
-        else {document.getElementById('tic4').innerHTML="";return true;}
-    }
-
-    function email(){
-        var t = document.getElementById('email').value;
-        var pattern = /^[0-9a-zA-Z_]{2,18}@[0-9a-z]+.com$/;
-        if(pattern.test(t)){
-            document.getElementById('tic5').innerHTML="";
-            return true}
-        else{
-            document.getElementById('tic5').innerHTML="x(2-18位)@x.com";
-            return false;
-        }
-    }
-
-    function code1() {
-        var code = document.getElementById('code').value;
-        return code!="";
-    }
-
-    //修改验证码
-    function _change() {
-        var imgEle = document.getElementById('vCode');
-        imgEle.src = "VerifyCodeServlet?"+new Date().getTime();
-    }
-
     //下拉菜单
     $(document).ready(function(){
         $(document).off('click.bs.dropdown.data-api');
