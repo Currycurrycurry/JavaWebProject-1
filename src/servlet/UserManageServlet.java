@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @WebServlet(name = "UserManageServlet",value="/userManage")
@@ -22,7 +23,8 @@ public class UserManageServlet extends HttpServlet {
             UserDaoImpl userDao = DaoFactory.getUserDaoInstance();
             String account = request.getParameter("account");
             String password = request.getParameter("password");
-            String name= request.getParameter("name");
+            String sName = request.getParameter("name");
+            String name = new String(sName.getBytes("ISO8859_1"), StandardCharsets.UTF_8);
             String email = request.getParameter("email");
             String admin = request.getParameter("isAdmin");
             boolean isAdmin = "1".equals(admin);
@@ -44,7 +46,6 @@ public class UserManageServlet extends HttpServlet {
             String deleteUserString = request.getParameter("deleteUserId");
             String userIdString = request.getParameter("userId");
             String changeAdmin = request.getParameter("changeAdmin");
-            System.out.println(changeAdmin);
 
             if(deleteUserString!=null){
                 int deleteUserId = Integer.parseInt(deleteUserString);
@@ -59,7 +60,6 @@ public class UserManageServlet extends HttpServlet {
                 }else{
                     userDao.updateAdmin(userID,true);
                 }
-
                 request.removeAttribute("userId");
                 request.removeAttribute("changeAdmin");
             }

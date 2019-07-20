@@ -168,30 +168,45 @@
         <div class="col-6"></div>
         <div class="col-6" style="background-color:lavender;">
             <br>
-            <form action="/userManage" class="container" method="post" id="form">
+            <form action="/userManage" class="container" method="post" id="form1">
                 <div class="form-group row">
                     <div class="col-2">账号:</div>
-                    <div class="col-5"><input type="text" class="form-control" name="account"></div>
+                    <div class="col-5">
+                        <input type="text" class="form-control" name="account" id="account">
+                    </div>
+                    <div>
+                        <%if(request.getAttribute("isExist")!=null){%>
+                        <%=request.getAttribute("isExist")%>
+                        <%}%>
+                    </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-2">密码:</div>
-                    <div class="col-5"><input type="password" class="form-control" name="password"></div>
+                    <div class="col-5">
+                        <input type="password" class="form-control" name="password" id="password">
+                    </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-2">邮箱:</div>
-                    <div class="col-5"><input type="text" class="form-control" name="email"></div>
+                    <div class="col-5">
+                        <input type="text" class="form-control" name="email" id="email">
+                    </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-2">昵称:</div>
-                    <div class="col-5"><input type="text" class="form-control" name="name"></div>
+                    <div class="col-5">
+                        <input type="text" class="form-control" name="name" id="name">
+                    </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-2">是否为管理:</div>
-                    <div class="col-5"><input type="text" class="form-control" name="isAdmin" placeholder="1为管理员 0为普通用户"></div>
+                    <div class="col-5">
+                        <input type="text" class="form-control" name="isAdmin" id="isAdmin" placeholder="1为管理员 0为普通用户">
+                    </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-2"></div>
-                    <div class="col-4"><input type="button" class="btn" onclick="safe()" value="提交"></div>
+                    <div class="col-4"><input type="button" class="btn" onclick="can_sub()" value="提交"></div>
                 </div>
                 <br>
                 <div class="form-group">
@@ -206,18 +221,22 @@
 <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript">
-    function safe(){
-        var account = document.getElementById("account").value;
-        var password = document.getElementById("password").value;
-        var name = document.getElementById("name").value;
-        var email = document.getElementById("email").value;
-        var isAdmin = document.getElementById("isAdmin").value;
+    function can_sub(){
+        var account = document.getElementById('account').value;
+        var password = document.getElementById('password').value;
+        var name = document.getElementById('name').value;
+        var email = document.getElementById('email').value;
+        var isAdmin = document.getElementById('isAdmin').value;
+
+        if(account==null||password==null||name==null||email==null||isAdmin==null){
+            document.getElementById('tip').innerHTML="信息不能为空！";
+        }
 
         if(account==""||password==""||name==""||email==""||isAdmin==""){
-            document.getElementById("tip").innerHTML="信息不能为空！";
+            document.getElementById('tip').innerHTML="信息不能为空！";
         }else{
-            document.getElementById("tip").innerHTML="";
-            var form = document.getElementById("form");
+            document.getElementById('tip').innerHTML="";
+            var form = document.getElementById('form1');
             form.submit();
         }
     }

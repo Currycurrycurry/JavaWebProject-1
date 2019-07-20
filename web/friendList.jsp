@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>人员管理</title>
+    <title>好友列表</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-grid.css">
     <link rel="stylesheet" href="css/bootstrap-reboot.css">
@@ -17,7 +17,6 @@
 <body>
 <%
     if (session.getAttribute("user")==null){
-
         response.sendRedirect("/index.jsp");
     }
 %>
@@ -48,7 +47,7 @@
                                 <li class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="collection.jsp">我的收藏</a></li>
                                 <li class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">登    出</a></li>
+                                <li><a class="dropdown-item" href="/LoginOutServlet">登    出</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -56,9 +55,9 @@
                                 <span class=""> 管    理 </span></a>
                             <b class="caret"></b>
                             <ul class="dropdown-menu text-center">
-                                <li><a class="dropdown-item" href="#">用户管理</a></li>
+                                <li><a class="dropdown-item" href="userManage.jsp">用户管理</a></li>
                                 <li class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">展品管理</a></li>
+                                <li><a class="dropdown-item" href="itemsManage.jsp">展品管理</a></li>
                             </ul>
                         </li>
                     </ul>
