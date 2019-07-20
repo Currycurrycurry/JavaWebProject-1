@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -123,6 +124,65 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public void sendRequest(int sendFrom_ID,int sendTo_ID)throws Exception{
+        String sql = "SELECT * FROM friendRequest WHERE sendFrom_ID = ? AND sendTo_ID = ?";
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1,sendFrom_ID);
+        statement.setInt(2,sendTo_ID);
+        ResultSet re =  statement.executeQuery();
+
+        if(!re.next()){
+            String sql1 = "INSERT into friendRequest(sendFrom_ID, sendTo_ID) values(?,?)";
+            statement = connection.prepareStatement(sql1);
+            statement.setInt(1,sendFrom_ID);
+            statement.setInt(2,sendTo_ID);
+            statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void reject(int sendFrom_ID,int sendTo_ID)throws Exception{
+        String sql = "DELETE FROM friendRequest WHERE sendFrom_ID = ? AND sendTo_ID = ?";
+        statement=connection.prepareStatement(sql);
+        statement.setInt(1,sendFrom_ID);
+        statement.setInt(2,sendTo_ID);
+
+        int row = statement.executeUpdate();
+        if(row>0){
+            System.out.println("reject success!");
+        }else{
+            System.out.println("reject failed!");
+        }
+
+    }
+
+    @Override
+    public void agree(int sendFrom_ID,int sendTo_ID)throws Exception{
+        String sql = "DELETE FROM friendRequest WHERE sendFrom_ID = ? AND sendTo_ID = ?";
+        statement=connection.prepareStatement(sql);
+        statement.setInt(1,sendFrom_ID);
+        statement.setInt(2,sendTo_ID);
+
+        int row = statement.executeUpdate();
+        if(row>0){
+            System.out.println("agree success!");
+        }else{
+            System.out.println("agree failed!");
+        }
+
+        sql = "INSERT into friendRelation(userID, friendID) values(?,?)";
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1,sendTo_ID);
+        statement.setInt(2,sendFrom_ID);
+        row = statement.executeUpdate();
+        if(row>0){
+            System.out.println("add friend success!");
+        }else{
+            System.out.println("add friend failed!");
+        }
+    }
+
+    @Override
     public void insertAccount(UserEntry userEntry)throws Exception{
         String sql = "INSERT into users(account,name,email,signature,isAdmin,password,loginTime) values(?,?,?,?,?,?,?)";
         statement = connection.prepareStatement(sql);
@@ -141,6 +201,111 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    @Override
+    public List<UserEntry> findFriend(int userID)throws Exception{
+        List<UserEntry> userEntries;
+        List<Integer> userIDs = new ArrayList<>();
 
+        String sql = "SELECT * FROM friendRelation WHERE userID = ?";
+        statement=connection.prepareStatement(sql);
+        statement.setInt(1,userID);
+        ResultSet resultSet =  statement.executeQuery();
+
+        while (resultSet.next()){
+            int user = resultSet.getInt("friendID");
+            userIDs.add(user);
+        }
+
+        userEntries = getAllUser(userIDs);
+        return userEntries;
+    }
+
+    @Override
+    public void deleteFriend(int userID,int friendID)throws Exception{
+        String sql = "DELETE FROM friendRelation WHERE userID = ? AND friendID = ?";
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1,userID);
+        statement.setInt(2,friendID);
+        int row = statement.executeUpdate();
+        if(row>0){
+            System.out.println("Delete friend success!");
+        }else{
+            System.out.println("Delete friend failed!");
+        }
+    }
+
+    @Override
+    public List<UserEntry> findFriendRequest(int sendTo_ID)throws Exception{
+        List<UserEntry> userEntries;
+        List<Integer> userIDs = new ArrayList<>();
+        String sql = "SELECT * FROM friendRequest WHERE sendTo_ID = ?";
+        statement=connection.prepareStatement(sql);
+        statement.setInt(1,sendTo_ID);
+        ResultSet resultSet =  statement.executeQuery();
+
+        while (resultSet.next()){
+            int user = resultSet.getInt("sendFrom_ID");
+            userIDs.add(user);
+        }
+
+        userEntries = getAllUser(userIDs);
+        return userEntries;
+    }
+
+    @Override
+    public HashMap<UserEntry,Integer> findUser(int userID,String searchName)throws Exception{
+        HashMap<UserEntry,Integer> userLists = new HashMap<>();
+        String sql = "SELECT * FROM users WHERE name LIKE ?";
+        statement=connection.prepareStatement(sql);
+        statement.setString(1,"%"+searchName+"%");
+        ResultSet re = statement.executeQuery();
+
+        while ((re.next())){
+            UserEntry user = new UserEntry();
+            int user2 = re.getInt("userID");
+
+            user.setId(user2);
+            user.setName(re.getString("name"));
+            int isFriend = isFriend(userID,user2);
+            userLists.put(user,isFriend);
+        }
+
+        return userLists;
+    }
+
+    private List<UserEntry> getAllUser(List<Integer> list)throws Exception{
+        List<UserEntry> userEntries = new ArrayList<>();
+        PreparedStatement st;
+        ResultSet re;
+
+        for(int i:list){
+            String sql1 = "SELECT * FROM users WHERE userID = ?";
+            st=connection.prepareStatement(sql1);
+            st.setInt(1,i);
+            re = st.executeQuery();
+
+            if(re.next()){
+                UserEntry userEntry = new UserEntry();
+                userEntry.setProperties(re.getInt("userID"),
+                        re.getString("account"),re.getBoolean("isAdmin"),
+                        re.getString("email"),re.getString("name"),
+                        re.getTimestamp("loginTime"));
+                userEntries.add(userEntry);
+            }
+        }
+        return userEntries;
+    }
+
+    //判断user2 是不是 user1 的好友  1-shi   0 - fou
+    private int isFriend(int user1,int user2)throws Exception{
+        String sql1 = "SELECT * FROM friendRelation WHERE userID = ? AND friendID = ?";
+        PreparedStatement st;
+        st=connection.prepareStatement(sql1);
+        st.setInt(1,user1);
+        st.setInt(2,user2);
+        ResultSet re = st.executeQuery();
+        if(re.next()) return 1;
+        return 0;
+    }
 
 }

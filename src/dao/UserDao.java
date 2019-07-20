@@ -3,6 +3,7 @@ package dao;
 import bean.UserEntry;
 import jdk.nashorn.internal.runtime.ECMAException;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -26,5 +27,22 @@ public interface UserDao {
     public void updateLoginTime(UserEntry userEntry)throws Exception;
 
     public void updateAdmin(int userID,boolean isAdmin)throws Exception;
+
+    public List<UserEntry> findFriend(int userID)throws Exception;
+
+    public void deleteFriend(int userID,int friendID)throws Exception;
+
+    public void sendRequest(int sendFrom_ID,int sendTo_ID)throws Exception;
+
+    public void reject(int sendFrom_ID,int sendTo_ID)throws Exception;
+
+    public void agree(int sendFrom_ID,int sendTo_ID)throws Exception;
+
+    public List<UserEntry> findFriendRequest(int sendTo_ID)throws Exception;
+
+    public HashMap<UserEntry,Integer> findUser(int userID, String searchName)throws Exception;
+
+
+
 
 }

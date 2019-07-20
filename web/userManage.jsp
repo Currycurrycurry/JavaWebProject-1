@@ -148,7 +148,6 @@
                         </button>
                     </div>
                 </div>
-                <span hidden id=""><%=userEntry.getId()%>></span>
             </li>
             <%
                 }
