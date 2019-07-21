@@ -125,7 +125,7 @@
                         <div class="row">
                             <div class="col-3 text-center"><%=friend.getName()%></div>
                             <div class="col-3 text-center"><button class="btn btn-secondary" href="#">前往主页</button></div>
-                            <div class="col-3 text-center"><button class="btn btn-info" href="#">发送消息</button></div>
+                            <div class="col-3 text-center"><button class="btn btn-info" href="/Message.jsp?id=<%=friend.getId()%>">发送消息</button></div>
                             <div class="col-3 text-center">
                                 <button class="btn btn-danger" onclick="deleteFriend(<%=friend.getId()%>)">删除好友</button>
                             </div>
@@ -160,10 +160,12 @@
                             <div class="col-3 text-center"></div>
                             <div class="col-3 text-center"><button class="btn btn-secondary" href="#">前往主页</button></div>
                             <div class="col-3 text-center">
-                                <%if(entry.getValue()==0){%>
-                                <button class="btn btn-info" onclick="addUser(<%=entry.getKey().getId()%>)">添加</button>
+                                <%if(entry.getValue()==1){%>
+                                <button class="btn" onclick="deleteFriend(<%=entry.getKey().getId()%>)">删除好友</button>
+                                <%}else if(entry.getValue()==0){%>
+                                <button class="btn">已申请</button>
                                 <%}else{%>
-                                <button class="btn">好友</button>
+                                <button class="btn btn-info" onclick="addUser(<%=entry.getKey().getId()%>)">添加好友</button>
                                 <%}%>
                             </div>
                         </div>

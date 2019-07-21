@@ -296,7 +296,7 @@ public class UserDaoImpl implements UserDao {
         return userEntries;
     }
 
-    //判断user2 是不是 user1 的好友  1-shi   0 - fou
+    //判断user2 是不是 user1 的好友  1-是好友   0-user1已经发送请求  -1-其他情况
     private int isFriend(int user1,int user2)throws Exception{
         String sql1 = "SELECT * FROM friendRelation WHERE userID = ? AND friendID = ?";
         PreparedStatement st;
@@ -305,7 +305,18 @@ public class UserDaoImpl implements UserDao {
         st.setInt(2,user2);
         ResultSet re = st.executeQuery();
         if(re.next()) return 1;
-        return 0;
+
+        sql1 = "SELECT * FROM friendRequest WHERE sendFrom_ID = ? AND sendTo_ID = ?";
+        st=connection.prepareStatement(sql1);
+        st.setInt(1,user1);
+        st.setInt(2,user2);
+        re=st.executeQuery();
+        if(re.next()) return 0;
+
+
+
+        return -1;
     }
+
 
 }
