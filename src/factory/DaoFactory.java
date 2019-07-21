@@ -1,7 +1,9 @@
 package factory;
 
+import bean.Message;
 import dao.CollectionDaoImpl;
 import dao.ItemDaoImpl;
+import dao.MessageDaoImpl;
 import dao.UserDaoImpl;
 import database.DBConnection;
 
@@ -21,5 +23,9 @@ public class DaoFactory {
 
     public static CollectionDaoImpl getCollectionDaoInstance() throws Exception{
         return new CollectionDaoImpl(new DBConnection().getConnection()) ;
+    }
+
+    public static MessageDaoImpl getMessageDaoInstance()throws Exception{
+        return new MessageDaoImpl(new DBConnection().getConnection());
     }
 }

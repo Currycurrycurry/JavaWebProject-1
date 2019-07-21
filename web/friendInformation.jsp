@@ -1,4 +1,5 @@
-<%@ page import="bean.UserEntry" %><%--
+<%@ page import="bean.UserEntry" %>
+<%--
   Created by IntelliJ IDEA.
   User: YXH
   Date: 2019/7/14
@@ -15,6 +16,22 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
+
+<%
+    if (session.getAttribute("user")==null){
+        response.sendRedirect("/index.jsp");
+    }
+
+    String ss = request.getParameter("friendID");
+
+    if(request.getAttribute("friendInformation") == null){
+        request.getRequestDispatcher("/friendInfo?friendID="+ss).forward(request,response);
+    }
+
+    UserEntry friendEntry = (UserEntry)request.getAttribute("friendInformation");
+    int relation = (Integer)request.getAttribute("relation");
+%>
+
 <div id="nav-back">
     <div id="navitems-row">
         <div class="container">
@@ -76,6 +93,46 @@
         </div>
     </div>
 </div>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-3" style="background-color:lavender;">
+            <br>
+            <form class="container" action="/friendInfo" method="post">
+                <div class="form-group">
+                    <label>昵称:</label><%=friendEntry.getName()%>
+                </div>
+                <div>
+                    <label>个性签名:</label><br>
+                    <label><%=friendEntry.getSignature()%></label>
+                </div>
+                <div class="form-group">
+                    <label>邮箱:</label><%=friendEntry.getEmail()%>
+                </div>
+                <div class="form-group">
+                    <input value="<%=friendEntry.getId()%>" name="friend-id" hidden>
+                    <%if(relation==0){%>
+                    <button class="btn btn-danger" type="submit" name="opt" value="delete">删除好友</button>
+                    <%}else if(relation==1){%>
+                    <input type="button" class="btn" value="已申请">
+                    <%}else if(relation==2){%>
+                    <button class="btn btn-info" type="submit" name="opt" value="agree">接受请求</button>
+                    <%}else{%>
+                    <button class="btn btn-info" type="submit" name="opt" value="send">申请好友</button>
+                    <%}%>
+                </div>
+            </form>
+        </div>
+        <div class="col-8">
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
 
 
 
@@ -84,10 +141,12 @@
 <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 
-<script>/*下拉菜单*/
-$(document).ready(function(){
-    $(document).off('click.bs.dropdown.data-api');
-});</script>
+<script type="text/javascript">
+    /*下拉菜单*/
+    $(document).ready(function(){
+        $(document).off('click.bs.dropdown.data-api');
+    });
+</script>
 
 </body>
 </html>

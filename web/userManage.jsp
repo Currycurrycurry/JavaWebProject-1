@@ -57,7 +57,7 @@
                                 <li class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="friendList.jsp">好友列表</a></li>
                                 <li class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="Message.jsp">消    息</a></li>
+                                <li><a class="dropdown-item" href="message.jsp">消    息</a></li>
                                 <li class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="collection.jsp">我的收藏</a></li>
                                 <li class="dropdown-divider"></li>

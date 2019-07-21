@@ -1,3 +1,8 @@
+<%@ page import="bean.UserEntry" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.sql.Timestamp" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="bean.Message" %>
 <%--
   Created by IntelliJ IDEA.
   User: YXH
@@ -15,6 +20,25 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
+<%
+    if(session.getAttribute("user")==null){
+        System.out.println("请登录！");
+        response.sendRedirect("/login.jsp");
+    }
+
+    String friend =request.getParameter("friend");
+    int friendID = Integer.parseInt(friend);
+
+    if(request.getAttribute("messageLists")==null){
+        request.getRequestDispatcher("/message").forward(request,response);
+    }
+
+    UserEntry user = (UserEntry) session.getAttribute("user");
+    String userName = user.getName();
+    String friendName =(String) request.getAttribute("friendName");
+%>
+
+
 <div id="nav-back">
     <div id="navitems-row">
         <div class="container">
@@ -42,6 +66,10 @@
                                 <li><a class="dropdown-item" href="/LoginOutServlet">登    出</a></li>
                             </ul>
                         </li>
+
+                        <%
+                            if(user.isAdmin()){
+                        %>
                         <li class="nav-item dropdown">
                             <a href="" class="nav-link text-dark navitems dropdown-toggle" data-toggle="dropdown">
                                 <span class=""> 管    理 </span></a>
@@ -52,6 +80,9 @@
                                 <li><a class="dropdown-item" href="itemsManage.jsp">展品管理</a></li>
                             </ul>
                         </li>
+                        <%
+                            }
+                        %>
                     </ul>
                 </div>
             </div>
@@ -70,15 +101,61 @@
         </div>
     </div>
 </div>
-
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <form class="form-control">
+                <h3 style="color: dodgerblue">与<%=friendName%>的聊天记录</h3>
+                <div style="min-height: 500px">
+                    <%
+                        List<Message> messageLists = (List<Message>) request.getAttribute("messageLists");
+                        for(Message message:messageLists){
+                            if( friendID == message.getUserID()){
+                    %>
+                    <div class="row">
+                        <div class="col-6">
+                            <label style="color: cornflowerblue"><%=friendName%>&emsp;&emsp;<%=message.getSendTime()%></label><br>
+                            <label><%=message.getMess()%></label>
+                        </div>
+                        <div class="col-6"></div>
+                    </div>
+                    <%}else{%>
+                    <div class="row">
+                        <div class="col-6"></div>
+                        <div class="col-6">
+                            <label style="color: cornflowerblue"><%=userName%>&emsp;&emsp;<%=message.getSendTime()%></label><br>
+                            <label><%=message.getMess()%></label>
+                        </div>
+                    </div>
+                    <%}}%>
+                </div>
+                <div class="row">
+                    <input class="input-group col-9" type="text" id="mess" name ="mess">
+                    <button type="button" id="bt1" value="<%=friendID%>"
+                            onclick="sendMess()" class="btn btn-secondary col-3 text-center">发送</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 
-<script>/*下拉菜单*/
-$(document).ready(function(){
-    $(document).off('click.bs.dropdown.data-api');
-});</script>
+<script type="text/javascript">
+    function sendMess(){
+        var s = document.getElementById("mess").value;
+        var f = document.getElementById("bt1").value;
+        location.href = "/message?friend="+f+"&message="+s;
+    }
+
+    /*下拉菜单*/
+    $(document).ready(function(){
+        $(document).off('click.bs.dropdown.data-api');
+    });
+</script>
 </body>
 </html>

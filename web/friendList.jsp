@@ -52,8 +52,6 @@
                                 <li class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="friendList.jsp">好友列表</a></li>
                                 <li class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="Message.jsp">消    息</a></li>
-                                <li class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="collection.jsp">我的收藏</a></li>
                                 <li class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="/LoginOutServlet">登    出</a></li>
@@ -124,8 +122,8 @@
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-3 text-center"><%=friend.getName()%></div>
-                            <div class="col-3 text-center"><button class="btn btn-secondary" href="#">前往主页</button></div>
-                            <div class="col-3 text-center"><button class="btn btn-info" href="/Message.jsp?id=<%=friend.getId()%>">发送消息</button></div>
+                            <div class="col-3 text-center"><button class="btn btn-secondary" onclick="visit(<%=friend.getId()%>)">前往主页</button></div>
+                            <div class="col-3 text-center"><button class="btn btn-info" onclick="mess(<%=friend.getId()%>)">发送消息</button></div>
                             <div class="col-3 text-center">
                                 <button class="btn btn-danger" onclick="deleteFriend(<%=friend.getId()%>)">删除好友</button>
                             </div>
@@ -158,14 +156,16 @@
                         <div class="row">
                             <div class="col-3 text-center"><%=entry.getKey().getName()%></div>
                             <div class="col-3 text-center"></div>
-                            <div class="col-3 text-center"><button class="btn btn-secondary" href="#">前往主页</button></div>
+                            <div class="col-3 text-center"><button class="btn btn-secondary" onclick="visit(<%=entry.getKey().getId()%>)">前往主页</button></div>
                             <div class="col-3 text-center">
-                                <%if(entry.getValue()==1){%>
-                                <button class="btn" onclick="deleteFriend(<%=entry.getKey().getId()%>)">删除好友</button>
-                                <%}else if(entry.getValue()==0){%>
+                                <%if(entry.getValue()==0){%>
+                                <button class="btn btn-danger" onclick="deleteFriend(<%=entry.getKey().getId()%>)">删除好友</button>
+                                <%}else if(entry.getValue()==1){%>
                                 <button class="btn">已申请</button>
+                                <%}else if(entry.getValue()==2){%>
+                                <button class="btn btn-info" onclick="agreeUser(<%=entry.getKey().getId()%>)">接受请求</button>
                                 <%}else{%>
-                                <button class="btn btn-info" onclick="addUser(<%=entry.getKey().getId()%>)">添加好友</button>
+                                <button class="btn btn-info" onclick="addUser(<%=entry.getKey().getId()%>)">申请好友</button>
                                 <%}%>
                             </div>
                         </div>
@@ -194,7 +194,7 @@
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-3 text-center"><%=strange.getName()%></div>
-                            <div class="col-3 text-center"><button class="btn btn-secondary" href="#">前往主页</button></div>
+                            <div class="col-3 text-center"><button class="btn btn-secondary" onclick="visit(<%=strange.getId()%>)">前往主页</button></div>
                             <div class="col-3 text-center">
                                 <button class="btn btn-info" onclick="agreeUser(<%=strange.getId()%>)">同意</button>
                             </div>
@@ -220,6 +220,14 @@
 <script type="text/javascript" src="js/bootstrap.js"></script>
 
 <script type="text/javascript">
+
+    function visit(friendID) {
+        location.href = "/friendInformation.jsp?friendId="+friendID;
+    }
+
+    function mess(friendID) {
+        location.href = "/message.jsp?friend="+friendID;
+    }
 
     //删除好友
     function deleteFriend(friendID) {

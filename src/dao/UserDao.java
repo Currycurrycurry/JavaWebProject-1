@@ -42,7 +42,6 @@ public interface UserDao {
 
     public HashMap<UserEntry,Integer> findUser(int userID, String searchName)throws Exception;
 
-
-
+    public UserEntry findById(int userID)throws Exception;
 
 }
