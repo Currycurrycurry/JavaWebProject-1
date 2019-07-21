@@ -40,6 +40,7 @@ public class DetailServlet extends HttpServlet {
             }
             ItemDaoImpl itemDao = DaoFactory.getItemDaoInstance();
             Item item = itemDao.findById(itemId);
+
             boolean isCollected = false;
             if(request.getSession().getAttribute("user") != null){
                 isCollected = itemDao.isCollectedByUser(itemId,((UserEntry)request.getSession().getAttribute("user")).getId());

@@ -22,4 +22,8 @@ public interface ItemDao {
 
     public boolean isCollectedByUser(int itemID, int userID) throws Exception;
 
+    public List<Item> findByKeyword(String keyword) throws Exception;
+
+    public List<Item> findByKeywordAndPage(String keyword,int page) throws Exception;
+
 }

@@ -1,4 +1,8 @@
-<%@ page import="bean.UserEntry" %><%--
+<%@ page import="bean.UserEntry" %>
+<%@ page import="java.util.List" %>
+<%@ page import="bean.Item" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="static dao.ItemDaoImpl.PAGE_SIZE" %><%--
   Created by IntelliJ IDEA.
   User: YXH
   Date: 2019/7/14
@@ -92,7 +96,71 @@
         </div>
     </div>
 </div>
+<%
+
+    List<Item> items;
+    if(request.getAttribute("items") == null){
+        response.sendRedirect("/search?keyword=");
+    }
+    items = (List<Item>)request.getAttribute("items");
+    int pageSize = PAGE_SIZE;
+    int num = items.size();
+
+%>
 <br>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h4>
+                搜索到<%=request.getAttribute("numOfItems")%>条关于"<%=request.getAttribute("keyword")%>"的展品
+            </h4>
+        </div>
+    </div>
+    <br>
+    <div id="showResult">
+        <%
+            for(int i = 0 ; i < (num-1)/pageSize+1 ;i++){
+        %>
+        <div class="row">
+            <%
+                for(int j = 0 ; j < ((num-i*pageSize)>pageSize?pageSize:(num-i*pageSize)); j++){
+            %>
+            <div class="col-3">
+                <div class="card">
+                    <a href="detail.jsp?id=<%=items.get(i*pageSize+j).getItemId()%>"><img class="card-img-top" src="<%=items.get(i*pageSize+j).getImagePath()%>" alt="<%=items.get(i*pageSize+j).getImagePath()%>.jpg"></a>
+                    <div class="card-body">
+                        <a class="card-link" href="detail.jsp?id=<%=items.get(i*pageSize+j).getItemId()%>">
+                            <h5 class="text-muted"><%=items.get(i*pageSize+j).getName()%></h5>
+                            <p class="text-dark"><%=items.get(i*pageSize+j).getDescription().substring(0,20)%>...</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <%
+                }
+            %>
+        </div><br>
+        <%
+            }
+        %>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <p class="float-right form-text h4">
+                <span id="nowPage">1</span>/<span id="totalPage"><%=request.getAttribute("totalPage")%></span>页
+            </p>
+        </div>
+        <div class="col-1">
+            <input class="form-control" title="" placeholder="页数" id="pageInput">
+        </div>
+        <div class="col-3">
+            <button class="btn btn-dark float-right" id="btNext">下一页</button>
+            <button class="btn btn-dark float-right" id="btPrevious">上一页</button>
+            <button class="btn btn-dark float-left" id="btJump">GO!</button>
+        </div>
+    </div>
+    <br>
+</div>
 
 
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
@@ -103,5 +171,6 @@
 $(document).ready(function(){
     $(document).off('click.bs.dropdown.data-api');
 });</script>
+<script type="text/javascript" src="js/search.js"></script>
 </body>
 </html>

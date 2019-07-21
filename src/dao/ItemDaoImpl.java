@@ -2,6 +2,7 @@ package dao;
 
 import bean.Item;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +15,7 @@ import java.util.List;
  * @time: 17:04
  */
 public class ItemDaoImpl implements ItemDao {
+    public static final int PAGE_SIZE = 8;
     private Connection connection = null;
     private PreparedStatement statement = null;
 
@@ -83,5 +85,42 @@ public class ItemDaoImpl implements ItemDao {
             flag = true;
         }
         return flag;
+    }
+
+    @Override
+    public List<Item> findByKeyword(String keyword) throws Exception{
+        List<Item> items = new ArrayList<>();
+        String sql = "SELECT * FROM item WHERE name LIKE '%"+keyword+"%' OR description LIKE '%"+keyword+"%' OR address LIKE '%"+keyword+"%' ORDER BY `view` DESC ";
+        statement = connection.prepareStatement(sql);
+        ResultSet re = statement.executeQuery();
+        while (re.next()){
+            Item item = new Item();
+            item.setProperties(re.getInt("itemID"),re.getString("name"),
+                    re.getString("imagePath"),re.getString("description"),
+                    re.getString("address"),re.getInt("view"),
+                    re.getTimestamp("timeReleased"),re.getString("year"));
+            items.add(item);
+        }
+        System.out.println(sql);
+        return items;
+    }
+
+    @Override
+    public List<Item> findByKeywordAndPage(String keyword, int page) throws Exception {
+        int startIndex = (page-1)*PAGE_SIZE;
+        List<Item> items = new ArrayList<>();
+        String sql = "SELECT * FROM item WHERE name LIKE '%"+keyword+"%' OR description LIKE '%"+keyword+"%' OR address LIKE '%"+keyword+"%'ORDER BY `view` DESC LIMIT "+startIndex+","+PAGE_SIZE;
+        statement = connection.prepareStatement(sql);
+        ResultSet re = statement.executeQuery();
+        while (re.next()){
+            Item item = new Item();
+            item.setProperties(re.getInt("itemID"),re.getString("name"),
+                    re.getString("imagePath"),re.getString("description"),
+                    re.getString("address"),re.getInt("view"),
+                    re.getTimestamp("timeReleased"),re.getString("year"));
+            items.add(item);
+        }
+        System.out.println(sql);
+        return items;
     }
 }
