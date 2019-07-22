@@ -1,4 +1,7 @@
 <%@ page import="bean.UserEntry" %>
+<%@ page import="java.util.List" %>
+<%@ page import="bean.Item" %>
+<%@ page import="java.util.ArrayList" %>
 <%--
   Created by IntelliJ IDEA.
   User: YXH
@@ -21,13 +24,13 @@
     if (session.getAttribute("user")==null){
         response.sendRedirect("/index.jsp");
     }
-
-    String ss = request.getParameter("friendID");
-
+    String friendID = request.getParameter("friendID");
+    List<Item> friendCollections = new ArrayList<>();
     if(request.getAttribute("friendInformation") == null){
-        request.getRequestDispatcher("/friendInfo?friendID="+ss).forward(request,response);
+        request.getRequestDispatcher("/friendInfo?friendID="+friendID).forward(request,response);
+    }else {
+        friendCollections = (List<Item>)request.getAttribute("friendCollections");
     }
-
     UserEntry friendEntry = (UserEntry)request.getAttribute("friendInformation");
     int relation = (Integer)request.getAttribute("relation");
 %>
@@ -98,40 +101,66 @@
 <br>
 <div class="container">
     <div class="row">
-        <div class="col-3" style="background-color:lavender;">
+        <div class="col-4">
             <br>
-            <form class="container" action="/friendInfo" method="post">
-                <div class="form-group">
-                    <label>昵称:</label><%=friendEntry.getName()%>
+
+            <div class="card">
+                <div class="card-header">
+                    <h4><%=friendEntry.getName()%></h4>
                 </div>
-                <div>
-                    <label>个性签名:</label><br>
-                    <label><%=friendEntry.getSignature()%></label>
+                <div class="card-body">
+                    <h5>个性签名:</h5>
+                    <p><%=friendEntry.getSignature()%></p>
+                    <h5>邮箱:</h5>
+                    <p><%=friendEntry.getEmail()%></p>
                 </div>
-                <div class="form-group">
-                    <label>邮箱:</label><%=friendEntry.getEmail()%>
+                <div class="card-footer">
+                    <form action="/friendInfo" method="post">
+                        <div class="form-group">
+                            <input value="<%=friendEntry.getId()%>" name="friend-id" hidden>
+                            <%if(relation==0){%>
+                            <button class="btn btn-danger" type="submit" name="opt" value="delete">删除好友</button>
+                            <%}else if(relation==1){%>
+                            <input type="button" class="btn" value="已申请">
+                            <%}else if(relation==2){%>
+                            <button class="btn btn-info" type="submit" name="opt" value="agree">接受请求</button>
+                            <%}else{%>
+                            <button class="btn btn-info" type="submit" name="opt" value="send">申请好友</button>
+                            <%}%>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <input value="<%=friendEntry.getId()%>" name="friend-id" hidden>
-                    <%if(relation==0){%>
-                    <button class="btn btn-danger" type="submit" name="opt" value="delete">删除好友</button>
-                    <%}else if(relation==1){%>
-                    <input type="button" class="btn" value="已申请">
-                    <%}else if(relation==2){%>
-                    <button class="btn btn-info" type="submit" name="opt" value="agree">接受请求</button>
-                    <%}else{%>
-                    <button class="btn btn-info" type="submit" name="opt" value="send">申请好友</button>
-                    <%}%>
-                </div>
-            </form>
+            </div>
+
         </div>
         <div class="col-8">
-
-
-
-
-
-
+            <div class="container">
+                <div class="row">
+                    <h4>TA的近期收藏</h4>
+                </div>
+                <%
+                    for(Item item : friendCollections){
+                        %>
+                <a href="detail.jsp?id=<%=item.getItemId()%>" class="card-link">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-3">
+                                <img class="card-img" src="<%=item.getImagePath()%>">
+                            </div>
+                            <div class="col-9">
+                                <div class="container">
+                                    <br>
+                                    <h5 class="text-dark"><%=item.getName()%></h5>
+                                    <p class="text-dark"><%=item.getDescription().substring(0,70)%>...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <%
+                    }
+                %>
+            </div>
         </div>
     </div>
 </div>

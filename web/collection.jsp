@@ -166,6 +166,7 @@
         }
     %>
     <br>
+    <hr>
     <div class="row">
         <div class="col-6">
             <h4>私有收藏夹</h4>
