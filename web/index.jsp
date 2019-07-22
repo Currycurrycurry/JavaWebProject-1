@@ -96,7 +96,9 @@
       <div class="row">
         <div class="col-8"></div>
         <div class="col-3">
-          <input type="text" class="form-control" id="search-input" placeholder="想要找什么展品呢">
+          <form method="get" id="search-form" action="/search">
+          <input type="text" class="form-control" id="search-input" placeholder="想要找什么展品呢" name="keyword">
+          </form>
         </div>
         <div class="col-1">
           <button class="btn btn-default" id="search-button">搜索</button>
@@ -217,7 +219,9 @@
   var btSearch = document.getElementById("search-button");
   btSearch.onclick = function () {
       var keyword = document.getElementById("search-input").value;
-      window.location.href = "/search?keyword="+keyword;
+      var form =  document.getElementById("search-form");
+      alert(keyword);
+      form.submit();
   }
 
   </script>

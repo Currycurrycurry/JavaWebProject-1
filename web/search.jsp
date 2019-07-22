@@ -44,12 +44,12 @@
                                 <span class=""> 主页 </span></a>
                         </li>
                         <%
-                            UserEntry user = (UserEntry) session.getAttribute("user");
-                            if(user!=null){
+                            Object o = session.getAttribute("user");
+                            if(o!=null){
                         %>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link text-dark navitems dropdown-toggle" data-toggle="dropdown">
-                                <span class=""> Admin001 </span></a>
+                                <span class="">${user.name}</span></a>
                             <b class="caret"></b>
                             <ul class="dropdown-menu text-center">
                                 <li><a class="dropdown-item" href="userInformation.jsp">个人信息</a></li>
@@ -62,19 +62,8 @@
                             </ul>
                         </li>
                         <%
-                        }else{
-                        %>
-                        <li class="nav-item">
-                            <a href="signup.jsp" class="nav-link text-dark navitems">
-                                <span class=""> 注册 </span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="login.jsp" class="nav-link text-dark navitems">
-                                <span class=""> 登录 </span></a>
-                        </li>
-                        <%
-                            }
-                            if(user!=null&&user.isAdmin()){
+                            UserEntry userEntry = (UserEntry)o;
+                            if(userEntry.isAdmin()){
                         %>
                         <li class="nav-item dropdown">
                             <a href="" class="nav-link text-dark navitems dropdown-toggle" data-toggle="dropdown">
@@ -85,6 +74,17 @@
                                 <li class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="itemsManage.jsp">展品管理</a></li>
                             </ul>
+                        </li>
+                        <%
+                            }}else{
+                        %>
+                        <li class="nav-item">
+                            <a href="signup.jsp" class="nav-link text-dark navitems">
+                                <span class=""> 注册 </span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="login.jsp" class="nav-link text-dark navitems">
+                                <span class=""> 登录 </span></a>
                         </li>
                         <%
                             }
@@ -99,7 +99,9 @@
         <div class="row">
             <div class="col-8"></div>
             <div class="col-3">
-                <input type="text" class="form-control" id="search-input" placeholder="想要找什么展品呢" value="<%=keyword%>">
+                <form method="get" id="search-form" action="/search">
+                    <input type="text" class="form-control" id="search-input" placeholder="想要找什么展品呢" name="keyword" value="<%=request.getAttribute("keyword")%>">
+                </form>
             </div>
             <div class="col-1">
                 <button class="btn btn-default" id="search-button">搜索</button>
@@ -174,7 +176,9 @@ $(document).ready(function(){
 var btSearch = document.getElementById("search-button");
 btSearch.onclick = function () {
     var keyword = document.getElementById("search-input").value;
-    window.location.href = "/search?keyword="+keyword;
+    var form =  document.getElementById("search-form");
+    alert(keyword);
+    form.submit();
 }
 
 </script>
