@@ -1,6 +1,8 @@
 package servlet;
 
+import bean.Item;
 import bean.UserEntry;
+import dao.CollectionDaoImpl;
 import dao.UserDaoImpl;
 import factory.DaoFactory;
 
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "FriendInfoServlet",value = "/friendInfo")
 public class FriendInfoServlet extends HttpServlet {
@@ -47,15 +50,18 @@ public class FriendInfoServlet extends HttpServlet {
         HttpSession session = request.getSession();
         UserEntry user = (UserEntry)session.getAttribute("user");
         UserEntry userEntry;
-        int x;
+        int relation;
 
         try{
             UserDaoImpl userDao = DaoFactory.getUserDaoInstance();
+            CollectionDaoImpl collectionDao = DaoFactory.getCollectionDaoInstance();
+            List<Item> friendCollections = collectionDao.findCollection(friendID,true);
             userEntry = userDao.findById(friendID);
 
-            x=userDao.isFriendOrRequest(user.getId(),friendID);
-            request.setAttribute("relation",x);
+            relation=userDao.isFriendOrRequest(user.getId(),friendID);
+            request.setAttribute("relation",relation);
             request.setAttribute("friendInformation",userEntry);
+            request.setAttribute("friendCollections",friendCollections);
             request.getRequestDispatcher("/friendInformation.jsp?friendId="+friend).forward(request,response);
         }catch (Exception e){
             e.printStackTrace();
