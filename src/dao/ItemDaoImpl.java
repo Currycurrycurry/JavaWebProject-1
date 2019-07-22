@@ -123,4 +123,19 @@ public class ItemDaoImpl implements ItemDao {
         System.out.println(sql);
         return items;
     }
+
+    @Override
+    public void addView(int itemId, int addView) throws Exception {
+        Item item;
+        String sql = "SELECT item.view FROM item WHERE itemID="+itemId;
+        statement = connection.prepareStatement(sql);
+        ResultSet re = statement.executeQuery();
+        if(re.next()){
+            int view = re.getInt("view");
+            view += addView;
+            sql = "UPDATE item SET view = "+view+" WHERE itemID="+itemId;
+            statement = connection.prepareStatement(sql);
+            statement.executeUpdate();
+        }
+    }
 }

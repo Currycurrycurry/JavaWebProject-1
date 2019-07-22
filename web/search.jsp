@@ -18,6 +18,17 @@
     <link rel="stylesheet" href="css/bootstrap-reboot.css">
     <link rel="stylesheet" href="css/index.css">
 </head>
+<%
+
+    List<Item> items;
+    if(request.getAttribute("items") == null){
+        response.sendRedirect("/search?keyword=");
+    }
+    items = (List<Item>)request.getAttribute("items");
+    int pageSize = PAGE_SIZE;
+    int num = items.size();
+    String keyword = request.getParameter("keyword");
+%>
 <body>
 <div id="nav-back">
     <div id="navitems-row">
@@ -88,7 +99,7 @@
         <div class="row">
             <div class="col-8"></div>
             <div class="col-3">
-                <form><input type="text" class="form-control" id="search-input" placeholder="想要找什么展品呢"></form>
+                <input type="text" class="form-control" id="search-input" placeholder="想要找什么展品呢" value="<%=keyword%>">
             </div>
             <div class="col-1">
                 <button class="btn btn-default" id="search-button">搜索</button>
@@ -96,17 +107,6 @@
         </div>
     </div>
 </div>
-<%
-
-    List<Item> items;
-    if(request.getAttribute("items") == null){
-        response.sendRedirect("/search?keyword=");
-    }
-    items = (List<Item>)request.getAttribute("items");
-    int pageSize = PAGE_SIZE;
-    int num = items.size();
-
-%>
 <br>
 <div class="container">
     <div class="row">
@@ -170,7 +170,14 @@
 <script>/*下拉菜单*/
 $(document).ready(function(){
     $(document).off('click.bs.dropdown.data-api');
-});</script>
+});
+var btSearch = document.getElementById("search-button");
+btSearch.onclick = function () {
+    var keyword = document.getElementById("search-input").value;
+    window.location.href = "/search?keyword="+keyword;
+}
+
+</script>
 <script type="text/javascript" src="js/search.js"></script>
 </body>
 </html>

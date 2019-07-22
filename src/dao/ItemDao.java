@@ -26,4 +26,6 @@ public interface ItemDao {
 
     public List<Item> findByKeywordAndPage(String keyword,int page) throws Exception;
 
+    public void addView(int itemId, int addView) throws Exception;
+
 }

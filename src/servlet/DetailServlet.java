@@ -39,6 +39,7 @@ public class DetailServlet extends HttpServlet {
 
             }
             ItemDaoImpl itemDao = DaoFactory.getItemDaoInstance();
+            itemDao.addView(itemId,1);
             Item item = itemDao.findById(itemId);
 
             boolean isCollected = false;

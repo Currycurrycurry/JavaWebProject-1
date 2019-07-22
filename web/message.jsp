@@ -93,7 +93,7 @@
         <div class="row">
             <div class="col-8"></div>
             <div class="col-3">
-                <form><input type="text" class="form-control" id="search-input" placeholder="想要找什么展品呢"></form>
+                <input type="text" class="form-control" id="search-input" placeholder="想要找什么展品呢">
             </div>
             <div class="col-1">
                 <button class="btn btn-default" id="search-button">搜索</button>
@@ -156,6 +156,11 @@
     $(document).ready(function(){
         $(document).off('click.bs.dropdown.data-api');
     });
+    var btSearch = document.getElementById("search-button");
+    btSearch.onclick = function () {
+        var keyword = document.getElementById("search-input").value;
+        window.location.href = "/search?keyword="+keyword;
+    }
 </script>
 </body>
 </html>

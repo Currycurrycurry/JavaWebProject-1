@@ -13,7 +13,7 @@ function changePage(page) {
         "url":"/search",
         "type":"POST",
         "data":{
-            "keyword":"",
+            "keyword":document.getElementById("search-input").value,
             "page": page
         },
         "success":function (res) {
