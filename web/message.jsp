@@ -162,7 +162,6 @@
     btSearch.onclick = function () {
         var keyword = document.getElementById("search-input").value;
         var form =  document.getElementById("search-form");
-        alert(keyword);
         form.submit();
     }
 </script>
