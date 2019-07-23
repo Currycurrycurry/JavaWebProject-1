@@ -155,6 +155,9 @@
                             </label><br>
                             <input type="file" accept="video/*" id="itemVideoFile" name="itemVideoFile">
                         </div>
+                        <video src="" controls="controls" style="width: 100%; height: auto; object-fit: fill;display: none" id="itemVideo">
+                            您的浏览器不支持 video 标签。
+                        </video>
                     </form>
 
                 </div>
