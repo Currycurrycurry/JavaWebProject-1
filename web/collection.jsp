@@ -71,7 +71,7 @@
                             <ul class="dropdown-menu text-center">
                                 <li><a class="dropdown-item" href="userManage.jsp">用户管理</a></li>
                                 <li class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="itemsManage.jsp">展品管理</a></li>
+                                <li><a class="dropdown-item" href="uploadItem.jsp">上传展品</a></li>
                             </ul>
                         </li>
                         <%

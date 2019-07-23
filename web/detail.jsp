@@ -76,7 +76,7 @@
                             <ul class="dropdown-menu text-center">
                                 <li><a class="dropdown-item" href="userManage.jsp">用户管理</a></li>
                                 <li class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="itemsManage.jsp">展品管理</a></li>
+                                <li><a class="dropdown-item" href="uploadItem.jsp">上传展品</a></li>
                             </ul>
                         </li>
                         <%
@@ -113,6 +113,13 @@
         <div class="col-6">
             <div class="card">
                 <img class="card-img" src="${requestScope.item.imagePath}">
+            </div>
+            <hr>
+            <h4>相关视频</h4>
+            <div class="media border p-">
+                <video src="videos/贪吃蛇 2018_1_28 22_54_41.mp4" controls="controls" style="width: 100%; height: auto; object-fit: fill">
+                    您的浏览器不支持 video 标签。
+                </video>
             </div>
         </div>
         <div class="col-6">
