@@ -116,34 +116,56 @@
                     <h4 class="text-center">上传的展品信息</h4>
                 </div>
                 <div class="card-body p-5">
-                    <form>
+                    <form method="post" action="/upload" id="uploadForm" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label class="h5">名称:</label>
-                            <input type="text" class="form-control" >
+                            <label class="h5">名称:&nbsp;&nbsp;&nbsp;
+                                <span id="warnName" class="h6 text-danger"></span>
+                            </label>
+                            <input type="text" class="form-control" id="uploadName" name="uploadName">
                         </div>
                         <div class="form-group">
-                            <label class="h5">馆藏地点:</label>
-                            <input type="text" class="form-control" >
+                            <label class="h5">馆藏:&nbsp;&nbsp;&nbsp;
+                                <span id="warnAddress" class="h6 text-danger"></span>
+                            </label>
+                            <input type="text" class="form-control" id="address" name="address">
                         </div>
                         <div class="form-group">
-                            <label class="h5">年代:</label>
-                            <input type="text" class="form-control" >
+                            <label class="h5">年代:&nbsp;&nbsp;&nbsp;
+                                <span id="warnYear" class="h6 text-danger"></span>
+                            </label>
+                            <input type="text" class="form-control" id="year" name="year">
                         </div>
                         <div class="form-group">
-                            <label class="h5">描述:</label>
-                            <textarea class="form-control" style="height: 250px"></textarea>
+                            <label class="h5">描述:&nbsp;&nbsp;&nbsp;
+                                <span id="warnDescription" class="h6 text-danger"></span>
+                            </label>
+                            <textarea class="form-control" style="height: 250px" id="description" name="description"></textarea>
                         </div>
-
+                        <div class="form-group">
+                            <label class="h5">图片:&nbsp;&nbsp;&nbsp;
+                                <span id="warnImage" class="h6 text-danger"></span>
+                            </label><br>
+                            <input type="file" accept="image/*" id="itemImageFile" name="itemImageFile">
+                        </div>
+                        <img src="" class="img-fluid" id="itemImage">
+                        <br>
+                        <div class="form-group">
+                            <label class="h5">视频:&nbsp;&nbsp;&nbsp;
+                                <span id="warnVideo" class="h6 text-danger"></span>
+                            </label><br>
+                            <input type="file" accept="video/*" id="itemVideoFile" name="itemVideoFile">
+                        </div>
                     </form>
-                </div>
-                <div class="card-footer">
 
+                </div>
+                <div class="card-footer text-center">
+                    <button class="btn btn-dark" id="btUpload">确认上传</button>
                 </div>
             </div>
         </div>
         <div class="col-2"></div>
     </div>
-</div>
+</div><br>
 
 
 
@@ -154,7 +176,7 @@
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
-
+<script type="text/javascript" src="js/upload.js"></script>
 <script>/*下拉菜单*/
 $(document).ready(function(){
     $(document).off('click.bs.dropdown.data-api');

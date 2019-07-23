@@ -37,6 +37,7 @@ public class CollectionServlet extends HttpServlet {
             request.setAttribute("privateCollection",privateCollection);
             request.getRequestDispatcher("/collection.jsp").forward(request,response);
         }catch (Exception e){
+            response.sendRedirect("index.jsp");
             e.printStackTrace();
         }
     }
