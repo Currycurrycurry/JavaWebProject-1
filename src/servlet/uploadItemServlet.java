@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +28,8 @@ import java.util.Map;
  */
 @WebServlet(name = "uploadItemServlet",value = "/upload")
 public class uploadItemServlet extends HttpServlet {
-    public static final String IMAGE_PATH = "images\\upload\\";
-    public static final String VIDEO_PATH = "videos\\upload\\";
+    public static final String IMAGE_PATH = "images/upload/";
+    public static final String VIDEO_PATH = "videos/upload/";
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -51,7 +52,7 @@ public class uploadItemServlet extends HttpServlet {
                 for(FileItem fileItem : fileItems){
                     if(fileItem.isFormField()){
                         String fieldName = fileItem.getFieldName();
-                        String value = fileItem.getString();
+                        String value = new String(fileItem.getString().getBytes("ISO8859_1"), StandardCharsets.UTF_8);
                         map.put(fieldName,value);
                     }else {
                         String fieldName = fileItem.getFieldName();
@@ -60,7 +61,7 @@ public class uploadItemServlet extends HttpServlet {
                         long timeTag = System.currentTimeMillis();
 
                         String outPath = request.getSession().getServletContext().getRealPath("");
-                        String webPath = outPath.substring(0,outPath.indexOf("out"))+"web\\";
+                        String webPath = outPath.substring(0,outPath.indexOf("out"))+"web/";
                         if(contentType.contains("image")){
                             map.put(fieldName,IMAGE_PATH+timeTag+"_"+fileName);
                             outPath += IMAGE_PATH;
@@ -96,7 +97,12 @@ public class uploadItemServlet extends HttpServlet {
                 item.setVideoPath(map.get("itemVideoFile"));
                 System.out.println(item.getImagePath()+"\n"+item.getVideoPath());
                 ItemDaoImpl itemDao = DaoFactory.getItemDaoInstance();
-                itemDao.insertItem(item);
+
+                PrintWriter printWriter = response.getWriter();
+                printWriter.println(map.get("uploadName"));
+                int itemId = itemDao.insertItem(item);
+                response.sendRedirect("/detail.jsp?id="+itemId);
+                System.out.println(itemId);
 
             }catch (FileUploadException e){
                 e.printStackTrace();

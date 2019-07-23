@@ -57,7 +57,8 @@ public class CollectionDaoImpl implements CollectionDao {
             item.setProperties(re.getInt("itemID"),re.getString("name"),
                     re.getString("imagePath"),re.getString("description"),
                     re.getString("address"),re.getInt("view"),
-                    re.getTimestamp("collection.timeReleased"),re.getString("year"));
+                    re.getTimestamp("collection.timeReleased"),re.getString("year"),
+                    re.getString("videoPath"));
             items.add(item);
         }
         return items;

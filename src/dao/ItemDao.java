@@ -14,7 +14,7 @@ public interface ItemDao {
 
     public Item findById(int itemId)throws Exception;
 
-    public void insertItem(Item item)throws Exception;
+    public int insertItem(Item item)throws Exception;
 
     public void deleteItem(int itemId)throws Exception;
 

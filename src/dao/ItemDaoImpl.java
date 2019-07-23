@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,22 +41,25 @@ public class ItemDaoImpl implements ItemDao {
             item.setProperties(re.getInt("itemID"),re.getString("name"),
                     re.getString("imagePath"),re.getString("description"),
                     re.getString("address"),re.getInt("view"),
-                    re.getTimestamp("timeReleased"),re.getString("year"));
+                    re.getTimestamp("timeReleased"),re.getString("year"),
+                    re.getString("videoPath"));
         }
         return item;
     }
 
     @Override
-    public void insertItem(Item item) throws Exception {
-        String sql = "INSERT INTO `item` (name,address,year,description,imagePath,videoPath) VALUES (?,?,?,?,?,?)";
+    public int insertItem(Item item) throws Exception {
+        String sql = "INSERT INTO item (name,address,year,description,imagePath,videoPath) VALUES" +
+                " ( '"+item.getName()+"' , '"+item.getAddress()+"' , '"+item.getYear()+"' , '"+item.getDescription()+"' , '"+item.getImagePath()+"' , '"+item.getVideoPath()+"')";
         statement = connection.prepareStatement(sql);
-        statement.setString(1,item.getName());
-        statement.setString(2,item.getAddress());
-        statement.setString(3,item.getYear());
-        statement.setString(4,item.getDescription());
-        statement.setString(5,item.getImagePath());
-        statement.setString(6,item.getVideoPath());
         statement.executeUpdate();
+        sql = "select max(itemID) from item";
+        statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+        if(resultSet.next()){
+            return resultSet.getInt(1);
+        }
+        return 1;
     }
 
     @Override
@@ -75,7 +79,8 @@ public class ItemDaoImpl implements ItemDao {
             item.setProperties(re.getInt("itemID"),re.getString("name"),
                     re.getString("imagePath"),re.getString("description"),
                     re.getString("address"),re.getInt("view"),
-                    re.getTimestamp("timeReleased"),re.getString("year"));
+                    re.getTimestamp("timeReleased"),re.getString("year"),
+                    re.getString("videoPath"));
             items.add(item);
         }
         return items;
@@ -106,7 +111,8 @@ public class ItemDaoImpl implements ItemDao {
             item.setProperties(re.getInt("itemID"),re.getString("name"),
                     re.getString("imagePath"),re.getString("description"),
                     re.getString("address"),re.getInt("view"),
-                    re.getTimestamp("timeReleased"),re.getString("year"));
+                    re.getTimestamp("timeReleased"),re.getString("year"),
+                    re.getString("videoPath"));
             items.add(item);
         }
         System.out.println(sql);
@@ -125,7 +131,8 @@ public class ItemDaoImpl implements ItemDao {
             item.setProperties(re.getInt("itemID"),re.getString("name"),
                     re.getString("imagePath"),re.getString("description"),
                     re.getString("address"),re.getInt("view"),
-                    re.getTimestamp("timeReleased"),re.getString("year"));
+                    re.getTimestamp("timeReleased"),re.getString("year"),
+                    re.getString("videoPath"));
             items.add(item);
         }
         System.out.println(sql);

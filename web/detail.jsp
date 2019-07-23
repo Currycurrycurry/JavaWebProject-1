@@ -117,7 +117,7 @@
             <hr>
             <h4>相关视频</h4>
             <div class="media border p-1">
-                <video src="videos/贪吃蛇 2018_1_28 22_54_41.mp4" controls="controls" style="width: 100%; height: auto; object-fit: fill">
+                <video src="${requestScope.item.videoPath}" controls="controls" style="width: 100%; height: auto; object-fit: fill">
                     您的浏览器不支持 video 标签。
                 </video>
             </div>
