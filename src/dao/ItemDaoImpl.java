@@ -47,7 +47,15 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public void insertItem(Item item) throws Exception {
-
+        String sql = "INSERT INTO `item` (name,address,year,description,imagePath,videoPath) VALUES (?,?,?,?,?,?)";
+        statement = connection.prepareStatement(sql);
+        statement.setString(1,item.getName());
+        statement.setString(2,item.getAddress());
+        statement.setString(3,item.getYear());
+        statement.setString(4,item.getDescription());
+        statement.setString(5,item.getImagePath());
+        statement.setString(6,item.getVideoPath());
+        statement.executeUpdate();
     }
 
     @Override
