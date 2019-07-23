@@ -11,6 +11,15 @@ public class Item {
     private int view;
     private Timestamp timeReleased;
     private String year;
+    private String videoPath;
+
+    public String getVideoPath() {
+        return videoPath;
+    }
+
+    public void setVideoPath(String videoPath) {
+        this.videoPath = videoPath;
+    }
 
     public String getYear() {
         return year;
@@ -53,7 +62,7 @@ public class Item {
     public Timestamp getTimeReleased(){return timeReleased;}
 
     public void setProperties(int itemId,String name,String imagePath,String description,String address,int view,
-                              Timestamp timeReleased,String year){
+                              Timestamp timeReleased,String year,String videoPath){
         setItemId(itemId);
         setName(name);
         setImagePath(imagePath);
@@ -62,5 +71,6 @@ public class Item {
         setView(view);
         setTimeReleased(timeReleased);
         setYear(year);
+        setVideoPath(videoPath);
     }
 }
