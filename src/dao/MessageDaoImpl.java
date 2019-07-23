@@ -65,4 +65,13 @@ public class MessageDaoImpl implements MessageDao{
         }
         return name;
     }
+
+    public boolean isFriend(int userID,int friendID)throws Exception{
+        String sql = "SELECT * FROM friendRelation WHERE userID = ? AND friendID = ?";
+        PreparedStatement statement1 = connection.prepareStatement(sql);
+        statement1.setInt(1,userID);
+        statement1.setInt(2,friendID);
+        ResultSet re = statement1.executeQuery();
+        return re.next();
+    }
 }

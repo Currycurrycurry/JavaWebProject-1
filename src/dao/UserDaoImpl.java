@@ -143,8 +143,13 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void sendRequest(int sendFrom_ID,int sendTo_ID)throws Exception{
-        if(!isRequest(sendFrom_ID,sendTo_ID))
-        setRequest(sendFrom_ID,sendTo_ID);
+        if(!isRequest(sendFrom_ID,sendTo_ID)){
+            setRequest(sendFrom_ID,sendTo_ID);
+        }else if(isRequest(sendTo_ID,sendFrom_ID)){
+            deleteRequest(sendTo_ID,sendFrom_ID);
+            setFriendRelation(sendTo_ID,sendFrom_ID);
+            setFriendRelation(sendFrom_ID,sendTo_ID);
+        }
     }
 
     @Override
@@ -172,10 +177,15 @@ public class UserDaoImpl implements UserDao {
         //除了a的所有用户
         List<UserEntry> a_users = findAll(userID);
 
+        //遍历得到共同好友数
         for(UserEntry b:a_users) {
-
             int count = 0;
             int b_userID = b.getId();
+
+            int i = isFriendOrRequest(userID,b_userID);
+            if(i==0||i==1){
+                continue;
+            }
 
             //b的好友列表
             List<UserEntry> b_friend = findFriend(b_userID);
@@ -183,13 +193,16 @@ public class UserDaoImpl implements UserDao {
                 for (UserEntry bFriend : b_friend) {
                     int a_friendID = aFriend.getId();
                     int b_friendID = bFriend.getId();
-                    if (a_friendID == b_friendID && b_friendID != userID && a_friendID != b_userID) {
+                    if (a_friendID == b_friendID) {
                         count++;
                     }
                 }
             }
-            sameFriendNumber.put(b, count);
+            if(count>0){
+                sameFriendNumber.put(b, count);
+            }
         }
+
         return sameFriendNumber;
     }
 
@@ -254,9 +267,10 @@ public class UserDaoImpl implements UserDao {
     public HashMap<UserEntry,Integer> searchUser(int userID,String searchName)throws Exception{
         HashMap<UserEntry,Integer> userLists = new HashMap<>();
         if(searchName!=null && !("".equals(searchName))){
-            String sql = "SELECT * FROM users WHERE name LIKE ?";
+            String sql = "SELECT * FROM users WHERE (name LIKE ?) OR (account LIKE ?)";
             statement=connection.prepareStatement(sql);
             statement.setString(1,"%"+searchName+"%");
+            statement.setString(2,"%"+searchName+"%");
             ResultSet re = statement.executeQuery();
 
             while ((re.next())){
@@ -268,7 +282,9 @@ public class UserDaoImpl implements UserDao {
                 }
 
                 user.setId(user2);
+                user.setAccount(re.getString("account"));
                 user.setName(re.getString("name"));
+                user.setSignature(re.getString("signature"));
                 int isFriend = isFriendOrRequest(userID,user2);
                 userLists.put(user,isFriend);
             }
@@ -293,6 +309,7 @@ public class UserDaoImpl implements UserDao {
                         re.getString("account"),re.getBoolean("isAdmin"),
                         re.getString("email"),re.getString("name"),
                         re.getTimestamp("loginTime"));
+                userEntry.setSignature(re.getString("signature"));
                 userEntries.add(userEntry);
             }
         }

@@ -1,7 +1,6 @@
 <%@ page import="bean.UserEntry" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="java.util.List" %>
 <%--
   Created by IntelliJ IDEA.
   User: AdminDD
@@ -25,14 +24,17 @@
         response.sendRedirect("/index.jsp");
     }
 
-    if(request.getAttribute("userLists")==null||request.getAttribute("sameFriendLists")==null){
-        request.getRequestDispatcher("/searchUser").forward(request,response);
+    String searchName = "";
+    if(request.getAttribute("searchName")!=null){
+        searchName = (String)request.getAttribute("searchName");
     }
 
-    String searchName = "";
-    if(request.getParameter("searchName")!=null){
-        searchName = request.getParameter("searchName");
+    System.out.println(searchName);
+
+    if(request.getAttribute("userLists")==null||request.getAttribute("sameFriendLists")==null){
+        request.getRequestDispatcher("/searchUser?searchName="+searchName).forward(request,response);
     }
+
 %>
 
 <div id="nav-back">
@@ -105,14 +107,24 @@
         <input type="text" class="form-control col-4" placeholder="输入关键词查找" id = "searchUser" name="searchName" value="<%=searchName%>">
         <button type="button" class="btn btn-secondary col-1" id ="search">搜索</button>
     </div>
-    <br><br>
+    <br>
     <div class="row">
-        <div class="col-12 card-body" style="min-height: 700px">
+        <h3>搜索结果:</h3>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-12 card-body" style="min-height: 400px">
             <ul class="list-group">
-                <li class="list-group-item" style="background-color:cornflowerblue;">
+                <li class="list-group-item" style="background-color:lightskyblue;">
                     <div class="row">
-                        <div class="col-8 text-left">
-                            搜索结果
+                        <div class="col-2 text-center">
+                            用户账号
+                        </div>
+                        <div class="col-2 text-center">
+                            用户昵称
+                        </div>
+                        <div class="col-4 text-center">
+                            个性签名
                         </div>
                         <div class="col-4 text-center">
                             操作
@@ -125,28 +137,49 @@
                 %>
                 <li class="list-group-item">
                     <div class="row">
-                        <div class="col-3 text-center"><%=entry.getKey().getName()%></div>
-                        <div class="col-5 text-center"></div>
                         <div class="col-2 text-center">
-                            <a class="btn btn-secondary" href="friendInformation.jsp?friendId=<%=entry.getKey().getId()%>">前往主页</a></div>
+                            <a class="btn" href="friendInformation.jsp?friendId=<%=entry.getKey().getId()%>">
+                                <%=entry.getKey().getAccount()%></a>
+                        </div>
+                        <div class="col-2 text-center">
+                            <a class="btn" href="friendInformation.jsp?friendId=<%=entry.getKey().getId()%>">
+                            <%=entry.getKey().getName()%></a>
+                        </div>
+                        <div class="col-4 text-center"><%=entry.getKey().getSignature()%></div>
                         <%if(entry.getValue()==0){%>
                         <div class="col-2 text-center">
-                            <a class="btn btn-danger" href="searchUser?deleteFriend_ID=<%=entry.getKey().getId()%>">删除好友</a>
+                            <a class="btn btn-info" href="message.jsp?friend=<%=entry.getKey().getId()%>">发送消息</a>
+                        </div>
+                        <div class="col-2 text-center">
+                            <form action="/searchUser" method="post">
+                                <input value="<%=entry.getKey().getId()%>" name = "deleteFriendID" hidden>
+                                <button type="submit" class="btn btn-danger">删除好友</button>
+                            </form>
                         </div>
                         <%}else if(entry.getValue()==1){%>
-                        <div class="col-2 text-center">
+                        <div class="col-4 text-center">
                             <a class="btn">已申请</a>
                         </div>
                         <%}else if(entry.getValue()==2){%>
-                        <div class="col-1 text-center">
-                            <a class="btn btn-info" href="searchUser?agree_ID=<%=entry.getKey().getId()%>">接受请求</a>
+                        <div class="col-2 text-center">
+                            <form action="/searchUser" method="post">
+                                <input value="<%=entry.getKey().getId()%>" name = "agreeID" hidden>
+                                <button type="submit" class="btn btn-info">接受请求</button>
+                            </form>
                         </div>
-                        <div class="col-1 text-center">
-                        <a class="btn btn-info" href="searchUser?reject_ID=<%=entry.getKey().getId()%>">拒绝请求</a>
+                        <div class="col-2 text-center">
+                            <form action="/searchUser" method="post">
+                                <input value="<%=entry.getKey().getId()%>" name = "rejectID" hidden>
+                                <button type="submit" class="btn btn-info">拒绝请求</button>
+                            </form>
                         </div>
                         <%}else{%>
+                        <div class="col-2"></div>
                         <div class="col-2 text-center">
-                            <a class="btn btn-info" href="searchUser?addUser_ID=<%=entry.getKey().getId()%>">申请好友</a>
+                            <form action="/searchUser" method="post">
+                                <input value="<%=entry.getKey().getId()%>" name="addUserID" hidden>
+                                <button type="submit" class="btn btn-info">申请好友</button>
+                            </form>
                         </div>
                         <%}%>
                     </div>
@@ -160,14 +193,14 @@
 
 
     <div class="row">
-        <div class="col-12 card-body" style="min-height: 700px">
+        <div class="col-12 card-body" style="min-height: 400px;">
             <ul class="list-group">
-                <li class="list-group-item" style="background-color:cornflowerblue;">
+                <li class="list-group-item" style="background-color:lightskyblue;">
                     <div class="row">
-                        <div class="col-3 text-left">
+                        <div class="col-2 text-center">
                             推荐好友
                         </div>
-                        <div class="col-5"></div>
+                        <div class="col-6"></div>
                         <div class="col-4 text-center">
                             操作
                         </div>
@@ -176,29 +209,29 @@
                 <%
                     HashMap<UserEntry,Integer> sameFriendLists = (HashMap<UserEntry,Integer>) request.getAttribute("sameFriendLists");
                     for(Map.Entry<UserEntry, Integer> sameFriend:sameFriendLists.entrySet()){
-                        if(sameFriend.getValue()>0){
                 %>
                 <li class="list-group-item">
                     <div class="row">
-                        <div class="col-3 text-center"><%=sameFriend.getKey().getName()%></div>
-                        <div class="col-5 text-center">你们有<%=sameFriend.getValue()%>个共同的好友</div>
                         <div class="col-2 text-center">
-                            <a class="btn btn-secondary" href="friendInformation.jsp?friendId=<%=sameFriend.getKey().getId()%>">前往主页</a></div>
-                        <div class="col-2 text-center">
-                            <a class="btn btn-info" href="searchUser?addUser_ID=<%=sameFriend.getKey().getId()%>">申请好友</a>
+                            <a class="btn" href="friendInformation.jsp?friendId=<%=sameFriend.getKey().getId()%>">
+                                <%=sameFriend.getKey().getName()%></a></div>
+                        <div class="col-6 text-center">你们有<%=sameFriend.getValue()%>个共同的好友</div>
+                        <div class="col-4 text-center">
+                            <form action="/searchUser" method="post">
+                                <input value="<%=sameFriend.getKey().getId()%>" name="addUserID" hidden>
+                                <button class="btn btn-info" type="submit">申请好友</button>
+                            </form>
                         </div>
                     </div>
                 </li>
                 <%
-                    }}
+                    }
                 %>
             </ul>
         </div>
     </div>
-
-
-    </div>
 </div>
+
 
 
 

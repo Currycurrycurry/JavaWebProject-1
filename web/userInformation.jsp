@@ -1,4 +1,5 @@
-<%@ page import="bean.UserEntry" %><%--
+<%@ page import="bean.UserEntry" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: YXH
   Date: 2019/7/14
@@ -27,6 +28,10 @@
     // 未登录！
     if(user==null){
         response.sendRedirect("/login.jsp");
+    }
+
+    if(request.getAttribute("strangeLists")==null){
+        request.getRequestDispatcher("/userInfo").forward(request,response);
     }
 %>
 <div id="nav-back">
@@ -104,7 +109,7 @@
                 </div>
                 <div>
                     <label>个性签名:</label>
-                    <textarea type="textarea" class="form-control" name="textarea" id="signature" rows="3">${user.signature}</textarea>
+                    <textarea type="textarea" class="form-control" placeholder="写点什么吧" name="textarea" id="signature" rows="3">${user.signature}</textarea>
                 </div>
                 <div class="form-group">
                     <label>邮箱:</label>
@@ -117,10 +122,56 @@
                 <div class="form-group">
                     <input type="button" id="btSub" class="btn btn-dark" value="修改信息">
                 </div>
-                <div class="form-group">
-                    <span id="tip"></span>
+                <div class="form-group text-danger" id="tip">
                 </div>
             </form>
+        </div>
+
+        <div class="col-1"></div>
+        <div class="col-7">
+            <div class="card-body" style="min-height: 700px">
+                <ul>
+                    <li class="list-group-item" style="background-color:grey;">
+                        <div class="row">
+                            <div class="col-3 text-center">
+                                陌生人请求
+                            </div>
+                            <div class="col-9 text-center">
+                                操作
+                            </div>
+                        </div>
+                    </li>
+                    <%
+                        List<UserEntry> strangeLists = (List<UserEntry>) request.getAttribute("strangeLists");
+                        for(UserEntry strange:strangeLists){
+                    %>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-3 text-center">
+                                <a class="btn" href="friendInformation.jsp?friendId=<%=strange.getId()%>">
+                                <%=strange.getName()%>
+                                </a>
+                            </div>
+                            <div class="col-3"></div>
+                            <div class="col-3 text-center">
+                                <form action="userInfo" method="post">
+                                    <input name = "agreeID" value="<%=strange.getId()%>" hidden>
+                                    <button type="submit" class="btn btn-info">同意</button>
+                                </form>
+                            </div>
+                            <div class="col-3 text-center">
+                                <form action="userInfo" method="post">
+                                    <input name = "rejectID" value="<%=strange.getId()%>" hidden>
+                                    <button type="submit" class="btn btn-danger">拒绝</button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                    <%
+                        }
+                    %>
+                </ul>
+            </div>
         </div>
 
     </div>
@@ -131,6 +182,48 @@
 <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript">
+    var ajax;
+
+    function getAjax() {
+        try {
+            ajax = new XMLHttpRequest();
+        } catch (e) {
+            ajax = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        return ajax;
+    }
+
+    function jump() {
+        ajax = getAjax();
+        ajax.open("POST", "/userInfo", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                var result = ajax.responseText;
+                if(result=="true"){
+                    document.getElementById("tip").innerHTML="";
+                    alert("修改成功！");
+                    location.reload();
+                }else{
+                    document.getElementById("tip").innerHTML="密码错误！";
+                }
+            }
+        };
+
+        ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var name = document.getElementById("name").value;
+        var signature = document.getElementById("signature").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var param = "name="+name+"&signature=" + signature+"&email="+email+"&password="+password;
+        ajax.send(param);
+    }
+
+    var bt1 = document.getElementById("btSub");
+    bt1.onclick = function(){
+        if(email()&&name()){
+            jump();
+        }
+    };
 
     /*下拉菜单*/
     $(document).ready(function(){
@@ -143,18 +236,6 @@
         var form =  document.getElementById("search-form");
         form.submit();
     };
-
-    var btSub = document.getElementById('btSub');
-    btSub.onclick = function (){
-        sub();
-    };
-
-    function sub() {
-        if(name()&&email()&&password()){
-            var form = document.getElementById('form');
-            form.submit();
-        }
-    }
 
     function email(){
         var t = document.getElementById('email').value;
@@ -180,16 +261,7 @@
         }
     }
 
-    function password() {
-        var password = document.getElementById('password').value;
-        if(password==""){
-            document.getElementById('tip').innerHTML = "密码不能为空";
-            return false;
-        }else{
-            document.getElementById('tip').innerHTML = "";
-            return true;
-        }
-    }
+
 
 </script>
 </body>

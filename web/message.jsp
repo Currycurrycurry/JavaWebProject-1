@@ -1,9 +1,4 @@
-<%@ page import="bean.UserEntry" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.sql.Timestamp" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="bean.Message" %>
-<%--
+<%@ page import="bean.UserEntry" %><%--
   Created by IntelliJ IDEA.
   User: YXH
   Date: 2019/7/14
@@ -26,16 +21,18 @@
         response.sendRedirect("/login.jsp");
     }
 
-    String friend =request.getParameter("friend");
-    int friendID = Integer.parseInt(friend);
-
-    if(request.getAttribute("messageLists")==null){
-        request.getRequestDispatcher("/message").forward(request,response);
+    if(request.getParameter("friend")==null){
+        System.out.println("未选择好友");
+        response.sendRedirect("/friendList.jsp");
     }
 
+    if(request.getAttribute("error")!=null){
+        System.out.println("不是好友！");
+        response.sendRedirect("/friendList.jsp");
+    }
+
+    String friendID = request.getParameter("friend");
     UserEntry user = (UserEntry) session.getAttribute("user");
-    String userName = user.getName();
-    String friendName =(String) request.getAttribute("friendName");
 %>
 
 
@@ -108,35 +105,15 @@
     <div class="row">
         <div class="col-2"></div>
         <div class="col-8">
-            <form class="form-control">
-                <h3 style="color: dodgerblue">与<%=friendName%>的聊天记录</h3>
-                <div style="min-height: 500px">
-                    <%
-                        List<Message> messageLists = (List<Message>) request.getAttribute("messageLists");
-                        for(Message message:messageLists){
-                            if( friendID == message.getUserID()){
-                    %>
-                    <div class="row">
-                        <div class="col-6">
-                            <label style="color: cornflowerblue"><%=friendName%>&emsp;&emsp;<%=message.getSendTime()%></label><br>
-                            <label><%=message.getMess()%></label>
-                        </div>
-                        <div class="col-6"></div>
-                    </div>
-                    <%}else{%>
-                    <div class="row">
-                        <div class="col-6"></div>
-                        <div class="col-6">
-                            <label style="color: cornflowerblue"><%=userName%>&emsp;&emsp;<%=message.getSendTime()%></label><br>
-                            <label><%=message.getMess()%></label>
-                        </div>
-                    </div>
-                    <%}}%>
+            <form style="border: solid 3px darkgray">
+                <h3 style="color: dodgerblue">聊天记录</h3>
+                <div id="chat"  style="min-height:300px;max-height: 500px;overflow-x:hidden;overflow-y:auto">
                 </div>
-                <div class="row">
-                    <input class="input-group col-9" type="text" id="mess" name ="mess">
-                    <button type="button" id="bt1" value="<%=friendID%>"
-                            onclick="sendMess()" class="btn btn-secondary col-3 text-center">发送</button>
+                <div class="container" style="border-top: solid darkgray 3px">
+                    <div class="row">
+                        <input class="col-8" type="text" id="mess" name ="mess">
+                        <button type="button" id="bt1" value="<%=friendID%>" class="btn btn-secondary col-4 text-center">发送消息</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -146,13 +123,43 @@
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
-
 <script type="text/javascript">
-    function sendMess(){
-        var s = document.getElementById("mess").value;
-        var f = document.getElementById("bt1").value;
-        location.href = "/message?friend="+f+"&message="+s;
+    var ajax;
+
+    function getAjax() {
+        try {
+            ajax = new XMLHttpRequest();
+        } catch (e) {
+            ajax = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        return ajax;
     }
+
+    function jump() {
+        ajax = getAjax();
+        ajax.open("POST", "/message", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                document.getElementById("mess").value ="";
+            }
+        };
+        ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var message = document.getElementById("mess").value;
+        var friend = document.getElementById("bt1").value;
+        var param = "friend="+friend+"&message=" + message;
+        ajax.send(param);
+    }
+
+    var bt1 = document.getElementById("bt1");
+    bt1.onclick = function(){
+        jump();
+    };
+
+    $('#mess').bind('keypress',function (event) {
+       if(event.keyCode==13){
+           jump();
+       }
+    });
 
     /*下拉菜单*/
     $(document).ready(function(){
@@ -163,6 +170,30 @@
         var keyword = document.getElementById("search-input").value;
         var form =  document.getElementById("search-form");
         form.submit();
+    };
+
+
+    /*局部自动刷新页面数据*/
+    $(document).ready(function(){
+        setTimeout('updateShow()',0);
+    });
+
+    function updateShow(){
+        var ajax1 = getAjax();
+        var friend = document.getElementById("bt1").value;
+        var url = "/message?friend="+friend;
+
+        ajax1.open("GET",url,true);
+        ajax1.send();
+        ajax1.onreadystatechange = function () {
+            if (ajax1.readyState == 4 && ajax1.status == 200) {
+                var result = ajax1.responseText;
+                document.getElementById("chat").innerHTML = result;
+                $('#content').scrollTop( $('#content')[0].scrollHeight);
+            }
+        };
+
+        setTimeout('updateShow()',2000);
     }
 </script>
 </body>

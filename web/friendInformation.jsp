@@ -119,6 +119,7 @@
                         <div class="form-group">
                             <input value="<%=friendEntry.getId()%>" name="friend-id" hidden>
                             <%if(relation==0){%>
+                            <a class="btn btn-info" href="message.jsp?friend=<%=friendEntry.getId()%>">发送消息</a>
                             <button class="btn btn-danger" type="submit" name="opt" value="delete">删除好友</button>
                             <%}else if(relation==1){%>
                             <input type="button" class="btn" value="已申请">

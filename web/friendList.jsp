@@ -22,7 +22,7 @@
         response.sendRedirect("/index.jsp");
     }
 
-    if(request.getAttribute("friendLists") == null||request.getAttribute("strangeLists")==null){
+    if(request.getAttribute("friendLists") == null){
         request.getRequestDispatcher("/friendList").forward(request,response);
     }
 %>
@@ -99,15 +99,22 @@
     <br>
 
     <div class="row">
-        <div class="col-6" style="min-height: 700px;">
+        <div class="col-1"></div>
+        <div class="col-10" style="min-height: 700px;">
             <div class="card-body">
                 <ul class="list-group">
                     <li class="list-group-item" style="background-color:#b3d7ff;">
                         <div class="row">
-                            <div class="col-3 text-center">
-                                好友
+                            <div class="col-2 text-center">
+                                好友账号
                             </div>
-                            <div class="col-9 text-center">
+                            <div class="col-2 text-center">
+                                好友昵称
+                            </div>
+                            <div class="col-3 text-center">
+                                个性签名
+                            </div>
+                            <div class="col-5 text-center">
                                 操作
                             </div>
                         </div>
@@ -118,46 +125,29 @@
                     %>
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-3 text-center"><%=friend.getName()%></div>
-                            <div class="col-3 text-center"><a class="btn btn-secondary" href="friendInformation.jsp?friendId=<%=friend.getId()%>">前往主页</a></div>
-                            <div class="col-3 text-center"><a class="btn btn-info" href="message.jsp?friend=<%=friend.getId()%>">发送消息</a></div>
-                            <div class="col-3 text-center">
-                                <a class="btn btn-danger" href="friendList?deleteFriend_ID=<%=friend.getId()%>">删除好友</a>
+                            <div class="col-2 text-center">
+                                <a class="btn" href="friendInformation.jsp?friendId=<%=friend.getId()%>">
+                                    <%=friend.getAccount()%>
+                                </a>
                             </div>
-                        </div>
-                    </li>
-                    <%
-                        }
-                    %>
-                </ul>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="card-body" style="min-height: 700px">
-                <ul>
-                    <li class="list-group-item" style="background-color:grey;">
-                        <div class="row">
-                            <div class="col-3 text-center">
-                                陌生人请求
-                            </div>
-                            <div class="col-9 text-center">
-                                操作
-                            </div>
-                        </div>
-                    </li>
-                    <%
-                        List<UserEntry> strangeLists = (List<UserEntry>) request.getAttribute("strangeLists");
-                        for(UserEntry strange:strangeLists){
-                    %>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-3 text-center"><%=strange.getName()%></div>
-                            <div class="col-3 text-center"><a class="btn btn-secondary" href="friendInformation.jsp?friendId=<%=strange.getId()%>">前往主页</a></div>
-                            <div class="col-3 text-center">
-                                <a class="btn btn-info" href="friendList?agree_ID=<%=strange.getId()%>">同意</a>
+                            <div class="col-2 text-center">
+                                <a class="btn" href="friendInformation.jsp?friendId=<%=friend.getId()%>">
+                                    <%=friend.getName()%>
+                                </a>
                             </div>
                             <div class="col-3 text-center">
-                                <a class="btn btn-danger" href="friendList?reject_ID=<%=strange.getId()%>">拒绝</a>
+                                <%=friend.getSignature()%>
+                            </div>
+                            <div class="col-2 text-center">
+                                <a class="btn btn-info" href="message.jsp?friend=<%=friend.getId()%>">
+                                    发送消息
+                                </a></div>
+                            <div class="col-1"></div>
+                            <div class="col-2 text-center">
+                                <form action="/friendList" method="post">
+                                    <input name="friendID" value="<%=friend.getId()%>" hidden>
+                                    <button type="submit" class="btn btn-danger">删除好友</button>
+                                </form>
                             </div>
                         </div>
                     </li>
@@ -188,12 +178,18 @@
         searchUser();
     };
 
+
+    //删除好友
+    function deleteFriend() {
+
+    }
+
     var btSearch = document.getElementById("search-button");
     btSearch.onclick = function () {
         var keyword = document.getElementById("search-input").value;
         var form =  document.getElementById("search-form");
         form.submit();
-    }
+    };
 
     /*下拉菜单*/
     $(document).ready(function(){
