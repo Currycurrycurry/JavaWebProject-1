@@ -24,10 +24,10 @@
     if (session.getAttribute("user")==null){
         response.sendRedirect("/index.jsp");
     }
-    String friendID = request.getParameter("friendID");
+    String friendID = request.getParameter("friendId");
     List<Item> friendCollections = new ArrayList<>();
     if(request.getAttribute("friendInformation") == null){
-        request.getRequestDispatcher("/friendInfo?friendID="+friendID).forward(request,response);
+        request.getRequestDispatcher("/friendInfo?friendId="+friendID).forward(request,response);
     }else {
         friendCollections = (List<Item>)request.getAttribute("friendCollections");
     }
@@ -124,6 +124,7 @@
                             <input type="button" class="btn" value="已申请">
                             <%}else if(relation==2){%>
                             <button class="btn btn-info" type="submit" name="opt" value="agree">接受请求</button>
+                            <button class="btn btn-info" type="submit" name="opt" value="reject">拒绝请求</button>
                             <%}else{%>
                             <button class="btn btn-info" type="submit" name="opt" value="send">申请好友</button>
                             <%}%>

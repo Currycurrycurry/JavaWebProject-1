@@ -155,8 +155,42 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void agree(int sendFrom_ID,int sendTo_ID)throws Exception{
         deleteRequest(sendFrom_ID,sendTo_ID);
+        deleteRequest(sendTo_ID,sendFrom_ID);
         setFriendRelation(sendFrom_ID,sendTo_ID);
         setFriendRelation(sendTo_ID,sendFrom_ID);
+    }
+
+
+    @Override
+    public HashMap<UserEntry,Integer> findSameFriendLists(int userID)throws Exception{
+        //与其他所有用户的共同好友个数
+        HashMap<UserEntry,Integer> sameFriendNumber = new HashMap<>();
+
+        //a的好友列表
+        List<UserEntry> a_friend = findFriend(userID);
+
+        //除了a的所有用户
+        List<UserEntry> a_users = findAll(userID);
+
+        for(UserEntry b:a_users) {
+
+            int count = 0;
+            int b_userID = b.getId();
+
+            //b的好友列表
+            List<UserEntry> b_friend = findFriend(b_userID);
+            for (UserEntry aFriend : a_friend) {
+                for (UserEntry bFriend : b_friend) {
+                    int a_friendID = aFriend.getId();
+                    int b_friendID = bFriend.getId();
+                    if (a_friendID == b_friendID && b_friendID != userID && a_friendID != b_userID) {
+                        count++;
+                    }
+                }
+            }
+            sameFriendNumber.put(b, count);
+        }
+        return sameFriendNumber;
     }
 
     @Override
@@ -217,7 +251,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public HashMap<UserEntry,Integer> findUser(int userID,String searchName)throws Exception{
+    public HashMap<UserEntry,Integer> searchUser(int userID,String searchName)throws Exception{
         HashMap<UserEntry,Integer> userLists = new HashMap<>();
         if(searchName!=null && !("".equals(searchName))){
             String sql = "SELECT * FROM users WHERE name LIKE ?";
@@ -228,6 +262,10 @@ public class UserDaoImpl implements UserDao {
             while ((re.next())){
                 UserEntry user = new UserEntry();
                 int user2 = re.getInt("userID");
+
+                if(user2==userID){
+                    continue;
+                }
 
                 user.setId(user2);
                 user.setName(re.getString("name"));
@@ -322,6 +360,7 @@ public class UserDaoImpl implements UserDao {
         statement.setInt(2,sendTo_ID);
         statement.executeUpdate();
     }
+
 
 
 }

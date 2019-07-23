@@ -40,8 +40,9 @@ public interface UserDao {
 
     public List<UserEntry> findFriendRequest(int sendTo_ID)throws Exception;
 
-    public HashMap<UserEntry,Integer> findUser(int userID, String searchName)throws Exception;
+    public HashMap<UserEntry,Integer> searchUser(int userID, String searchName)throws Exception;
 
     public UserEntry findById(int userID)throws Exception;
 
+    public HashMap<UserEntry,Integer> findSameFriendLists(int userID)throws Exception;
 }

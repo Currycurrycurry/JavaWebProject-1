@@ -57,7 +57,7 @@
     <div class="row">
         <div class="col-2"></div>
         <div class="col-4">
-            <form method="post" action="/login" id="form">
+            <form action="">
                 <h3 class="text-center">登录</h3>
                 <br>
                 <div class="form-group">
@@ -69,7 +69,7 @@
                     <input type="password" class="form-control" id="password" name="password">
                 </div>
                 <div class="text-center">
-                    <span id="tic"><%if(request.getAttribute("error")!=null) out.print((String)request.getAttribute("error"));%></span>
+                    <span id="tic"></span>
                     <br>
                     <input type="button" id="btLogin" class="btn btn-info" value="登录">
                 </div>
@@ -90,8 +90,6 @@
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
-
-
 <script type="text/javascript">
     $(document).ready(function(){
         $(document).off('click.bs.dropdown.data-api');
@@ -103,21 +101,55 @@
         var form =  document.getElementById("search-form");
         form.submit();
     };
-    var btLogin = document.getElementById('btLogin');
-    btLogin.onclick = function () {
-        not_null();
-    };
 
     function not_null() {
         var account = document.getElementById('account').value;
         var password = document.getElementById('password').value;
         if(account!=""&&password!=""){
             document.getElementById('tic').innerHTML="";
-            var form = document.getElementById('form');
-            form.submit();
+            jump();
         }else{
             document.getElementById('tic').innerHTML="信息不能为空!";
         }
+    }
+
+    var btLogin = document.getElementById('btLogin');
+    btLogin.onclick = function () {
+        not_null();
+    };
+
+    var ajax;
+
+    function getAjax() {
+        try {
+            ajax = new XMLHttpRequest();
+        } catch (e) {
+            ajax = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        return ajax;
+    }
+
+    function jump() {
+        ajax = getAjax();
+        ajax.open("POST", "/login", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                var result = ajax.responseText;
+                if (result == "true") {
+                    document.getElementById("tic").innerHTML = "";
+                    alert("登陆成功! 点击返回主页");
+                    location.href = "/index.jsp";
+                } else {
+                    document.getElementById("tic").innerHTML = "用户名或者密码错误";
+                }
+            }
+        };
+
+        ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var account = document.getElementById("account").value;
+        var pwd = document.getElementById("password").value;
+        var param = "account=" + account + "&password=" + pwd;
+        ajax.send(param);
     }
 </script>
 </body>

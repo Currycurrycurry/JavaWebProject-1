@@ -1,7 +1,5 @@
 <%@ page import="bean.UserEntry" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="java.util.Map" %>
 <%--
   Created by IntelliJ IDEA.
   User: YXH
@@ -24,8 +22,7 @@
         response.sendRedirect("/index.jsp");
     }
 
-    if(request.getAttribute("friendLists") == null||request.getAttribute("strangeLists")==null
-            ||request.getAttribute("userLists")==null){
+    if(request.getAttribute("friendLists") == null||request.getAttribute("strangeLists")==null){
         request.getRequestDispatcher("/friendList").forward(request,response);
     }
 %>
@@ -82,27 +79,27 @@
         <div class="row">
             <div class="col-8"></div>
             <div class="col-3">
-                <form>
-                    <%if(request.getAttribute("searchName")!=null){%>
-                    <input type="text" class="form-control" id="search-input"
-                           value="<%=request.getAttribute("searchName")%>">
-                    <%}else{%>
-                    <input type="text" class="form-control" id="search-input"
-                           placeholder="搜索用户名">
-                    <%}%>
+                <form method="get" id="search-form" action="/search">
+                    <input type="text" class="form-control" id="search-input" placeholder="想要找什么展品呢" name="keyword">
                 </form>
             </div>
             <div class="col-1">
-                <button class="btn btn-default" onclick="searchUser()" id="search-button">搜索</button>
+                <button class="btn btn-default" id="search-button">搜索</button>
             </div>
         </div>
     </div>
 </div>
-
 <br>
 <div class="container">
     <div class="row">
-        <div class="col-6" style="height: 700px;">
+        <div class="col-2"></div>
+        <input type="text" class="form-control col-4" placeholder="输入关键词查找" id = "searchUser" name="searchName">
+        <button type="button" class="btn btn-secondary col-1" id ="search">搜索</button>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-6" style="min-height: 700px;">
             <div class="card-body">
                 <ul class="list-group">
                     <li class="list-group-item" style="background-color:#b3d7ff;">
@@ -122,10 +119,10 @@
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-3 text-center"><%=friend.getName()%></div>
-                            <div class="col-3 text-center"><button class="btn btn-secondary" onclick="visit(<%=friend.getId()%>)">前往主页</button></div>
-                            <div class="col-3 text-center"><button class="btn btn-info" onclick="mess(<%=friend.getId()%>)">发送消息</button></div>
+                            <div class="col-3 text-center"><a class="btn btn-secondary" href="friendInformation.jsp?friendId=<%=friend.getId()%>">前往主页</a></div>
+                            <div class="col-3 text-center"><a class="btn btn-info" href="message.jsp?friend=<%=friend.getId()%>">发送消息</a></div>
                             <div class="col-3 text-center">
-                                <button class="btn btn-danger" onclick="deleteFriend(<%=friend.getId()%>)">删除好友</button>
+                                <a class="btn btn-danger" href="friendList?deleteFriend_ID=<%=friend.getId()%>">删除好友</a>
                             </div>
                         </div>
                     </li>
@@ -136,46 +133,7 @@
             </div>
         </div>
         <div class="col-6">
-            <div class="card-body" style="min-height: 300px;">
-                <ul>
-                    <li class="list-group-item" style="background-color:lightgray;">
-                        <div class="row">
-                            <div class="col-3 text-center">
-                                搜索结果
-                            </div>
-                            <div class="col-9 text-center">
-                                操作
-                            </div>
-                        </div>
-                    </li>
-                    <%
-                        HashMap<UserEntry,Integer> userLists = (HashMap<UserEntry, Integer>) request.getAttribute("userLists");
-                        for(Map.Entry<UserEntry, Integer> entry:userLists.entrySet()){
-                    %>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-3 text-center"><%=entry.getKey().getName()%></div>
-                            <div class="col-3 text-center"></div>
-                            <div class="col-3 text-center"><button class="btn btn-secondary" onclick="visit(<%=entry.getKey().getId()%>)">前往主页</button></div>
-                            <div class="col-3 text-center">
-                                <%if(entry.getValue()==0){%>
-                                <button class="btn btn-danger" onclick="deleteFriend(<%=entry.getKey().getId()%>)">删除好友</button>
-                                <%}else if(entry.getValue()==1){%>
-                                <button class="btn">已申请</button>
-                                <%}else if(entry.getValue()==2){%>
-                                <button class="btn btn-info" onclick="agreeUser(<%=entry.getKey().getId()%>)">接受请求</button>
-                                <%}else{%>
-                                <button class="btn btn-info" onclick="addUser(<%=entry.getKey().getId()%>)">申请好友</button>
-                                <%}%>
-                            </div>
-                        </div>
-                    </li>
-                    <%
-                        }
-                    %>
-                </ul>
-            </div>
-            <div class="card-body" style="min-height: 300px">
+            <div class="card-body" style="min-height: 700px">
                 <ul>
                     <li class="list-group-item" style="background-color:grey;">
                         <div class="row">
@@ -194,12 +152,12 @@
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-3 text-center"><%=strange.getName()%></div>
-                            <div class="col-3 text-center"><button class="btn btn-secondary" onclick="visit(<%=strange.getId()%>)">前往主页</button></div>
+                            <div class="col-3 text-center"><a class="btn btn-secondary" href="friendInformation.jsp?friendId=<%=strange.getId()%>">前往主页</a></div>
                             <div class="col-3 text-center">
-                                <button class="btn btn-info" onclick="agreeUser(<%=strange.getId()%>)">同意</button>
+                                <a class="btn btn-info" href="friendList?agree_ID=<%=strange.getId()%>">同意</a>
                             </div>
                             <div class="col-3 text-center">
-                                <button class="btn btn-danger" onclick="rejectUser(<%=strange.getId()%>)">拒绝</button>
+                                <a class="btn btn-danger" href="friendList?reject_ID=<%=strange.getId()%>">拒绝</a>
                             </div>
                         </div>
                     </li>
@@ -213,46 +171,28 @@
 </div>
 
 
-
-
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 
 <script type="text/javascript">
 
-    function visit(friendID) {
-        location.href = "/friendInformation.jsp?friendId="+friendID;
-    }
-
-    function mess(friendID) {
-        location.href = "/message.jsp?friend="+friendID;
-    }
-
-    //删除好友
-    function deleteFriend(friendID) {
-        location.href = "/friendList?deleteFriend_ID="+friendID;
-    }
-
     //查找用户
     function searchUser(){
-        var searchName = document.getElementById('search-input').value;
-        location.href = "/friendList?searchName="+searchName;
+        var searchName = document.getElementById('searchUser').value;
+        location.href = "/searchUser?searchName="+searchName;
     }
 
-    //添加用户
-    function addUser(userID) {
-        location.href="/friendList?addUser_ID="+userID;
-    }
+    var search = document.getElementById("search");
+    search.onclick=function () {
+        searchUser();
+    };
 
-    //拒绝
-    function rejectUser(reject_ID){
-        location.href = "/friendList?reject_ID="+reject_ID;
-    }
-
-    //同意
-    function agreeUser(agree_ID){
-        location.href = "/friendList?agree_ID="+agree_ID;
+    var btSearch = document.getElementById("search-button");
+    btSearch.onclick = function () {
+        var keyword = document.getElementById("search-input").value;
+        var form =  document.getElementById("search-form");
+        form.submit();
     }
 
     /*下拉菜单*/

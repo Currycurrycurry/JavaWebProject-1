@@ -4,7 +4,6 @@ import bean.UserEntry;
 import dao.UserDaoImpl;
 import factory.DaoFactory;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,10 +21,16 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+//        request.setCharacterEncoding("UTF-8");
+//        response.setContentType("text/html;charset=utf8");
+
         String account = request.getParameter("account");
         String password = request.getParameter("password");
+
         System.out.println(account);
         System.out.println(password);
+
         try{
             UserDaoImpl userDao = DaoFactory.getUserDaoInstance();
             UserEntry userEntry = userDao.findByAccount(account);
@@ -35,10 +40,9 @@ public class LoginServlet extends HttpServlet {
                 userDao.updateLoginTime(userEntry);
                 HttpSession session = request.getSession();
                 session.setAttribute("user",userEntry);
-                response.sendRedirect("/index.jsp");
+                response.getWriter().print(true);
             }else {
-                request.setAttribute("error","用户名或者密码错误");
-                request.getRequestDispatcher("login.jsp").forward(request,response);
+                response.getWriter().print(false);
             }
         }catch (Exception e){
             e.printStackTrace();

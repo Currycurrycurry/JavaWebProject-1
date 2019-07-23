@@ -1,12 +1,4 @@
-function safe() {
-    account1();pass1();pass2();name1();email();code1();
-    if(account1()&&pass1()&&pass2()&&name1()&&code1()&&email()){
-        var form = document.getElementById('form');
-        form.submit();
-    } else {
-        document.getElementById('safe').innerHTML="请确认信息非空！";
-    }
-}
+var ajax;
 
 function account1(){
     var account = document.getElementById('account').value;
@@ -77,3 +69,51 @@ function _change() {
     var imgEle = document.getElementById('vCode');
     imgEle.src = "VerifyCodeServlet?"+new Date().getTime();
 }
+
+function getAjax() {
+    try {
+        ajax = new XMLHttpRequest();
+    } catch (e) {
+        ajax = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    return ajax;
+}
+
+function jump() {
+    ajax = getAjax();
+    ajax.open("POST", "/sign", true);
+    ajax.onreadystatechange = function() {
+        if (ajax.readyState == 4 && ajax.status == 200) {
+            var result = ajax.responseText;
+            if (result == "success") {
+                document.getElementById("tic1").innerHTML = "";
+                document.getElementById("tic6").innerHTML = "";
+                alert("注册成功！点击返回主页");
+                location.href = "/index.jsp";
+            } else if(result=="exist") {
+                document.getElementById("tic1").innerHTML = "用户名已存在！";
+            } else if(result=="vCode"){
+                document.getElementById("tic6").innerHTML = "验证码错误！";
+            }
+        }
+    };
+    ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    var account = document.getElementById('account').value;
+    var password = document.getElementById('password').value;
+    var email = document.getElementById('email').value;
+    var name = document.getElementById('name').value;
+    var code = document.getElementById('code').value;
+    var param = "account="+account+"&password="+password+"&name="+name+"&email="+email+"&code="+code;
+    ajax.send(param);
+}
+
+var bt = document.getElementById("safeInput");
+bt.onclick = function() {
+    account1();pass1();pass2();name1();email();code1();
+    if(account1()&&pass1()&&pass2()&&name1()&&code1()&&email()){
+        document.getElementById('safe').innerHTML="";
+        jump();
+    } else {
+        document.getElementById('safe').innerHTML="请确认信息非空！";
+    }
+};
