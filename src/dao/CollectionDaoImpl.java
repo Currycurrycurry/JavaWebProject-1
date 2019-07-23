@@ -83,4 +83,12 @@ public class CollectionDaoImpl implements CollectionDao {
             statement.executeUpdate();
         }
     }
+
+    @Override
+    public void deleteByItemId(int itemId) throws Exception {
+        String sql = "DELETE FROM collection WHERE itemID = ?";
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1,itemId);
+        statement.executeUpdate();
+    }
 }

@@ -63,11 +63,6 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public void deleteItem(int itemId) throws Exception {
-
-    }
-
-    @Override
     public List<Item> getItemsOrdered(int numberOfItems, String orderPara) throws Exception{
         List<Item> items = new ArrayList<>();
         String sql = "SELECT * FROM item ORDER BY `"+orderPara+"` DESC LIMIT ?";
@@ -171,11 +166,20 @@ public class ItemDaoImpl implements ItemDao {
             statement.setInt(2,item.getItemId());
             statement.executeUpdate();
         }
-        if(!"".equals(item.getImagePath())){
+        if(!"".equals(item.getVideoPath())){
             sql= "UPDATE item SET videoPath = ? WHERE itemID = ?";
             statement = connection.prepareStatement(sql);
             statement.setString(1,item.getVideoPath());
             statement.setInt(2,item.getItemId());
+            statement.executeUpdate();
         }
+    }
+
+    @Override
+    public void deleteById(int itemId) throws Exception {
+        String sql= "DELETE FROM item WHERE itemID = ?";
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1,itemId);
+        statement.executeUpdate();
     }
 }

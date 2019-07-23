@@ -16,8 +16,6 @@ public interface ItemDao {
 
     public int insertItem(Item item)throws Exception;
 
-    public void deleteItem(int itemId)throws Exception;
-
     public List<Item> getItemsOrdered(int numberOfItems, String orderPara) throws Exception;
 
     public boolean isCollectedByUser(int itemID, int userID) throws Exception;
@@ -30,4 +28,5 @@ public interface ItemDao {
 
     public void upData(Item item) throws Exception;
 
+    public void deleteById(int id) throws Exception;
 }

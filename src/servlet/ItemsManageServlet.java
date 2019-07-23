@@ -90,6 +90,11 @@ public class ItemsManageServlet extends HttpServlet {
                     inputStream.close();
                 }
             }
+            for(Map.Entry<String, String> entry : map.entrySet()){
+                String mapKey = entry.getKey();
+                String mapValue = entry.getValue();
+                System.out.println(mapKey+":"+mapValue);
+            }
             item.setItemId(Integer.parseInt(map.get("itemId")));
             item.setName(map.get("uploadName"));
             item.setAddress(map.get("address"));

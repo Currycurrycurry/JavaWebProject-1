@@ -18,4 +18,6 @@ public interface CollectionDao {
 
     public void changePublicity(int userId, int itemId) throws Exception;
 
+    public void deleteByItemId(int itemId) throws Exception;
+
 }
