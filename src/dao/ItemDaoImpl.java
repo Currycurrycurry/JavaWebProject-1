@@ -153,4 +153,29 @@ public class ItemDaoImpl implements ItemDao {
             statement.executeUpdate();
         }
     }
+
+    @Override
+    public void upData(Item item) throws Exception {
+        String sql = "UPDATE item SET name = ? , address = ? , year = ? , description = ? WHERE itemID = ?";
+        statement = connection.prepareStatement(sql);
+        statement.setString(1,item.getName());
+        statement.setString(2,item.getAddress());
+        statement.setString(3,item.getYear());
+        statement.setString(4,item.getDescription());
+        statement.setInt(5,item.getItemId());
+        statement.executeUpdate();
+        if(!"".equals(item.getImagePath())){
+            sql= "UPDATE item SET imagePath = ? WHERE itemID = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1,item.getImagePath());
+            statement.setInt(2,item.getItemId());
+            statement.executeUpdate();
+        }
+        if(!"".equals(item.getImagePath())){
+            sql= "UPDATE item SET videoPath = ? WHERE itemID = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1,item.getVideoPath());
+            statement.setInt(2,item.getItemId());
+        }
+    }
 }

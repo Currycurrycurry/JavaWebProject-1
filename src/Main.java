@@ -17,17 +17,21 @@ public class Main {
         System.out.println("MySQL JDBC Driver Registered!");
         Connection connection = null;
         try{
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaWeb?useSSL=false","root","yanghui");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaWeb?useSSL=false&useUnicode=true&characterEncoding=UTF-8","root","yanghui");
             System.out.println(connection);
 
             Statement statement = connection.createStatement();
-            ResultSet re = statement.executeQuery("SELECT * FROM users WHERE userID = 1");
-            while (re.next()){
-                System.out.println("userID="+re.getString("userID"));
-                System.out.println("account="+re.getString("account"));
-                System.out.println("name="+re.getString("name"));
-                System.out.println("signature="+re.getString("signature"));
+            //ResultSet re = statement.executeQuery("SELECT * FROM users WHERE name LIKE '%娘%'");
+            ResultSet re = statement.executeQuery("select max(itemID) FROM item");
+            if(re.next()){
+                System.out.println(re.getInt(1));
             }
+//            while (re.next()){
+//                System.out.println("userID="+re.getString("userID"));
+//                System.out.println("account="+re.getString("account"));
+//                System.out.println("name="+re.getString("name"));
+//                System.out.println("signature="+re.getString("signature"));
+//            }
 
         }catch (SQLException e){
             System.out.println("Connection Failed, Check output console");

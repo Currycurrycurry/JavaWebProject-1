@@ -28,4 +28,6 @@ public interface ItemDao {
 
     public void addView(int itemId, int addView) throws Exception;
 
+    public void upData(Item item) throws Exception;
+
 }

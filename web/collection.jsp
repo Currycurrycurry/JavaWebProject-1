@@ -123,7 +123,7 @@
     <div class="card">
         <div class="row">
             <div class="col-2">
-                <a href="detail.jsp?id=">
+                <a href="detail.jsp?id=<%=item.getItemId()%>">
                     <img class="card-img" src="<%=item.getImagePath()%>" alt="<%=item.getImagePath()%>">
                 </a>
             </div>
@@ -138,7 +138,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <a href="detail.jsp?id=" class="card-link text-dark">
+                            <a href="detail.jsp?id=<%=item.getItemId()%>" class="card-link text-dark">
                                 <%=item.getName()%>
                             </a>
                         </td>
@@ -191,7 +191,7 @@
     <div class="card">
         <div class="row">
             <div class="col-2">
-                <a href="detail.jsp?id=">
+                <a href="detail.jsp?id=<%=item.getItemId()%>">
                     <img class="card-img" src="<%=item.getImagePath()%>" alt="<%=item.getImagePath()%>">
                 </a>
             </div>
@@ -206,7 +206,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <a href="detail.jsp?id=" class="card-link text-dark">
+                            <a href="detail.jsp?id=<%=item.getItemId()%>" class="card-link text-dark">
                                 <%=item.getName()%>
                             </a>
                         </td>

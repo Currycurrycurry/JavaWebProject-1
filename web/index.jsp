@@ -139,7 +139,7 @@
                 <div class="carousel-caption">
                   <h4 class="font-italic"><%=items.get(0).getName()%></h4>
                   <p class="font-italic">
-                    <%=items.get(0).getDescription().substring(0,80)%>
+                    <%=items.get(0).getDescription().substring(0,80<items.get(0).getDescription().length()?80:items.get(0).getDescription().length()-1)%>
                   </p>
                 </div>
               </a>
@@ -153,7 +153,7 @@
                 <div class="carousel-caption">
                   <h4 class="font-italic"><%=items.get(i).getName()%></h4>
                   <p class="font-italic">
-                    <%=items.get(i).getDescription().substring(0,80)%>
+                    <%=items.get(i).getDescription().substring(0,80<items.get(0).getDescription().length()?80:items.get(0).getDescription().length()-1)%>
                   </p>
                 </div>
               </a>
@@ -196,7 +196,7 @@
             <div class="card-body">
               <a class="card-link" href="detail.jsp?id=<%=item.getItemId()%>">
                 <h5 class="text-muted"><%=item.getName()%></h5>
-                <p class="text-dark"><%=item.getDescription().substring(0,25)%>...</p>
+                <p class="text-dark"><%=item.getDescription().substring(0,25<item.getDescription().length()?25:item.getDescription().length()-1)%>...</p>
               </a>
             </div>
           </div>

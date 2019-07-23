@@ -153,7 +153,7 @@
                                 <div class="container">
                                     <br>
                                     <h5 class="text-dark"><%=item.getName()%></h5>
-                                    <p class="text-dark"><%=item.getDescription().substring(0,70)%>...</p>
+                                    <p class="text-dark"><%=item.getDescription().substring(0,70<item.getDescription().length()?70:item.getDescription().length()-1)%>...</p>
                                 </div>
                             </div>
                         </div>

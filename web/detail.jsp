@@ -18,6 +18,7 @@
 <%
     if(request.getAttribute("item") == null){
         request.getRequestDispatcher("/detail").forward(request,response);
+        return;
     }
 %>
 <body>
@@ -137,11 +138,11 @@
                             <td colspan="2">${requestScope.item.name}</td>
                         </tr>
                         <tr>
-                            <td class="font-weight-bold">馆藏地点</td>
+                            <td class="font-weight-bold">馆藏</td>
                             <td colspan="2">${requestScope.item.address}</td>
                         </tr>
                         <tr>
-                            <td class="font-weight-bold">年份</td>
+                            <td class="font-weight-bold">年代</td>
                             <td colspan="2">${requestScope.item.year}</td>
                         </tr>
                         <tr>
@@ -155,6 +156,13 @@
                         </tbody>
                     </table>
                     <br>
+                    <%
+                        if(user!=null&&user.isAdmin()){
+                            %>
+                    <a href="itemsManage.jsp?id=${requestScope.item.itemId}" class="btn btn-info float-left">展品管理</a>
+                    <%
+                        }
+                    %>
                     <%
                         if(request.getAttribute("isCollected") != null &&
                                 (boolean)request.getAttribute("isCollected")){

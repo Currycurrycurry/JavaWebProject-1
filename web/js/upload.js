@@ -40,6 +40,11 @@ btUpload.onclick = function () {
         document.getElementById("warnImage").innerText = "请选择图片!";
         return;
     }
+    var videoFile = document.getElementById('itemVideoFile').files[0];
+    if(videoFile == null){
+        document.getElementById("warnVideo").innerText = "请选择视频!";
+        return;
+    }
     document.getElementById("uploadForm").submit();
 };
 
@@ -54,9 +59,7 @@ itemImageFile.onchange = function () {
 var itemVideoFile = document.getElementById("itemVideoFile");
 var itemVideo = document.getElementById("itemVideo");
 itemVideoFile.onchange = function () {
-    alert("a");
     if(itemVideoFile.files[0] != null){
-        alert("a");
         itemVideo.setAttribute("style","width: 100%; height: auto; object-fit: fill;display: block");
         itemVideo.setAttribute("src",getPath(itemVideoFile));
     } else {
