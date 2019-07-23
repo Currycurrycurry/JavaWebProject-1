@@ -90,6 +90,8 @@
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="js/md5.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $(document).off('click.bs.dropdown.data-api');
@@ -147,7 +149,8 @@
 
         ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         var account = document.getElementById("account").value;
-        var pwd = document.getElementById("password").value;
+        var password = document.getElementById("password").value;
+        var pwd = $.md5(password);
         var param = "account=" + account + "&password=" + pwd;
         ajax.send(param);
     }

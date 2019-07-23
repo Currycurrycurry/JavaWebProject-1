@@ -34,14 +34,22 @@ public class LoginServlet extends HttpServlet {
         try{
             UserDaoImpl userDao = DaoFactory.getUserDaoInstance();
             UserEntry userEntry = userDao.findByAccount(account);
-            if(userEntry != null&&userEntry.getPassword().equals(password)){
-                //正确的登录
-                userEntry.updateLoginTime();
-                userDao.updateLoginTime(userEntry);
-                HttpSession session = request.getSession();
-                session.setAttribute("user",userEntry);
-                response.getWriter().print(true);
-            }else {
+            if(userEntry!=null){
+                String pass = userEntry.getPassword();
+                MD5Test md5Test = new MD5Test();
+                String pwd = md5Test.getMD5(pass);
+                System.out.println(pwd);
+
+                if(pwd.equalsIgnoreCase(password)){
+                    //正确的登录
+                    userEntry.updateLoginTime();
+                    userDao.updateLoginTime(userEntry);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user",userEntry);
+                    response.getWriter().print(true);
+                }
+
+            }else{
                 response.getWriter().print(false);
             }
         }catch (Exception e){
@@ -51,6 +59,5 @@ public class LoginServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
     }
 }
