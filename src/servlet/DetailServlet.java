@@ -46,6 +46,7 @@ public class DetailServlet extends HttpServlet {
             if(request.getSession().getAttribute("user") != null){
                 isCollected = itemDao.isCollectedByUser(itemId,((UserEntry)request.getSession().getAttribute("user")).getId());
             }
+            itemDao.close();
             request.setAttribute("item",item);
             request.setAttribute("isCollected",isCollected);
             request.getRequestDispatcher("/detail.jsp").forward(request,response);

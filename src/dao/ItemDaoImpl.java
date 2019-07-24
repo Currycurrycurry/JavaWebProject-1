@@ -182,4 +182,7 @@ public class ItemDaoImpl implements ItemDao {
         statement.setInt(1,itemId);
         statement.executeUpdate();
     }
+    public void close() throws Exception{
+        connection.close();
+    }
 }

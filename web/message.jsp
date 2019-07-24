@@ -105,17 +105,17 @@
     <div class="row">
         <div class="col-2"></div>
         <div class="col-8">
-            <form style="border: solid 3px darkgray">
+            <div style="border: solid 3px darkgray">
                 <h3 style="color: dodgerblue">聊天记录</h3>
-                <div id="chat"  style="min-height:300px;max-height: 500px;overflow-x:hidden;overflow-y:auto">
+                <div id="chat"  style="height: 400px;overflow-x:hidden;overflow-y:auto">
                 </div>
                 <div class="container" style="border-top: solid darkgray 3px">
                     <div class="row">
-                        <input class="col-8" type="text" id="mess" name ="mess">
+                        <input class="col-8" type="text" id="mess" name ="mess" autocomplete="off">
                         <button type="button" id="bt1" value="<%=friendID%>" class="btn btn-secondary col-4 text-center">发送消息</button>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

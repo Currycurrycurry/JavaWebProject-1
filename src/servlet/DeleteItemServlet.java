@@ -38,6 +38,7 @@ public class DeleteItemServlet extends HttpServlet {
             itemDao.deleteById(itemId);
             CollectionDaoImpl collectionDao = DaoFactory.getCollectionDaoInstance();
             collectionDao.deleteByItemId(itemId);
+            collectionDao.close();
             response.sendRedirect("index.jsp");
         }catch (Exception e){
             e.printStackTrace();

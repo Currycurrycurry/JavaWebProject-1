@@ -104,6 +104,7 @@ public class ItemsManageServlet extends HttpServlet {
             item.setVideoPath(map.get("itemVideoFile"));
             ItemDaoImpl itemDao = DaoFactory.getItemDaoInstance();
             itemDao.upData(item);
+            itemDao.close();
             response.sendRedirect("/detail.jsp?id=" + item.getItemId());
 
         }catch (Exception e){

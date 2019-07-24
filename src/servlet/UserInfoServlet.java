@@ -59,6 +59,7 @@ public class UserInfoServlet extends HttpServlet {
                 userDao.reject(sendFrom_ID,userEntry.getId());
                 doGet(request,response);
             }
+            userDao.close();
         }catch (Exception e){
             e.printStackTrace();
         }

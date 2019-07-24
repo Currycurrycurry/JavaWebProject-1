@@ -44,7 +44,7 @@ public class UserManageServlet extends HttpServlet {
                     int id = Integer.parseInt(changeAdmin);
                     userDao.updateAdmin(id,false);
                 }
-
+                userDao.close();
                 response.sendRedirect("/userManage.jsp");
             }catch (Exception e){
                 e.printStackTrace();
@@ -62,6 +62,7 @@ public class UserManageServlet extends HttpServlet {
                 UserDaoImpl userDao = DaoFactory.getUserDaoInstance();
 
                 List<UserEntry> userEntries= userDao.findAll(user.getId());
+                userDao.close();
                 request.setAttribute("userManage",userEntries);
                 request.getRequestDispatcher("/userManage.jsp").forward(request,response);
             }catch (Exception e){

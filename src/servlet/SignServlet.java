@@ -45,6 +45,7 @@ public class SignServlet extends HttpServlet {
                     userDao.insertAccount(userEntry);
                     session.setAttribute("user",userEntry);
                     response.getWriter().print("success");
+                    userDao.close();
                 }
             }else {
                 //用户名已经存在

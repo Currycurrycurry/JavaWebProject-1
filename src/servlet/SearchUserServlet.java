@@ -54,7 +54,7 @@ public class SearchUserServlet extends HttpServlet {
                 int sendFrom_ID = Integer.parseInt(a);
                 userDao.reject(sendFrom_ID,user.getId());
             }
-
+            userDao.close();
             doGet(request,response);
         }catch (Exception e){
             e.printStackTrace();

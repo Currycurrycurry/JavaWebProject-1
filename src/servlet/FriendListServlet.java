@@ -27,6 +27,7 @@ public class FriendListServlet extends HttpServlet {
         try{
             UserDaoImpl userDao = DaoFactory.getUserDaoInstance();
             userDao.deleteFriend(userID,friendID);
+            userDao.close();
             doGet(request,response);
         }catch (Exception e){
             e.printStackTrace();
@@ -43,6 +44,7 @@ public class FriendListServlet extends HttpServlet {
             UserDaoImpl userDao = DaoFactory.getUserDaoInstance();
             //更新表
             List<UserEntry> friendLists= userDao.findFriend(userID);
+            userDao.close();
             request.setAttribute("friendLists",friendLists);
             request.getRequestDispatcher("/friendList.jsp").forward(request,response);
         }catch (Exception e){

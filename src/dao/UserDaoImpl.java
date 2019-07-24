@@ -378,6 +378,8 @@ public class UserDaoImpl implements UserDao {
         statement.executeUpdate();
     }
 
-
+    public void close() throws Exception{
+        connection.close();
+    }
 
 }

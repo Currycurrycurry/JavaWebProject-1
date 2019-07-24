@@ -36,6 +36,7 @@ public class InsertUserServlet extends HttpServlet {
                 userEntry = new UserEntry(account,password,name,email,"",isAdmin==1);
                 userEntry.updateLoginTime();
                 userDao.insertAccount(userEntry);
+                userDao.close();
                 response.getWriter().print("success");
             }else {
                 //用户名已经存在

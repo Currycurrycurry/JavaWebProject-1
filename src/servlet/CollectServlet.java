@@ -44,6 +44,7 @@ public class CollectServlet extends HttpServlet {
             }else if("true".equals(request.getParameter("change"))){
                 collectionDao.changePublicity(userId,itemId);
             }
+            collectionDao.close();
             if("true".equals(request.getParameter("collectionPage")))
                 response.sendRedirect("/collection.jsp");
             else

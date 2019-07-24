@@ -74,4 +74,8 @@ public class MessageDaoImpl implements MessageDao{
         ResultSet re = statement1.executeQuery();
         return re.next();
     }
+
+    public void close() throws Exception{
+        connection.close();
+    }
 }

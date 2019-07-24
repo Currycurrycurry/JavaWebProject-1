@@ -38,6 +38,7 @@ public class FriendInfoServlet extends HttpServlet {
                 userDao.sendRequest(user.getId(),friendID);
                 response.sendRedirect("/friendInformation.jsp?friendId="+ID);
             }
+            userDao.close();
         }catch (Exception e){
             e.printStackTrace();
         }

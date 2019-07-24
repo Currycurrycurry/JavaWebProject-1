@@ -30,6 +30,7 @@ public class HomeServlet extends HttpServlet {
             ItemDaoImpl itemDao = DaoFactory.getItemDaoInstance();
             List<Item> mostViewItems = itemDao.getItemsOrdered(4,"view");
             List<Item> mostNewItems = itemDao.getItemsOrdered(4,"timeReleased");
+            itemDao.close();
             request.setAttribute("mostViewItems",mostViewItems);
             request.setAttribute("mostNewItems",mostNewItems);
             request.getRequestDispatcher("/index.jsp").forward(request,response);

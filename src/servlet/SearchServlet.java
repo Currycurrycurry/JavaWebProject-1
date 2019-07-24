@@ -41,6 +41,7 @@ public class SearchServlet extends HttpServlet {
         try{
             ItemDaoImpl itemDao = DaoFactory.getItemDaoInstance();
             List<Item> items = itemDao.findByKeywordAndPage(keyword,page);
+            itemDao.close();
             int num = items.size();
             StringBuilder resultHTML = new StringBuilder();
             for(int i = 0 ; i < (num-1)/PAGE_SIZE+1 ;i++){

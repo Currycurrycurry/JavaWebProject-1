@@ -68,6 +68,7 @@ public class MessageServlet extends HttpServlet {
                 messageList = messageDao.getMessageList(userID,friendID);
                 String html = setHtml(userEntry.getName(),friendID,friendName,messageList);
                 out.print(html);
+                messageDao.close();
             }else{
                 System.out.println("不是好友！");
                 request.setAttribute("error","不是好友!");

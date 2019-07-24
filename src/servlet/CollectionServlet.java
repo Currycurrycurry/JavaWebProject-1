@@ -33,6 +33,7 @@ public class CollectionServlet extends HttpServlet {
             CollectionDaoImpl collectionDao = DaoFactory.getCollectionDaoInstance();
             List<Item> publicCollection =  collectionDao.findCollection(userId,true);
             List<Item> privateCollection =  collectionDao.findCollection(userId,false);
+            collectionDao.close();
             request.setAttribute("publicCollection",publicCollection);
             request.setAttribute("privateCollection",privateCollection);
             request.getRequestDispatcher("/collection.jsp").forward(request,response);

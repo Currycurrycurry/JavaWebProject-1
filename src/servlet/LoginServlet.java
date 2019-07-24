@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("user",userEntry);
                     response.getWriter().print(true);
                 }
-
+                userDao.close();
             }else{
                 response.getWriter().print(false);
             }

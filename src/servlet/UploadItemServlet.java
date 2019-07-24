@@ -99,6 +99,7 @@ public class UploadItemServlet extends HttpServlet {
                 ItemDaoImpl itemDao = DaoFactory.getItemDaoInstance();
 
                 int itemId = itemDao.insertItem(item);
+                itemDao.close();
                 response.sendRedirect("/detail.jsp?id="+itemId);
                 System.out.println(itemId);
 
