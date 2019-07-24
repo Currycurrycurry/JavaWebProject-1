@@ -198,9 +198,9 @@ public class UserDaoImpl implements UserDao {
                     }
                 }
             }
-            if(count>0){
-                sameFriendNumber.put(b, count);
-            }
+
+            sameFriendNumber.put(b, count);
+
         }
 
         return sameFriendNumber;

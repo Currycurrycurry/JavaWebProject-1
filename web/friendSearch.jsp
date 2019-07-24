@@ -215,7 +215,13 @@
                         <div class="col-2 text-center">
                             <a class="btn" href="friendInformation.jsp?friendId=<%=sameFriend.getKey().getId()%>">
                                 <%=sameFriend.getKey().getName()%></a></div>
+                        <%
+                            if(sameFriend.getValue()==0){
+                        %>
+                        <div class="col-6 text-center">来自随机推荐</div>
+                        <%}else{%>
                         <div class="col-6 text-center">你们有<%=sameFriend.getValue()%>个共同的好友</div>
+                        <%}%>
                         <div class="col-4 text-center">
                             <form action="/searchUser" method="post">
                                 <input value="<%=sameFriend.getKey().getId()%>" name="addUserID" hidden>
