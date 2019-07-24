@@ -119,7 +119,7 @@
             <p class="h3">${requestScope.item.name}</p>
         </div>
         <div class="col-6">
-            <a href="" class="btn btn-danger float-right">
+            <a href="/deleteItem?itemId=${requestScope.item.itemId}" class="btn btn-danger float-right">
                 删除展品
             </a>
         </div>
