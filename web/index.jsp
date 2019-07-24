@@ -153,7 +153,7 @@
                 <div class="carousel-caption">
                   <h4 class="font-italic"><%=items.get(i).getName()%></h4>
                   <p class="font-italic">
-                    <%=items.get(i).getDescription().substring(0,80<items.get(0).getDescription().length()?80:items.get(0).getDescription().length()-1)%>
+                    <%=items.get(i).getDescription().substring(0,80<items.get(i).getDescription().length()?80:items.get(i).getDescription().length()-1)%>
                   </p>
                 </div>
               </a>
